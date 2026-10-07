@@ -2035,26 +2035,47 @@ html, body {
   border-color: var(--tile-crimson);
 }
 
+/* Theme Toggle Icons */
 .theme-icon-light { display: none !important; }
 .theme-icon-dark { display: inline-block !important; }
 
-html[data-theme="dark"] .theme-icon-light,
-body.dark-theme .theme-icon-light,
-.dark-theme .theme-icon-light {
+html[data-theme="dark"] .theme-icon-light {
+  display: inline-block !important;
+}
+html[data-theme="dark"] .theme-icon-dark {
+  display: none !important;
+}
+html[data-theme="light"] .theme-icon-light,
+html:not([data-theme="dark"]) .theme-icon-light {
+  display: none !important;
+}
+html[data-theme="light"] .theme-icon-dark,
+html:not([data-theme="dark"]) .theme-icon-dark {
   display: inline-block !important;
 }
 
-html[data-theme="dark"] .theme-icon-dark,
-body.dark-theme .theme-icon-dark,
-.dark-theme .theme-icon-dark {
-  display: none !important;
+/* Base Light Theme Tokens (Original Scandinavian Aesthetic) */
+:root,
+html[data-theme="light"],
+html:not([data-theme="dark"]) {
+  --bg-frame: #ece7de;
+  --bg-card: #ffffff;
+  --bg-subtle: #f9f8f5;
+  --text-main: #181716;
+  --text-muted: #6b6762;
+  --border-subtle: #ddd6cb;
+
+  --tile-sand: #dfbe88;
+  --tile-crimson: #c84b31;
+  --tile-lilac: #9d84c6;
+  --tile-sunflower: #e6be36;
+  --tile-olive: #788a4e;
+  --tile-sand-light: #e8d5b5;
 }
 
-/* Base Dark Theme Tokens */
+/* Base Dark Theme Tokens (Deep Carbon & Warm Accent) */
 html[data-theme="dark"],
-:root[data-theme="dark"],
-body.dark-theme,
-.dark-theme {
+:root[data-theme="dark"] {
   --bg-frame: #131418;
   --bg-card: #1c1d23;
   --bg-subtle: #242630;
@@ -2072,9 +2093,7 @@ body.dark-theme,
 
 /* Global Viewport Background & Text in Dark Mode */
 html[data-theme="dark"],
-html[data-theme="dark"] body,
-body.dark-theme,
-.dark-theme body {
+html[data-theme="dark"] body {
   background-color: #0c0d10 !important;
   background-image: 
     radial-gradient(at 10% 20%, rgba(30, 42, 28, 0.45) 0px, transparent 50%),
@@ -2082,299 +2101,353 @@ body.dark-theme,
   color: #f5f4ef !important;
 }
 
-/* Hero Box */
-html[data-theme="dark"] .hero-box,
-body.dark-theme .hero-box,
-.dark-theme .hero-box {
+/* Hero Box in Dark Mode */
+html[data-theme="dark"] .hero-box {
   background-color: #131418 !important;
   box-shadow: 0 24px 60px rgba(0,0,0,0.6) !important;
   color: #f5f4ef !important;
 }
 
-/* Back and Nav Buttons */
-html[data-theme="dark"] .btn-pill-back,
-body.dark-theme .btn-pill-back,
-.dark-theme .btn-pill-back {
+/* Hamburger Button in Dark Mode (Fixes white on white lines) */
+html[data-theme="dark"] .btn-hamburger {
+  background-color: #1c1d23 !important;
+  border: 1px solid #2d303b !important;
+}
+html[data-theme="dark"] .hamburger-line {
+  background-color: #f5f4ef !important;
+}
+
+/* Hero CTA Start Studying Button (High contrast in Dark Mode: Crimson with crisp white text) */
+html[data-theme="dark"] .btn-start-primary {
+  background-color: var(--tile-crimson) !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 22px rgba(222, 80, 53, 0.4) !important;
+}
+html[data-theme="dark"] .btn-start-primary:hover {
+  background-color: #e85a40 !important;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+}
+
+/* Back and Nav Buttons in Dark Mode */
+html[data-theme="dark"] .btn-pill-back {
   background-color: #1c1d23 !important;
   color: #f5f4ef !important;
   border-color: #2d303b !important;
 }
-
-html[data-theme="dark"] .btn-pill-back:hover,
-body.dark-theme .btn-pill-back:hover,
-.dark-theme .btn-pill-back:hover {
-  background-color: #242630 !important;
+html[data-theme="dark"] .btn-pill-back:hover {
+  background-color: var(--tile-crimson) !important;
+  color: #ffffff !important;
   border-color: var(--tile-crimson) !important;
 }
 
-/* Chapter Cards & Body */
-html[data-theme="dark"] .chapter-accordion-card,
-body.dark-theme .chapter-accordion-card,
-.dark-theme .chapter-accordion-card {
+/* GitHub Star Button in Dark Mode */
+html[data-theme="dark"] .btn-github-star {
+  background: #242630 !important;
+  color: #f5f4ef !important;
+  border: 1px solid #353846 !important;
+}
+html[data-theme="dark"] .btn-github-star:hover {
+  background: var(--tile-crimson) !important;
+  color: #ffffff !important;
+}
+
+/* Chapter Cards & Body in Dark Mode */
+html[data-theme="dark"] .chapter-accordion-card {
   background-color: #1c1d23 !important;
   border-color: #2d303b !important;
 }
-
-html[data-theme="dark"] .chapter-accordion-card:hover,
-body.dark-theme .chapter-accordion-card:hover,
-.dark-theme .chapter-accordion-card:hover {
+html[data-theme="dark"] .chapter-accordion-card:hover {
   border-color: #3f4252 !important;
 }
-
-html[data-theme="dark"] .chapter-card-header,
-body.dark-theme .chapter-card-header,
-.dark-theme .chapter-card-header {
+html[data-theme="dark"] .chapter-card-header {
   background-color: #1c1d23 !important;
   color: #f5f4ef !important;
 }
-
-html[data-theme="dark"] .chapter-card-header:hover,
-body.dark-theme .chapter-card-header:hover,
-.dark-theme .chapter-card-header:hover {
+html[data-theme="dark"] .chapter-card-header:hover {
   background-color: #22242c !important;
 }
-
-html[data-theme="dark"] .chapter-card-body,
-body.dark-theme .chapter-card-body,
-.dark-theme .chapter-card-body {
+html[data-theme="dark"] .chapter-card-body {
   background-color: #16171d !important;
   border-top-color: #2d303b !important;
 }
+html[data-theme="dark"] .chapter-lessons-drawer {
+  background-color: #14151a !important;
+  border-top-color: #262833 !important;
+}
+html[data-theme="dark"] .chapter-info p {
+  color: #a8a49d !important;
+}
+html[data-theme="dark"] .chapter-code-badge {
+  border-color: #3a3d4a !important;
+}
+html[data-theme="dark"] .chapter-week-pill {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #b0aba3 !important;
+}
+html[data-theme="dark"] .chapter-completion-badge {
+  background-color: #242630 !important;
+  color: #d0c8be !important;
+  border-color: #353846 !important;
+}
 
-/* Lesson Items */
-html[data-theme="dark"] .lesson-row-item,
-body.dark-theme .lesson-row-item,
-.dark-theme .lesson-row-item {
+/* Lesson Items in Dark Mode */
+html[data-theme="dark"] .lesson-row-item {
   background-color: #1c1d23 !important;
   border-color: #282a35 !important;
   color: #f5f4ef !important;
 }
-
-html[data-theme="dark"] .lesson-row-item:hover,
-body.dark-theme .lesson-row-item:hover,
-.dark-theme .lesson-row-item:hover {
+html[data-theme="dark"] .lesson-row-item:hover {
   background-color: #23252f !important;
-  border-color: var(--text-main) !important;
+  border-color: var(--tile-crimson) !important;
+}
+html[data-theme="dark"] .lesson-row-item.is-completed {
+  border-color: rgba(16, 185, 129, 0.4) !important;
+}
+html[data-theme="dark"] .lesson-title-text {
+  color: #f5f4ef !important;
+}
+html[data-theme="dark"] .lesson-duration-badge {
+  background-color: #242630 !important;
+  color: #9e9a93 !important;
 }
 
-/* Metric Cards */
-html[data-theme="dark"] .metric-card,
-body.dark-theme .metric-card,
-.dark-theme .metric-card {
+/* Metric Cards in Dark Mode */
+html[data-theme="dark"] .metric-card {
   background-color: #1c1d23 !important;
   border-color: #2d303b !important;
   color: #f5f4ef !important;
 }
+html[data-theme="dark"] .metric-chip {
+  background-color: #22242d !important;
+  border-color: #2d303b !important;
+  color: #d0c8be !important;
+}
+html[data-theme="dark"] .metric-track-outer {
+  background-color: #282b36 !important;
+}
+html[data-theme="dark"] .metric-footer-note {
+  color: #9e9a93 !important;
+}
+html[data-theme="dark"] .metric-syllabus-badge {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #f5f4ef !important;
+}
+html[data-theme="dark"] .track-main-desc {
+  color: #a9a69f !important;
+}
 
-/* Lesson Learning Room */
-html[data-theme="dark"] .lesson-main-article,
-body.dark-theme .lesson-main-article,
-.dark-theme .lesson-main-article {
+/* Lesson Learning Room in Dark Mode */
+html[data-theme="dark"] .lesson-room-wrap {
+  background-color: #0c0d10 !important;
+}
+html[data-theme="dark"] .lesson-main-article {
   background-color: #1c1d23 !important;
   border-color: #2d303b !important;
   color: #f5f4ef !important;
 }
-
-html[data-theme="dark"] .lesson-sidebar-panel,
-body.dark-theme .lesson-sidebar-panel,
-.dark-theme .lesson-sidebar-panel {
+html[data-theme="dark"] .lesson-sidebar-panel {
   background-color: #15161b !important;
   border-color: #2d303b !important;
   color: #f5f4ef !important;
 }
-
-html[data-theme="dark"] .sidebar-lesson-link,
-body.dark-theme .sidebar-lesson-link,
-.dark-theme .sidebar-lesson-link {
+html[data-theme="dark"] .sidebar-lesson-link {
   color: #9e9a93 !important;
   border-color: #252732 !important;
   background-color: transparent !important;
 }
-
-html[data-theme="dark"] .sidebar-lesson-link:hover,
-body.dark-theme .sidebar-lesson-link:hover,
-.dark-theme .sidebar-lesson-link:hover {
+html[data-theme="dark"] .sidebar-lesson-link:hover {
   background-color: #22242d !important;
   color: #f5f4ef !important;
 }
-
-html[data-theme="dark"] .sidebar-lesson-link.active,
-body.dark-theme .sidebar-lesson-link.active,
-.dark-theme .sidebar-lesson-link.active {
+html[data-theme="dark"] .sidebar-lesson-link.active {
   background-color: #262835 !important;
   color: #f5f4ef !important;
   border-color: var(--tile-crimson) !important;
 }
 
-/* Code Terminal Window */
-html[data-theme="dark"] .terminal-code-window,
-body.dark-theme .terminal-code-window,
-.dark-theme .terminal-code-window {
+/* Lesson Prose Typography in Dark Mode (Fixes black on black text!) */
+html[data-theme="dark"] .lesson-body-prose {
+  color: #e2e0d8 !important;
+}
+html[data-theme="dark"] .lesson-body-prose strong {
+  color: #ffffff !important;
+}
+html[data-theme="dark"] .lesson-body-prose code {
+  background-color: #242630 !important;
+  color: #ff917d !important;
+}
+
+/* Mascot Callout in Dark Mode */
+html[data-theme="dark"] .mascot-tip-box {
+  background-color: #1a1b22 !important;
+  border-color: rgba(223, 190, 136, 0.28) !important;
+  border-left-color: var(--tile-crimson) !important;
+}
+html[data-theme="dark"] .mascot-tip-text {
+  color: #e2e0d8 !important;
+}
+
+/* Code Terminal Window in Dark Mode */
+html[data-theme="dark"] .terminal-code-window {
   background-color: #0e0f12 !important;
   border-color: #2d303b !important;
 }
-
-html[data-theme="dark"] .terminal-titlebar,
-body.dark-theme .terminal-titlebar,
-.dark-theme .terminal-titlebar {
+html[data-theme="dark"] .terminal-titlebar {
   background-color: #15161b !important;
   border-color: #242630 !important;
   color: #f5f4ef !important;
 }
-
-html[data-theme="dark"] .terminal-pre,
-body.dark-theme .terminal-pre,
-.dark-theme .terminal-pre {
+html[data-theme="dark"] .terminal-pre {
   background-color: #0b0c0e !important;
   color: #e2e0d8 !important;
 }
 
-/* Trace Table */
-html[data-theme="dark"] .trace-table th,
-body.dark-theme .trace-table th,
-.dark-theme .trace-table th {
+/* Trace Table in Dark Mode */
+html[data-theme="dark"] .trace-table th {
   background-color: #252732 !important;
   color: #f5f4ef !important;
   border-color: #2d303b !important;
 }
-
-html[data-theme="dark"] .trace-table td,
-body.dark-theme .trace-table td,
-.dark-theme .trace-table td {
+html[data-theme="dark"] .trace-table td {
   border-color: #2d303b !important;
   color: #f5f4ef !important;
 }
 
-/* Checkpoint / Micro Exercises */
-html[data-theme="dark"] .lesson-micro-exercise,
-body.dark-theme .lesson-micro-exercise,
-.dark-theme .lesson-micro-exercise {
+/* Checkpoint / Micro Exercises in Dark Mode */
+html[data-theme="dark"] .lesson-micro-exercise {
   background-color: #15161c !important;
   border-color: #2d303b !important;
 }
-
-html[data-theme="dark"] .micro-option-btn,
-body.dark-theme .micro-option-btn,
-.dark-theme .micro-option-btn {
+html[data-theme="dark"] .micro-q-title {
+  color: #f5f4ef !important;
+}
+html[data-theme="dark"] .micro-option-btn {
   background-color: #1c1d23 !important;
   color: #f5f4ef !important;
   border-color: #2d303b !important;
 }
-
-html[data-theme="dark"] .micro-option-btn:hover:not(:disabled),
-body.dark-theme .micro-option-btn:hover:not(:disabled),
-.dark-theme .micro-option-btn:hover:not(:disabled) {
+html[data-theme="dark"] .micro-option-btn:hover:not(:disabled) {
   background-color: #252732 !important;
+  border-color: var(--tile-crimson) !important;
+  color: #ffffff !important;
+}
+html[data-theme="dark"] .micro-option-btn.selected-correct {
+  background-color: #064e3b !important;
+  border-color: #10b981 !important;
+  color: #a7f3d0 !important;
+}
+html[data-theme="dark"] .micro-option-btn.selected-incorrect {
+  background-color: #7f1d1d !important;
+  border-color: #ef4444 !important;
+  color: #fecaca !important;
+}
+html[data-theme="dark"] .micro-explanation-box {
+  background-color: #172554 !important;
+  border-color: #1e40af !important;
+  color: #bfdbfe !important;
+}
+
+/* Lesson Navigation Footer in Dark Mode */
+html[data-theme="dark"] .btn-lesson-nav {
+  background-color: #1c1d23 !important;
+  color: #f5f4ef !important;
+  border-color: #2d303b !important;
+}
+html[data-theme="dark"] .btn-lesson-nav:hover {
+  background-color: var(--tile-crimson) !important;
+  color: #ffffff !important;
   border-color: var(--tile-crimson) !important;
 }
 
-/* Auxiliary Cards (Visualizers, Quiz, Exams) */
-html[data-theme="dark"] .aux-card-surface,
-body.dark-theme .aux-card-surface,
-.dark-theme .aux-card-surface,
-html[data-theme="dark"] .aux-page-wrap > div,
-body.dark-theme .aux-page-wrap > div,
-.dark-theme .aux-page-wrap > div {
+/* Auxiliary Cards (Visualizers, Quiz, Exams) in Light & Dark Mode */
+.aux-card-surface {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  border-radius: 12px;
+}
+html[data-theme="dark"] .aux-card-surface {
   background-color: #1c1d23 !important;
   border-color: #2d303b !important;
   color: #f5f4ef !important;
 }
 
-/* Drawer */
-html[data-theme="dark"] .drawer-content,
-body.dark-theme .drawer-content,
-.dark-theme .drawer-content {
+/* Drawer in Dark Mode */
+html[data-theme="dark"] .drawer-content {
   background-color: #131418 !important;
   color: #f5f4ef !important;
   border-color: #2d303b !important;
 }
-
-html[data-theme="dark"] .drawer-link-btn,
-body.dark-theme .drawer-link-btn,
-.dark-theme .drawer-link-btn {
+html[data-theme="dark"] .drawer-link-btn {
   color: #f5f4ef !important;
   border-color: #2d303b !important;
 }
-
-html[data-theme="dark"] .drawer-link-btn:hover,
-body.dark-theme .drawer-link-btn:hover,
-.dark-theme .drawer-link-btn:hover {
+html[data-theme="dark"] .drawer-link-btn:hover {
   background-color: #1f2129 !important;
 }
-
-html[data-theme="dark"] .drawer-chapter-link,
-body.dark-theme .drawer-chapter-link,
-.dark-theme .drawer-chapter-link {
+html[data-theme="dark"] .drawer-chapter-link {
   color: #9e9a93 !important;
 }
-
-html[data-theme="dark"] .drawer-chapter-link:hover,
-body.dark-theme .drawer-chapter-link:hover,
-.dark-theme .drawer-chapter-link:hover {
+html[data-theme="dark"] .drawer-chapter-link:hover {
   color: #f5f4ef !important;
 }
 
-/* Inputs & Pills */
-html[data-theme="dark"] .runner-input,
-body.dark-theme .runner-input,
-.dark-theme .runner-input {
+/* Inputs & Pills in Dark Mode */
+html[data-theme="dark"] .runner-input {
   background-color: #15161c !important;
   color: #f5f4ef !important;
   border-color: #2d303b !important;
 }
-
 html[data-theme="dark"] .quiz-cat-pill,
-body.dark-theme .quiz-cat-pill,
-.dark-theme .quiz-cat-pill {
+html[data-theme="dark"] .cat-filter-btn {
   background-color: #20222a !important;
   color: #f5f4ef !important;
   border-color: #2d303b !important;
 }
-
-html[data-theme="dark"] .quiz-palette,
-body.dark-theme .quiz-palette,
-.dark-theme .quiz-palette {
+html[data-theme="dark"] .quiz-cat-pill.active,
+html[data-theme="dark"] .cat-filter-btn.active {
+  background-color: var(--tile-crimson) !important;
+  color: #ffffff !important;
+  border-color: var(--tile-crimson) !important;
+}
+html[data-theme="dark"] .quiz-palette {
   background-color: #14151a !important;
 }
 
-/* Math Badges */
+/* Math Badges in Dark Mode */
 html[data-theme="dark"] .math-expr,
-html[data-theme="dark"] code.math-expr,
-body.dark-theme .math-expr,
-body.dark-theme code.math-expr,
-.dark-theme .math-expr,
-.dark-theme code.math-expr {
+html[data-theme="dark"] code.math-expr {
   background: rgba(222, 80, 53, 0.16) !important;
   color: #ff7c65 !important;
   border-color: rgba(222, 80, 53, 0.3) !important;
 }
-
-html[data-theme="dark"] .math-var,
-body.dark-theme .math-var,
-.dark-theme .math-var {
+html[data-theme="dark"] .math-var {
   color: #ff7c65 !important;
 }
 
 /* 3D Monster Avatar Bubble in Dark Mode */
-html[data-theme="dark"] .monster-speech-bubble,
-body.dark-theme .monster-speech-bubble,
-.dark-theme .monster-speech-bubble {
+html[data-theme="dark"] .monster-speech-bubble {
   background-color: #1a1b22 !important;
   color: #f5f4ef !important;
   border-color: #2d303b !important;
   box-shadow: 0 12px 32px rgba(0,0,0,0.65) !important;
 }
-
-html[data-theme="dark"] .monster-speech-bubble::after,
-body.dark-theme .monster-speech-bubble::after,
-.dark-theme .monster-speech-bubble::after {
+html[data-theme="dark"] .monster-speech-bubble::after {
   border-top-color: #1a1b22 !important;
 }
-
-html[data-theme="dark"] .monster-speech-text,
-body.dark-theme .monster-speech-text,
-.dark-theme .monster-speech-text {
+html[data-theme="dark"] .monster-speech-text {
   color: #f5f4ef !important;
+}
+
+/* Pedagogical Bridge Card in Dark Mode */
+html[data-theme="dark"] .pedagogical-bridge-card {
+  background: linear-gradient(135deg, rgba(138, 112, 181, 0.22), rgba(222, 80, 53, 0.14)) !important;
+  border-color: rgba(138, 112, 181, 0.4) !important;
+  color: #f5f4ef !important;
+}
+html[data-theme="dark"] .bridge-card-text {
+  color: #e2e0d8 !important;
 }
 
 /* ==========================================================================
@@ -2611,20 +2684,20 @@ body.dark-theme .monster-speech-text,
     font-size: 0.8rem !important;
   }
 
-  /* 3D Monster Avatar Mobile Scaling */
+  /* 3D Monster Avatar Mobile Scaling (Parked above bottom nav) */
   .monster-companion {
     right: 12px !important;
-    bottom: 12px !important;
-    width: 100px !important;
-    height: 100px !important;
+    bottom: 72px !important;
+    width: 80px !important;
+    height: 80px !important;
   }
   .monster-canvas-wrapper, #monster-three-canvas {
-    width: 100px !important;
-    height: 100px !important;
+    width: 80px !important;
+    height: 80px !important;
   }
   .monster-speech-bubble {
-    width: min(230px, calc(100vw - 32px)) !important;
-    bottom: 105px !important;
+    width: min(240px, calc(100vw - 32px)) !important;
+    bottom: 85px !important;
     right: 0 !important;
     left: auto !important;
     transform: none !important;
@@ -2634,7 +2707,7 @@ body.dark-theme .monster-speech-text,
 
   /* Aux Page Wrap (Visualizers, Quiz, Exams) */
   .aux-page-wrap {
-    padding: 1rem 0.75rem 3.5rem !important;
+    padding: 1rem 0.75rem 5rem !important;
   }
   .aux-header h2 {
     font-size: 1.45rem !important;
@@ -2650,5 +2723,142 @@ body.dark-theme .monster-speech-text,
   .sort-bar {
     min-width: 22px !important;
     font-size: 0.68rem !important;
+  }
+
+  /* Lesson Body Comfort on Mobile */
+  .lesson-body-prose {
+    font-size: 0.96rem !important;
+    line-height: 1.62 !important;
+  }
+  .lesson-body-prose p {
+    margin-bottom: 0.95rem !important;
+  }
+  .lesson-body-prose ul {
+    padding-left: 1.2rem !important;
+    margin-bottom: 1.1rem !important;
+  }
+  .mascot-tip-box {
+    padding: 0.9rem 1rem !important;
+    gap: 0.75rem !important;
+    margin-bottom: 1.6rem !important;
+  }
+}
+
+/* ==========================================================================
+   MOBILE FLOATING BOTTOM NAVIGATION BAR (Thumb Friendly & Ergonomic)
+   ========================================================================== */
+.mobile-bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border-subtle);
+  z-index: 999;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 0.5rem;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.04);
+}
+
+html[data-theme="dark"] .mobile-bottom-nav {
+  background-color: rgba(19, 20, 24, 0.94);
+  border-top-color: #262933;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.mobile-nav-btn {
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 0.35rem 0.65rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 750;
+  transition: all 0.15s ease;
+  border-radius: 8px;
+  min-width: 52px;
+}
+
+.mobile-nav-btn .mob-nav-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.mobile-nav-btn.active {
+  color: var(--tile-crimson);
+}
+
+html[data-theme="dark"] .mobile-nav-btn.active {
+  color: #ff7c65;
+}
+
+/* Mobile Lesson Jump Chips (Quick Horizontal Scroll Nav) */
+.mobile-jump-chips {
+  display: none;
+  gap: 0.45rem;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 0.4rem 0 1rem;
+  margin-bottom: 1rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.mobile-jump-chips::-webkit-scrollbar {
+  display: none;
+}
+
+.mobile-jump-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 750;
+  cursor: pointer;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.mobile-jump-chip:hover {
+  background-color: var(--tile-crimson);
+  color: #ffffff;
+  border-color: var(--tile-crimson);
+}
+
+html[data-theme="dark"] .mobile-jump-chip {
+  background-color: #1c1d23;
+  border-color: #2d303b;
+  color: #f5f4ef;
+}
+html[data-theme="dark"] .mobile-jump-chip:hover {
+  background-color: var(--tile-crimson);
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .mobile-bottom-nav {
+    display: flex;
+  }
+  .mobile-jump-chips {
+    display: flex;
+  }
+  body {
+    padding-bottom: 64px;
   }
 }

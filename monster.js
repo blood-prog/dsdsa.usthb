@@ -557,44 +557,144 @@
   }
 
 
-  // Non-repeating dialogue history ring buffer (guarantees NO sentence repeated within last 20 turns, and never A->B->A->B)
-  const recentHistory = [];
-  const MAX_HISTORY = 20;
+  // Fisher-Yates Shuffled Deck Engine (Guarantees zero sentence repetition)
+  const POKE_DECK_POOL = [
+    // Fluffy & Playful Poke Reactions
+    "Wheee! That tickles! 😄",
+    "360 backflip! Ten out of ten from the judges! 🤸‍♂️",
+    "Hey! Poke your code, not me! Just kidding, do it again! 🎈",
+    "Boing! Felt elasticity is off the charts today! ✨",
+    "Yarn power activated! Ready for the next problem!",
+    "Poked again! My fluffy stuffing absorbed 100% of the impact! ☁️",
+    "Whoa! You spun me right round! Now let's solve some loops! 🔄",
+    "Boop! Felt sensor pinged: 100% cuddly, 0% bugs! 📡",
+    "Hey there! I was just contemplating whether P equals NP! 🤔",
+    "Aha! A wild student poked Byte! Byte used Encouragement... it's super effective! ⚡",
+    "Flip mode engaged! If you need a hint on this lesson, click my tip card! 💡",
+    "Spinning like a bubble sort in an inverted array! Wheee! 🫧",
+    "Boop! Poked right on my yarn nose! Ready to crush some more code! 👃",
+    "Wiggle wiggle! My Three.js vertices just did a synchronous wave! 🌊",
+    "Hey! Each poke increases my enthusiasm parameter by +10! 📈",
+    "A poke a day keeps the infinite loops away! Let's solve the next one! 🍎",
+    // Dark Humor, USTHB Student Life & Algorithmic Comedy
+    "My heap is corrupt, but at least it's not my GPA... yet. 💀",
+    "Recursion without a base case: exactly how this semester feels. 🌀",
+    "The professor said: 'The exam will be straightforward.' The professor also lied. 🤡",
+    "If your code works on the first run, close your laptop immediately. You are in a simulation. 🕶️",
+    "I asked the compiler for emotional support. It returned: 'Segmentation fault (core dumped)'. 🪦",
+    "Death, taxes, and an off-by-one error on Question 4 of the exam. 📉",
+    "Poking me won't give you extra marks on the midterm... but I appreciate the distraction! 🧶",
+    "Why do programmers prefer dark mode? Because light attracts bugs... and harsh reality. 🪲",
+    "One does not simply walk into the USTHB exam amphitheater without 3 pens and existential dread. 📜",
+    "My love life is like an uninitialized pointer: undefined behavior and likely to crash. 💔",
+    "Don't worry if your algorithm is O(N²). The universe will experience heat death in 5 billion years anyway. ⏳",
+    "If you ever feel useless, remember someone once wrote a bubble sort on a 10-million element linked list. 🫧",
+    "Every time you click me, an infinite while(true) loop loses its angels. 😇",
+    "I'm made of felt. I have zero nerve endings. Yet your last solution somehow made me wince. 😬",
+    "Procrastination has an optimal O(1) start time: right now. Stop poking me and open Chapter 4! ⏰",
+    "Remember: In USTHB, there are no bugs, only 'unforeseen algorithmic character building'. 🏗️",
+    "I'd tell you a joke about binary trees, but you'd probably lose the root. 🌲",
+    "Keep clicking me! It's definitely easier than facing the 2D matrix saddle point problem. 👀",
+    "My yarn is tangled. My vertices are tired. But you? You have 27 lessons to master! 🚀",
+    "Are you clicking me to avoid writing that trace table? I see through your tactics, human. 🕵️",
+    "In an alternate universe, your code compiled with zero warnings on the first try. Not in this one though! 🌌",
+    "A loop without an increment is like university life: running in circles and going nowhere fast. 🔄",
+    "Caffeine turns coffee into algorithms. Poking me just turns me into a dizzy spinning plushie! ☕",
+    "Roses are red, violets are blue, unexpected EOF on line 102. 🥀",
+    "Why fix bugs when you can just declare them as 'intended stress-testing features'? 🛠️",
+    "If at first you don't succeed, call it version 1.0 and blame the hardware architecture. 💻",
+    "You poked me again! That's 5 points deducted from your emotional stability. 📉",
+    "I was woven from the discarded rough drafts of students who thought arrays start at 0 in USTHB. 📏",
+    "Sleep is an algorithm with zero iterations during exam week. 😴",
+    "My plush ears can hear your CPU crying from that nested O(N³) triple loop. 😭",
+    "Did you hear about the student who passed Algo 1 on luck alone? Neither did anyone else. 🪦",
+    "Click me one more time and I will invert your array into pure chaos! 😈",
+    "Knock knock. Who's there? ...Deadlock. 🚪",
+    "If you ever feel lonely, remember your memory leak will stay with you forever. 🫂",
+    "At USTHB, they don't ask 'How are you?', they ask 'Did your bubble sort terminate?' 🫧",
+    "My felt fibers are soaked in the tears of students debugging secondary diagonals. 📐",
+    "Don't stare at me like that! The answer is in the trace table, not on my yarn nose! 👃",
+    "Another poke! I'm an algorithm companion, not a stress ball! ...Okay fine, do it again. 😄",
+    "A wild student poked Byte! Byte used existential dread... it's super effective! ⚡",
+    "Did you know? Writing pseudocode on paper burns approximately 0.2 calories and 500 brain cells. 🧠",
+    "Don't cry because it's O(N²), smile because it terminates eventually! ☀️",
+    "The only thing faster than binary search is my panic when the teacher says 'Hand in your papers'. 🏃‍♂️",
+    "I may be fluffy, but my standards for time complexity are strictly logarithmic. 📈",
+    "If you poke me 100 times, do you unlock a degree? Spoiler: No, you just waste 5 minutes! 🎓",
+    // Fresh New Relatable & Witty Lines
+    "Bab Ezzouar wind was so strong today it blew the semicolon right off my syntax tree! 🌬️",
+    "Did you check whether your while loop terminates or is it running its own marathon in background? 🏃",
+    "Algorithm student's diet: 70% instant noodles, 20% panic, 10% trying to understand secondary diagonals. 🍜",
+    "My felt stitches hold together better than your array bounds checking. 🪡",
+    "I asked ChatGPT how to pass Algo 1 and it told me to start praying. Just kidding, do trace tables! 🙏",
+    "If you think love hurts, try writing a nested while loop on paper with 5 minutes left on the clock. ⏰",
+    "Warning: Poking Byte while procrastinating does not increase your exam coefficient. 📊",
+    "You poked me so fast my rotation matrix almost experienced gimbal lock! 💫",
+    "Remember: Ibrahim Benabida put hours into crafting this guide for USTHB students — give him a star on GitHub! ⭐",
+    "If I had a dinar for every time someone forgot to initialize sum ← 0, I'd own the university bookstore. 💰",
+    "Your brain right now: 99% algorithm stress, 1% wondering why Byte is so fluffy. 🧶",
+    "Never trust a floating-point comparison with '=='. Precision will betray you faster than your lab partner. 🔍",
+    "Are we having fun yet? Because my felt sensors detect pure algorithmic adrenaline! 🚀",
+    "Poking me is O(1) in time complexity, but your time until the exam is strictly O(N) decreasing! ⏳",
+    "Even Donald Knuth himself would approve of this poke session. Now back to work! 📖",
+    "If you can solve the 3-reversal array rotation on scratch paper, you fear no professor! 🦁",
+    "Selection sort looked at Bubble sort and whispered: 'At least I only swap N times.' The shade! 💅",
+    "You poked me! My yarn heart just skipped an iteration! ❤️",
+    "That poke felt like a stack overflow: sudden, overwhelming, and completely unhandled! 🥞",
+    "Keep poking and I'll start quizzing you on Chapter 3 while loops in your sleep! 👻",
+    "You're doing great! Even when the trace table looks like an ancient hieroglyphic scroll! 📜"
+  ];
 
-  function pickNonRepeating(category) {
-    const pool = DIALOGUES[category] || DIALOGUES.clickJokes || DIALOGUES.poked;
-    if (!pool || pool.length === 0) return "Hello from Byte! 🧶";
-    
-    // Filter candidates not in recent history
-    let candidates = pool.filter(msg => !recentHistory.includes(msg));
-    
-    // If pool is small or all have been recently spoken, relax to anything not in the last 2
-    if (candidates.length === 0) {
-      const last1 = recentHistory[recentHistory.length - 1];
-      const last2 = recentHistory[recentHistory.length - 2];
-      candidates = pool.filter(msg => msg !== last1 && msg !== last2);
-      if (candidates.length === 0) {
-        candidates = pool.filter(msg => msg !== last1);
+  let currentPokeDeck = [];
+  let lastPokeMessage = null;
+
+  function getNextPokeMessage() {
+    if (currentPokeDeck.length === 0) {
+      // Re-populate and shuffle deck via Fisher-Yates
+      const newDeck = [...POKE_DECK_POOL];
+      for (let i = newDeck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newDeck[i], newDeck[j]] = [newDeck[j], newDeck[i]];
       }
-      if (candidates.length === 0) candidates = pool;
+      // Ensure the top card doesn't duplicate the last card across deck resets
+      if (newDeck[newDeck.length - 1] === lastPokeMessage && newDeck.length > 1) {
+        const swapIdx = Math.floor(Math.random() * (newDeck.length - 1));
+        [newDeck[newDeck.length - 1], newDeck[swapIdx]] = [newDeck[swapIdx], newDeck[newDeck.length - 1]];
+      }
+      currentPokeDeck = newDeck;
     }
-    
-    const chosen = candidates[Math.floor(Math.random() * candidates.length)];
-    recentHistory.push(chosen);
-    if (recentHistory.length > MAX_HISTORY) {
-      recentHistory.shift();
-    }
+    const chosen = currentPokeDeck.pop();
+    lastPokeMessage = chosen;
     return chosen;
   }
 
-  // Poke Reaction
+  // Category decks for non-repeating reactive messages
+  const categoryDecks = {};
+  function pickNonRepeating(category) {
+    if (category === 'poked' || category === 'clickJokes') {
+      return getNextPokeMessage();
+    }
+    const pool = DIALOGUES[category];
+    if (!pool || pool.length === 0) return getNextPokeMessage();
+
+    if (!categoryDecks[category] || categoryDecks[category].length === 0) {
+      const d = [...pool];
+      for (let i = d.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [d[i], d[j]] = [d[j], d[i]];
+      }
+      categoryDecks[category] = d;
+    }
+    return categoryDecks[category].pop();
+  }
+
+  // Poke Reaction (Guaranteed zero repetition)
   function triggerPoke() {
     playCuteSound('pop');
     animState = 'spin';
     animTimer = 0;
     spinAngle = 0;
-    const cat = Math.random() < 0.75 ? 'clickJokes' : 'poked';
-    const pokeMsg = pickNonRepeating(cat);
+    const pokeMsg = getNextPokeMessage();
     speak(pokeMsg, 'pop');
   }
 

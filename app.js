@@ -3,37 +3,49 @@
 // THEME SWITCHER (DARK MODE / LIGHT MODE)
 // =============================================================================
 function applyTheme(isDark) {
+  const target = isDark ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', target);
   if (isDark) {
-    document.documentElement.setAttribute('data-theme', 'dark');
     document.documentElement.classList.add('dark-theme');
-    if (document.body) document.body.classList.add('dark-theme');
+    if (document.body) {
+      document.body.setAttribute('data-theme', 'dark');
+      document.body.classList.add('dark-theme');
+    }
   } else {
-    document.documentElement.removeAttribute('data-theme');
     document.documentElement.classList.remove('dark-theme');
-    if (document.body) document.body.classList.remove('dark-theme');
+    if (document.body) {
+      document.body.setAttribute('data-theme', 'light');
+      document.body.classList.remove('dark-theme');
+    }
   }
 }
 
 function initTheme() {
-  const saved = localStorage.getItem('algo_theme');
-  const shouldBeDark = (saved === 'dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches));
-  applyTheme(shouldBeDark);
+  let saved = null;
+  try {
+    saved = localStorage.getItem('algo_theme');
+  } catch(e) {}
+  applyTheme(saved === 'dark');
 }
 
 window.toggleTheme = function() {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark' ||
-                 document.documentElement.classList.contains('dark-theme') ||
-                 (document.body && document.body.classList.contains('dark-theme'));
+                 document.documentElement.classList.contains('dark-theme');
+  const nextIsDark = !isDark;
+  applyTheme(nextIsDark);
+  try {
+    localStorage.setItem('algo_theme', nextIsDark ? 'dark' : 'light');
+  } catch(e) {}
   
-  if (isDark) {
-    applyTheme(false);
-    localStorage.setItem('algo_theme', 'light');
-    if (window.monsterCompanion) window.monsterCompanion.say('Light mode activated! Crisp paper aesthetics! ☀️', 'happy');
-  } else {
-    applyTheme(true);
-    localStorage.setItem('algo_theme', 'dark');
-    if (window.monsterCompanion) window.monsterCompanion.say('Dark mode engaged! Saving eyes and preventing bug attraction! 🌙', 'happy');
-  }
+  try {
+    if (window.monsterCompanion && typeof window.monsterCompanion.say === 'function') {
+      if (nextIsDark) {
+        window.monsterCompanion.say('Dark mode engaged! Midnight carbon mode activated! 🌙', 'happy');
+      } else {
+        window.monsterCompanion.say('Original light mode restored! Crisp paper aesthetics! ☀️', 'happy');
+      }
+    }
+  } catch(e) {}
 };
 
 initTheme();
@@ -218,10 +230,15 @@ window.navigateTo = function(viewName, options = {}) {
   // Close slide-out drawer on navigation
   closeDrawer();
 
-  // Highlight active drawer buttons
+  // Highlight active drawer buttons and mobile bottom nav
   document.querySelectorAll('.drawer-link-btn').forEach(btn => {
     btn.classList.remove('active');
   });
+  document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  const activeMobBtn = document.getElementById(`mob-nav-${viewName}`);
+  if (activeMobBtn) activeMobBtn.classList.add('active');
 
   if (viewName === 'track') {
     renderTrack();
@@ -502,17 +519,25 @@ window.openLesson = function(lessonId) {
     // Multiple Progressive Micro-Exercises
     let microHtml = '';
     const exList = targetLesson.exercises || (targetLesson.exercise ? [targetLesson.exercise] : []);
+    const checkpointMeta = [
+      { tag: 'Checkpoint 1 • Core Concept', desc: 'Foundational Logic & Syntax' },
+      { tag: 'Checkpoint 2 • Code Trace & Output', desc: 'Dry-Run State Prediction' },
+      { tag: 'Checkpoint 3 • Exam Challenge & Bridge', desc: 'Edge Cases & University Applications' }
+    ];
+
     if (exList.length > 0) {
       microHtml = `
         <div class="lesson-checkpoints-section">
           <div class="section-divider-title">
             <span>Interactive Checkpoints (${exList.length} Progressive Challenges)</span>
           </div>
-          ${exList.map((ex, exIdx) => `
+          ${exList.map((ex, exIdx) => {
+            const meta = checkpointMeta[exIdx] || { tag: `Checkpoint ${exIdx + 1} • Advanced Exercise`, desc: 'Deep Algorithmic Thinking' };
+            return `
             <div class="lesson-micro-exercise" id="lesson-ex-card-${exIdx}">
               <div class="micro-exercise-header">
-                <span class="micro-tag">${exIdx === 0 ? 'Checkpoint 1 • Concept Check' : 'Checkpoint 2 • Bridge Challenge'}</span>
-                <span style="font-size:0.85rem; font-weight:700; color:var(--text-muted);">${exIdx === 0 ? 'Foundational Logic' : 'Edge Cases & Progression'}</span>
+                <span class="micro-tag">${meta.tag}</span>
+                <span style="font-size:0.85rem; font-weight:700; color:var(--text-muted);">${meta.desc}</span>
               </div>
               <h4 class="micro-q-title">${ex.question}</h4>
               <div class="micro-options-grid">
@@ -527,7 +552,8 @@ window.openLesson = function(lessonId) {
                 <strong>Rationale:</strong> ${ex.exp}
               </div>
             </div>
-          `).join('')}
+            `;
+          }).join('')}
         </div>
       `;
     }
@@ -539,6 +565,14 @@ window.openLesson = function(lessonId) {
         <span>${targetLesson.title}</span>
       </div>
       <h2 class="lesson-main-title">${targetLesson.title}</h2>
+
+      <!-- Mobile Fast Jump Chips (Touch-friendly section quick links) -->
+      <div class="mobile-jump-chips">
+        <button class="mobile-jump-chip" onclick="document.querySelector('.lesson-body-prose')?.scrollIntoView({behavior:'smooth'});">💡 Concept</button>
+        <button class="mobile-jump-chip" onclick="document.querySelector('.terminal-code-window')?.scrollIntoView({behavior:'smooth'});">💻 Code</button>
+        <button class="mobile-jump-chip" onclick="document.querySelector('.pedagogical-bridge-card')?.scrollIntoView({behavior:'smooth'});">🌉 Bridge</button>
+        <button class="mobile-jump-chip" onclick="document.querySelector('.lesson-checkpoints-section')?.scrollIntoView({behavior:'smooth'});">✍ 3 Exercises</button>
+      </div>
 
       <!-- Byte's Mascot Insight Card (21st.dev Callout Style) -->
       <div class="mascot-tip-box" onclick="if(window.monsterCompanion) window.monsterCompanion.say('Insight: ' + ${JSON.stringify(getLessonTip(targetLesson.id))}, 'happy')" style="cursor:pointer;" title="Click to have Byte read this tip aloud!">

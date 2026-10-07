@@ -48,6 +48,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 1,
               "exp": "Without variables (storage cells in RAM), an algorithm has nowhere to hold incoming inputs or intermediate results."
+            },
+            {
+              "question": "Dry-Run Check: Which of the following instructions violates Knuth's Definiteness property?",
+              "options": [
+                "x <- x + 1",
+                "Compute a number close to 10",
+                "Write('Result: ', x)",
+                "If (x > 0) Then y <- 1"
+              ],
+              "ans": 1,
+              "exp": "Definiteness requires every step to be rigorously unambiguous. 'A number close to 10' is vague and undefined."
             }
           ]
         },
@@ -91,6 +102,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 0,
               "exp": "Data types tell the system how much memory to allocate (e.g. 4 bytes for integer) and which operations (arithmetic, boolean) are valid."
+            },
+            {
+              "question": "Dry-Run Check: If an algorithm executes `x <- 10; y <- x; x <- 25;`, what are the values of x and y in memory?",
+              "options": [
+                "x = 25, y = 25",
+                "x = 10, y = 25",
+                "x = 25, y = 10",
+                "x = 10, y = 10"
+              ],
+              "ans": 2,
+              "exp": "y receives a copy of x (10). Later modifying x to 25 does NOT affect y in memory."
             }
           ]
         },
@@ -134,6 +156,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 1,
               "exp": "Real division (/) produces a real approximation (3.5), whereas DIV strictly discards the fraction to return an integer quotient (3)."
+            },
+            {
+              "question": "Type Check: In algorithmic typing, what is the resulting data type of expression `14 / 2` versus `14 DIV 2`?",
+              "options": [
+                "Both are integer",
+                "14 / 2 is float (real 7.0), while 14 DIV 2 is integer (7)",
+                "14 / 2 is integer, while 14 DIV 2 is float",
+                "Both are float"
+              ],
+              "ans": 1,
+              "exp": "Standard division / always yields a float/real, whereas DIV strictly computes an integer quotient."
             }
           ]
         },
@@ -177,6 +210,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 1,
               "exp": "482 DIV 100 gives 4, which is exactly the hundreds digit."
+            },
+            {
+              "question": "Dry-Run Check: What is the exact value of the integer expression `(19 MOD 4) * 3 + (25 DIV 6)`?",
+              "options": [
+                "13",
+                "11",
+                "17",
+                "15"
+              ],
+              "ans": 0,
+              "exp": "19 MOD 4 = 3 (since 19 = 4*4 + 3). 3 * 3 = 9. 25 DIV 6 = 4. 9 + 4 = 13."
             }
           ]
         },
@@ -220,6 +264,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 2,
               "exp": "The expression x + 5 evaluates to 12 + 5 = 17, which overwrites x in memory."
+            },
+            {
+              "question": "Trace Table Check: In the arithmetic swap without a third variable `x <- x + y; y <- x - y; x <- x - y;`, if initially x = 8 and y = 3, what are the step values?",
+              "options": [
+                "Step 1: x=11; Step 2: y=8; Step 3: x=3 (Swapped!)",
+                "Step 1: x=5; Step 2: y=8; Step 3: x=11",
+                "Both variables become 0",
+                "x = 8, y = 8"
+              ],
+              "ans": 0,
+              "exp": "x becomes 8+3=11; y becomes 11-3=8; x becomes 11-8=3. Values swap cleanly without extra memory!"
             }
           ]
         }
@@ -273,6 +328,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 1,
               "exp": "AND requires both operands to be True for the compound condition to evaluate to True."
+            },
+            {
+              "question": "Dry-Run Check: In `If (x > 5) Then If (y < 2) Then z <- 1 Else z <- 2 End If Else z <- 3 End If;`, what is z when x = 7 and y = 4?",
+              "options": [
+                "z = 1",
+                "z = 2",
+                "z = 3",
+                "z is uninitialized"
+              ],
+              "ans": 1,
+              "exp": "x > 5 (7 > 5) is True, entering outer Then. y < 2 (4 < 2) is False, executing inner Else which assigns z <- 2."
             }
           ]
         },
@@ -316,6 +382,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 0,
               "exp": "The quadratic formula divides by 2a. If a = 0, division by zero occurs unless the linear case is handled first."
+            },
+            {
+              "question": "Exam Edge Case: In `ax² + bx + c = 0`, if a = 0 and b = 0 and c != 0 (e.g. 0x + 5 = 0), what is the algorithmic output?",
+              "options": [
+                "Infinite solutions in R",
+                "Impossible equation / Empty set (No solution)",
+                "x = -c",
+                "x = 0"
+              ],
+              "ans": 1,
+              "exp": "0 = c with c != 0 is a mathematical contradiction (impossible equation), meaning no real solution exists."
             }
           ]
         },
@@ -359,6 +436,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 1,
               "exp": "Switch/Case requires discrete ordinal constants (integers/chars). Continuous intervals must use If-Else."
+            },
+            {
+              "question": "Syntax & Type Check: Why CANNOT Switch/Case be used to test if a real variable x falls in interval `0.0 <= x <= 1.0`?",
+              "options": [
+                "Switch only works on strings",
+                "Switch selectors in algorithms must be discrete ordinal types (integer, char), not continuous real numbers",
+                "Switch cannot have more than 2 cases",
+                "Switch is slower than If"
+              ],
+              "ans": 1,
+              "exp": "Switch/Case selectors evaluate exact discrete equality on ordinal types (integers, characters), not infinite continuous real floats."
             }
           ]
         }
@@ -412,6 +500,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 0,
               "exp": "Since the initial value (1) already exceeds the upper bound (0), the loop body executes 0 times."
+            },
+            {
+              "question": "Dry-Run Check: How many iterations are executed by loop `For i <- 10 DownTo 2 Step 2 Do`?",
+              "options": [
+                "10 iterations",
+                "5 iterations (i = 10, 8, 6, 4, 2)",
+                "4 iterations",
+                "0 iterations"
+              ],
+              "ans": 1,
+              "exp": "The loop decrements by 2 from 10 down to 2: iterations at 10, 8, 6, 4, 2 — exactly 5 iterations."
             }
           ]
         },
@@ -455,6 +554,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 1,
               "exp": "Without updating the loop variable, the condition remains True infinitely."
+            },
+            {
+              "question": "Edge Case Check: In loop `i <- 1; While (i != 10) Do i <- i + 2; End While;`, what will happen during execution?",
+              "options": [
+                "Terminates after 5 steps",
+                "Infinite loop because i steps through odd numbers (1, 3, 5, 7, 9, 11...) and never equals 10!",
+                "Terminates when i reaches 9",
+                "Compilation error"
+              ],
+              "ans": 1,
+              "exp": "i starts at 1 and steps by 2 (1, 3, 5, 7, 9, 11...). It skips 10 entirely, causing an infinite loop. Always use `<=` instead of `!=`!"
             }
           ]
         },
@@ -498,6 +608,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 0,
               "exp": "Repeat..Until evaluates at exit and terminates when True. While evaluates at entry and terminates when False."
+            },
+            {
+              "question": "Dry-Run Check: In `x <- 5; Repeat x <- x - 1; Until (x <= 5);`, what is the final value of x?",
+              "options": [
+                "5",
+                "4",
+                "0",
+                "Infinite loop"
+              ],
+              "ans": 1,
+              "exp": "Repeat executes the body at least once: x becomes 5 - 1 = 4. The condition 4 <= 5 is True, so it terminates immediately with x = 4."
             }
           ]
         },
@@ -541,6 +662,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 1,
               "exp": "The multiplicative neutral element is 1. If initialized to 0, 0 * anything remains 0 forever."
+            },
+            {
+              "question": "Exam Application: If a sentinel loop reads positive grades until -1, and inputs are `12, 14, 16, -1`, what are final count and average?",
+              "options": [
+                "count = 4, avg = 10.25",
+                "count = 3, avg = 14.0",
+                "count = 3, avg = 42.0",
+                "count = 0, avg = 0"
+              ],
+              "ans": 1,
+              "exp": "The sentinel -1 is NOT included in calculations. Sum = 12 + 14 + 16 = 42. Count = 3. Average = 42 / 3 = 14.0."
             }
           ]
         }
@@ -594,6 +726,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 1,
               "exp": "Standard university Algerian algorithms are 1-indexed: indices run from 1 to N inclusive."
+            },
+            {
+              "question": "Memory Offset Check: In array T[1..N] where each integer takes 4 bytes, if base address of T[1] is 2000, what is the address of T[4]?",
+              "options": [
+                "2016",
+                "2012",
+                "2004",
+                "2008"
+              ],
+              "ans": 1,
+              "exp": "Address = Base + (i - 1) * element_size = 2000 + (4 - 1) * 4 = 2000 + 12 = 2012."
             }
           ]
         },
@@ -637,6 +780,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 1,
               "exp": "Initializing to T[1] correctly handles arrays where all numbers are negative."
+            },
+            {
+              "question": "Edge Case Check: If an array contains only negative integers `[-14, -8, -25, -3]`, what bug happens if you initialize `maxVal <- 0`?",
+              "options": [
+                "The algorithm outputs 0 as maximum, which was not even in the array!",
+                "The algorithm crashes with overflow",
+                "It returns -3 correctly",
+                "The loop never executes"
+              ],
+              "ans": 0,
+              "exp": "0 is greater than all negative numbers, so maxVal remains 0 forever! Always initialize maxVal <- T[1]!"
             }
           ]
         },
@@ -680,6 +834,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 1,
               "exp": "Two pointers move from both ends toward the center, swapping exactly N DIV 2 pairs."
+            },
+            {
+              "question": "Dry-Run Check: When testing if an array T[1..N] is a palindrome, what is the index opposite to i that must be compared?",
+              "options": [
+                "T[N - i]",
+                "T[N - i + 1]",
+                "T[N + i]",
+                "T[N / 2]"
+              ],
+              "ans": 1,
+              "exp": "In a 1-based array of size N, the symmetric counterpart of index i is N - i + 1 (e.g. for N=5, i=1 pairs with 5-1+1=5)."
             }
           ]
         },
@@ -723,6 +888,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 0,
               "exp": "Subtracting ASCII code of 'A' yields the 0-based position: 'D' - 'A' = 68 - 65 = 3."
+            },
+            {
+              "question": "ASCII Character Arithmetic: Given ord('A') = 65 and ord('C') = 67, what is the expression to convert any lowercase char c to uppercase?",
+              "options": [
+                "chr(ord(c) + 32)",
+                "chr(ord(c) - 32)",
+                "ord(c) - 32",
+                "chr(ord(c) * 2)"
+              ],
+              "ans": 1,
+              "exp": "In ASCII, uppercase letters are 32 positions before lowercase letters (ord('a') - 32 = ord('A'))."
             }
           ]
         }
@@ -776,6 +952,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 0,
               "exp": "Row-major traversal uses outer loop i for rows and inner loop j for columns."
+            },
+            {
+              "question": "Dry-Run Check: In matrix M[1..3, 1..3] filled with `M[i, j] <- i + j`, what is the sum of all elements on row 2?",
+              "options": [
+                "9",
+                "12 (2+1 + 2+2 + 2+3 = 3 + 4 + 5)",
+                "6",
+                "15"
+              ],
+              "ans": 1,
+              "exp": "Row 2 elements are M[2,1]=3, M[2,2]=4, M[2,3]=5. Sum = 3 + 4 + 5 = 12."
             }
           ]
         },
@@ -819,6 +1006,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 1,
               "exp": "On the anti-diagonal, the sum of row index i and column index j always equals N + 1."
+            },
+            {
+              "question": "Exam Math Property: In a square matrix of size N, which elements belong to BOTH the main diagonal AND the secondary diagonal when N is odd?",
+              "options": [
+                "The four corner elements",
+                "Exactly the single central element at ( (N+1)/2, (N+1)/2 )",
+                "No element can belong to both",
+                "All elements on row 1"
+              ],
+              "ans": 1,
+              "exp": "When N is odd, the main (i=j) and anti-diagonal (i+j=N+1) intersect at the exact center ( (N+1)/2, (N+1)/2 )."
             }
           ]
         },
@@ -862,6 +1060,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 1,
               "exp": "All saddle points in any matrix must share the identical numerical value."
+            },
+            {
+              "question": "Algorithm Complexity: What is the optimal time complexity to determine all saddle points in an R x C matrix?",
+              "options": [
+                "O(R * C)",
+                "O((R * C)²)",
+                "O(R² * C²)",
+                "O(R + C)"
+              ],
+              "ans": 0,
+              "exp": "Precomputing row minimums takes O(R*C), precomputing col maximums takes O(R*C), and matching them takes O(R*C). Total = O(R*C)."
             }
           ]
         }
@@ -915,6 +1124,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 1,
               "exp": "Selection Sort unconditionally scans the remaining unsorted subarray for the minimum, always performing N*(N-1)/2 comparisons."
+            },
+            {
+              "question": "Dry-Run Trace: In Selection Sort on `[64, 25, 12, 22, 11]`, what is the array state after pass 1 completes?",
+              "options": [
+                "[11, 25, 12, 22, 64]",
+                "[11, 12, 22, 25, 64]",
+                "[64, 25, 12, 22, 11]",
+                "[25, 64, 12, 22, 11]"
+              ],
+              "ans": 0,
+              "exp": "Pass 1 finds the minimum in the entire array (11 at index 5) and swaps it with index 1 (64), giving [11, 25, 12, 22, 64]."
             }
           ]
         },
@@ -958,6 +1178,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 1,
               "exp": "If pass 1 performs 0 swaps, the swapped flag stays False and the algorithm terminates in O(N)."
+            },
+            {
+              "question": "Dry-Run Trace: On array `[5, 1, 4, 2, 8]`, how many adjacent swaps occur during pass 1 of Bubble Sort?",
+              "options": [
+                "1 swap",
+                "3 swaps (5 with 1, 5 with 4, 5 with 2)",
+                "4 swaps",
+                "0 swaps"
+              ],
+              "ans": 1,
+              "exp": "5 > 1 (swap -> [1,5,4,2,8]); 5 > 4 (swap -> [1,4,5,2,8]); 5 > 2 (swap -> [1,4,2,5,8]); 5 < 8 (no swap). Total = 3 swaps."
             }
           ]
         },
@@ -1001,6 +1232,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 1,
               "exp": "Binary Search assumes that if target > T[mid], target can only exist to the right. On an unsorted array, this assumption fails."
+            },
+            {
+              "question": "Complexity Check: On a sorted array of N = 1024 elements, what is the MAXIMUM number of comparisons Binary Search performs?",
+              "options": [
+                "1024",
+                "10 (since 2¹⁰ = 1024, log₂(1024) = 10)",
+                "512",
+                "20"
+              ],
+              "ans": 1,
+              "exp": "Binary search divides the interval by 2 each step: log₂(1024) = 10 comparisons in the worst case!"
             }
           ]
         }
@@ -1054,6 +1296,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 1,
               "exp": "Functions return exactly one value. Procedures can return multiple outputs via VAR (reference) parameters."
+            },
+            {
+              "question": "Design Principle: Can a pure mathematical Function modify external variables or perform user I/O in structured programming?",
+              "options": [
+                "Yes, functions should do everything",
+                "No, pure functions should strictly compute and return a value without side-effects",
+                "Functions cannot have parameters",
+                "Functions can only return booleans"
+              ],
+              "ans": 1,
+              "exp": "In clean software design, Functions are side-effect free: they compute and return a value. Side-effects (I/O, mutations) belong in Procedures."
             }
           ]
         },
@@ -1097,6 +1350,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 1,
               "exp": "Pass-by-value works on a local copy. Modifications do not affect the caller's original variable."
+            },
+            {
+              "question": "Dry-Run Check: In procedure `Proc Demo(a: integer; Var b: integer); Begin a <- a + 10; b <- b + 10; End;`, caller passes x=5, y=5. After call, what are x and y in caller?",
+              "options": [
+                "x = 15, y = 15",
+                "x = 5, y = 15 (a is pass-by-value, b is pass-by-reference Var)",
+                "x = 15, y = 5",
+                "x = 5, y = 5"
+              ],
+              "ans": 1,
+              "exp": "a is passed by value (local copy changed to 15, x remains 5). b is passed by reference Var (modifies y directly to 15)."
             }
           ]
         },
@@ -1128,6 +1392,28 @@ const CURRICULUM_DATA = {
               ],
               "ans": 1,
               "exp": "Variable shadowing ensures the innermost local declaration takes precedence during execution."
+            },
+            {
+              "question": "Scope Lifetime: When is memory allocated and deallocated for a local variable declared inside a subprogram?",
+              "options": [
+                "Allocated when program starts, freed on exit",
+                "Allocated on subprogram call (on call stack), freed when subprogram returns",
+                "Never deallocated",
+                "Allocated on the hard drive"
+              ],
+              "ans": 1,
+              "exp": "Local variables exist only during the execution of the subprogram on the call stack and are freed when it returns."
+            },
+            {
+              "question": "Shadowing Check: If global variable x = 10, and function F declares local x = 5 and executes Write(x), what is printed?",
+              "options": [
+                "10",
+                "5 (local variable shadows/hides the global one inside F)",
+                "15",
+                "Error: duplicate name"
+              ],
+              "ans": 1,
+              "exp": "A local variable shadows a global variable of the same name within its scope. Inside F, x refers exclusively to the local variable (5)."
             }
           ]
         }
@@ -1181,6 +1467,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 0,
               "exp": "Armstrong number extraction repeatedly extracts the last digit with MOD 10 and strips it with DIV 10 inside a While loop."
+            },
+            {
+              "question": "Dry-Run Check: Using the Euclidean algorithm (a MOD b), how many steps are needed to compute GCD(48, 18)?",
+              "options": [
+                "1 step",
+                "3 steps (48 MOD 18 = 12; 18 MOD 12 = 6; 12 MOD 6 = 0 -> GCD is 6)",
+                "6 steps",
+                "18 steps"
+              ],
+              "ans": 1,
+              "exp": "Step 1: 48 % 18 = 12. Step 2: 18 % 12 = 6. Step 3: 12 % 6 = 0. Remainder is 0, so GCD is 6!"
             }
           ]
         },
@@ -1224,6 +1521,17 @@ const CURRICULUM_DATA = {
               ],
               "ans": 0,
               "exp": "Computing TotalSum once allows calculating RightSum in O(1) as TotalSum - LeftSum - T[i], reducing overall time from O(N²) to O(N)."
+            },
+            {
+              "question": "Exam Edge Case: In an array of size N that is strictly sorted in descending order (e.g. `[50, 40, 30, 20, 10]`), how many leaders exist?",
+              "options": [
+                "Only 1 leader (the first element)",
+                "All N elements are leaders (every element is greater than all elements to its right)",
+                "0 leaders",
+                "Only the last element"
+              ],
+              "ans": 1,
+              "exp": "In a strictly decreasing array, every single element is greater than all elements to its right, so all N elements are leaders!"
             }
           ]
         }
