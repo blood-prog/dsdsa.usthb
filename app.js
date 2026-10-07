@@ -1,3 +1,31 @@
+
+// =============================================================================
+// THEME SWITCHER (DARK MODE / LIGHT MODE)
+// =============================================================================
+function initTheme() {
+  const saved = localStorage.getItem('algo_theme');
+  if (saved === 'dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+  }
+}
+
+window.toggleTheme = function() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  if (isDark) {
+    document.documentElement.removeAttribute('data-theme');
+    localStorage.setItem('algo_theme', 'light');
+    if (window.monsterCompanion) window.monsterCompanion.say('Light mode activated! Crisp paper aesthetics! ☀️', 'happy');
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    localStorage.setItem('algo_theme', 'dark');
+    if (window.monsterCompanion) window.monsterCompanion.say('Dark mode engaged! Saving eyes and preventing bug attraction! 🌙', 'happy');
+  }
+};
+
+initTheme();
+
 /**
  * ALGØ STUDIO — Modern Learning Experience
  * Inspired by DataCamp & Minimal Scandinavian Aesthetics
@@ -444,28 +472,49 @@ window.openLesson = function(lessonId) {
   if (mainPane) {
     const isCompleted = completedLessons.includes(targetLesson.id);
 
-    // Micro exercise HTML
+    // Pedagogical Bridge to Next Lesson
+    let bridgeHtml = '';
+    if (targetLesson.bridge) {
+      bridgeHtml = `
+        <div class="pedagogical-bridge-card">
+          <div class="bridge-card-header">
+            <span class="bridge-badge">🌉 Pedagogical Bridge</span>
+            <span class="bridge-tag">Why this unlocks the next lesson</span>
+          </div>
+          <p class="bridge-card-text">${targetLesson.bridge}</p>
+        </div>
+      `;
+    }
+
+    // Multiple Progressive Micro-Exercises
     let microHtml = '';
-    if (targetLesson.exercise) {
-      const ex = targetLesson.exercise;
+    const exList = targetLesson.exercises || (targetLesson.exercise ? [targetLesson.exercise] : []);
+    if (exList.length > 0) {
       microHtml = `
-        <div class="lesson-micro-exercise">
-          <div class="micro-exercise-header">
-            <span class="micro-tag">Checkpoint</span>
-            <span style="font-size:0.85rem; font-weight:700; color:var(--text-muted);">Quick Concept Check</span>
+        <div class="lesson-checkpoints-section">
+          <div class="section-divider-title">
+            <span>Interactive Checkpoints (${exList.length} Progressive Challenges)</span>
           </div>
-          <h4 class="micro-q-title">${ex.question}</h4>
-          <div class="micro-options-grid">
-            ${ex.options.map((opt, optIdx) => `
-              <button class="micro-option-btn" id="micro-opt-${optIdx}" onclick="checkMicroExercise(${optIdx}, ${ex.ans})">
-                <span style="width:20px; font-weight:800; font-family:var(--font-mono);">${['A','B','C','D'][optIdx]}.</span>
-                <span>${opt}</span>
-              </button>
-            `).join('')}
-          </div>
-          <div class="micro-explanation-box" id="micro-exp-box">
-            <strong>Rationale:</strong> ${ex.exp}
-          </div>
+          ${exList.map((ex, exIdx) => `
+            <div class="lesson-micro-exercise" id="lesson-ex-card-${exIdx}">
+              <div class="micro-exercise-header">
+                <span class="micro-tag">${exIdx === 0 ? 'Checkpoint 1 • Concept Check' : 'Checkpoint 2 • Bridge Challenge'}</span>
+                <span style="font-size:0.85rem; font-weight:700; color:var(--text-muted);">${exIdx === 0 ? 'Foundational Logic' : 'Edge Cases & Progression'}</span>
+              </div>
+              <h4 class="micro-q-title">${ex.question}</h4>
+              <div class="micro-options-grid">
+                ${ex.options.map((opt, optIdx) => `
+                  <button class="micro-option-btn" id="micro-opt-${exIdx}-${optIdx}" onclick="checkMultiMicroExercise(${exIdx}, ${optIdx}, ${ex.ans})">
+                    <span style="width:20px; font-weight:800; font-family:var(--font-mono);">${['A','B','C','D'][optIdx]}.</span>
+                    <span>${opt}</span>
+                  </button>
+                `).join('')}
+              </div>
+              <div class="micro-explanation-box" id="micro-exp-box-${exIdx}">
+                <strong>Rationale:</strong> ${ex.exp}
+              </div>
+            </div>
+          `).join('')}
         </div>
       `;
     }
@@ -516,7 +565,8 @@ window.openLesson = function(lessonId) {
         <pre class="terminal-pre"><code>${targetLesson.code}</code></pre>
       </div>
 
-      ${microHtml}
+      ${bridgeHtml}
+${microHtml}
 
       <div class="lesson-footer-nav">
         <div>
@@ -535,6 +585,38 @@ window.openLesson = function(lessonId) {
   // Greet student upon opening lesson
   if (window.monsterCompanion) {
     window.monsterCompanion.say(`Lesson: "${targetLesson.title}". Let's master this concept! 🚀`, 'pop');
+  }
+};
+
+
+window.checkMultiMicroExercise = function(exIdx, selectedIdx, correctIdx) {
+  const card = document.getElementById(`lesson-ex-card-${exIdx}`);
+  if (!card) return;
+  const options = card.querySelectorAll('.micro-option-btn');
+  options.forEach((btn, idx) => {
+    btn.disabled = true;
+    if (idx === correctIdx) {
+      btn.classList.add('selected-correct');
+    } else if (idx === selectedIdx) {
+      btn.classList.add('selected-incorrect');
+    }
+  });
+
+  const isCorrect = selectedIdx === correctIdx;
+  const expBox = document.getElementById(`micro-exp-box-${exIdx}`);
+  if (expBox) {
+    expBox.classList.add('show');
+    if (isCorrect) {
+      expBox.innerHTML = `<div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.6rem; color:#065f46; font-weight:800; font-size:0.95rem;"><span>🎉</span> Spot on! Byte is proud of your reasoning!</div>` + expBox.innerHTML;
+    }
+  }
+
+  if (window.monsterCompanion) {
+    if (isCorrect) {
+      window.monsterCompanion.react('correct');
+    } else {
+      window.monsterCompanion.react('wrong');
+    }
   }
 };
 
@@ -974,73 +1056,194 @@ window.resetAllProgress = function() {
 
 
 // =============================================================================
-// INTERACTIVE EXERCISE & EXAM SOLVERS
+// INTERACTIVE EXERCISE & EXAM SOLVERS (HIGH-DIFFICULTY USTHB EXAM LABS)
 // =============================================================================
+
+// Challenge 1: Dual-Pivot Equilibrium & Prefix-Suffix Balance
+window.loadEqPreset = function(arrStr) {
+  document.getElementById('ex-eq-input').value = arrStr;
+  window.solveEquilibrium();
+};
+
 window.solveEquilibrium = function() {
   const raw = document.getElementById('ex-eq-input').value;
   const arr = raw.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
   const res = document.getElementById('ex-eq-res');
-  if (!arr.length) return;
+  if (!arr.length) {
+    res.innerHTML = '<span style="color:#c84b31;">Please enter a valid comma-separated array.</span>';
+    return;
+  }
+  
   const total = arr.reduce((a, b) => a + b, 0);
   let left = 0;
-  let eq = -1;
+  const equilibria = [];
+  const traceRows = [];
+
   for (let i = 0; i < arr.length; i++) {
     const right = total - left - arr[i];
-    if (left === right && eq === -1) eq = i + 1;
+    const isMatch = left === right;
+    if (isMatch) {
+      equilibria.push({ index1: i + 1, val: arr[i], leftSum: left, rightSum: right });
+    }
+    traceRows.push(`<tr><td>${i + 1}</td><td><strong>${arr[i]}</strong></td><td>${left}</td><td>${right}</td><td>${isMatch ? '<span style="color:#059669; font-weight:800;">✓ MATCH</span>' : '—'}</td></tr>`);
     left += arr[i];
   }
-  res.innerHTML = eq !== -1 
-    ? `<strong style="color:#2e7d32;">&#10004; Equilibrium Index: T[${eq}] (Value = ${arr[eq - 1]})</strong>` 
-    : `<strong style="color:#c84b31;">&#10008; No Equilibrium Index exists (-1)</strong>`;
+
+  let html = '';
+  if (equilibria.length > 0) {
+    html += `<div style="color:#059669; font-weight:850; font-size:1.05rem; margin-bottom:0.75rem;">
+      🎉 Detected ${equilibria.length} Equilibrium Pivot${equilibria.length > 1 ? 's' : ''}:
+      ${equilibria.map(e => `[Index <code>T[${e.index1}] = ${e.val}</code> with Sum = ${e.leftSum}]`).join(', ')}
+    </div>`;
+  } else {
+    html += `<div style="color:#c84b31; font-weight:850; font-size:1.05rem; margin-bottom:0.75rem;">
+      ❌ No Equilibrium Index exists (-1). Total array sum = ${total}, but no pivot balanced the prefix and suffix sums.
+    </div>`;
+  }
+
+  html += `<details style="margin-top:0.6rem; cursor:pointer;"><summary style="font-weight:750; font-size:0.85rem; color:var(--text-muted);">View Step-by-Step O(N) Trace Table (Total Sum = ${total})</summary>
+    <table class="trace-table" style="margin-top:0.6rem;">
+      <thead><tr><th>Index i</th><th>T[i]</th><th>Prefix Left Sum</th><th>Suffix Right Sum</th><th>Equilibrium?</th></tr></thead>
+      <tbody>${traceRows.join('')}</tbody>
+    </table>
+  </details>`;
+
+  res.innerHTML = html;
 
   if (window.monsterCompanion) {
-    if (eq !== -1) {
+    if (equilibria.length > 0) {
       window.monsterCompanion.react('correct');
     } else {
-      window.monsterCompanion.say('Calculated! No equilibrium point in this array prefix/suffix balance! ⚖️', 'pop');
+      window.monsterCompanion.say('Evaluated! No equilibrium pivot found. The prefix and suffix sums never balanced! ⚖️', 'pop');
     }
   }
+};
+
+
+// Challenge 2: Multi-Leader Extraction & Strict Suffix Monotonic Dominance
+window.loadLeadPreset = function(arrStr) {
+  document.getElementById('ex-lead-input').value = arrStr;
+  window.solveLeaders();
 };
 
 window.solveLeaders = function() {
   const raw = document.getElementById('ex-lead-input').value;
   const arr = raw.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
   const res = document.getElementById('ex-lead-res');
-  if (!arr.length) return;
+  if (!arr.length) {
+    res.innerHTML = '<span style="color:#c84b31;">Please enter a valid array.</span>';
+    return;
+  }
+
+  const n = arr.length;
   const leaders = [];
-  let maxR = arr[arr.length - 1];
-  leaders.push(maxR);
-  for (let i = arr.length - 2; i >= 0; i--) {
-    if (arr[i] > maxR) {
-      leaders.push(arr[i]);
-      maxR = arr[i];
+  const suffixMax = new Array(n);
+  let currentMax = -Infinity;
+
+  // Backward scan
+  for (let i = n - 1; i >= 0; i--) {
+    suffixMax[i] = currentMax;
+    if (arr[i] > currentMax) {
+      leaders.push({ index1: i + 1, val: arr[i] });
+      currentMax = arr[i];
     }
   }
   leaders.reverse();
-  res.innerHTML = `<strong style="color:#2e7d32;">Leaders: [ ${leaders.join(', ')} ]</strong>`;
+
+  let html = `<div style="color:#059669; font-weight:850; font-size:1.05rem; margin-bottom:0.75rem;">
+    👑 Found ${leaders.length} Dominant Leader${leaders.length > 1 ? 's' : ''}: 
+    [ ${leaders.map(l => `<code>T[${l.index1}] = ${l.val}</code>`).join(', ')} ]
+  </div>
+  <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.6rem;">
+    Strict Dominance Rule: An element is a leader if and only if <code>T[i] &gt; max(T[i+1..N])</code>. The rightmost element <code>T[${n}] = ${arr[n-1]}</code> is unconditionally a leader.
+  </p>`;
+
+  const traceRows = [];
+  for (let i = 0; i < n; i++) {
+    const isLead = leaders.some(l => l.index1 === i + 1);
+    const sMax = suffixMax[i] === -Infinity ? '∅ (End)' : suffixMax[i];
+    traceRows.push(`<tr><td>${i+1}</td><td><strong>${arr[i]}</strong></td><td>${sMax}</td><td>${isLead ? '<span style="color:#059669; font-weight:800;">👑 LEADER</span>' : 'No (Dominated)'}</td></tr>`);
+  }
+
+  html += `<details style="margin-top:0.4rem; cursor:pointer;"><summary style="font-weight:750; font-size:0.85rem; color:var(--text-muted);">View O(N) Suffix Dominance Trace</summary>
+    <table class="trace-table" style="margin-top:0.6rem;">
+      <thead><tr><th>Index i</th><th>T[i]</th><th>Max to the Right</th><th>Status</th></tr></thead>
+      <tbody>${traceRows.join('')}</tbody>
+    </table>
+  </details>`;
+
+  res.innerHTML = html;
 
   if (window.monsterCompanion) {
     window.monsterCompanion.react('correct');
   }
 };
 
+
+// Challenge 3: Cyclic Array Rotation by Arbitrary k (Three-Reversal Algorithm)
+window.loadRotPreset = function(arrStr, k, dir) {
+  document.getElementById('ex-rot-input').value = arrStr;
+  document.getElementById('ex-rot-k').value = k;
+  if (dir) document.getElementById('ex-rot-dir').value = dir;
+  window.solveRotation();
+};
+
 window.solveRotation = function() {
   const raw = document.getElementById('ex-rot-input').value;
-  const kVal = parseInt(document.getElementById('ex-rot-k').value || 3);
+  const kVal = parseInt(document.getElementById('ex-rot-k').value || 0);
+  const dir = document.getElementById('ex-rot-dir') ? document.getElementById('ex-rot-dir').value : 'left';
   const res = document.getElementById('ex-rot-res');
   let arr = raw.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
-  if (!arr.length) return;
+  if (!arr.length) {
+    res.innerHTML = '<span style="color:#c84b31;">Please enter a valid array.</span>';
+    return;
+  }
+
   const n = arr.length;
-  const k = ((kVal % n) + n) % n;
-  function rev(a, s, e) { while (s < e) { const t = a[s]; a[s] = a[e]; a[e] = t; s++; e--; } }
-  rev(arr, 0, k - 1);
-  rev(arr, k, n - 1);
-  rev(arr, 0, n - 1);
-  res.innerHTML = `Rotated Left by ${k}: [ <strong style="color:#2e7d32;">${arr.join(', ')}</strong> ]`;
+  let effectiveK = dir === 'left' ? kVal : -kVal;
+  effectiveK = ((effectiveK % n) + n) % n;
+
+  function rev(a, s, e) {
+    while (s < e) {
+      const t = a[s]; a[s] = a[e]; a[e] = t;
+      s++; e--;
+    }
+  }
+
+  const orig = [...arr];
+  const step1 = [...arr];
+  rev(step1, 0, effectiveK - 1);
+  const step2 = [...step1];
+  rev(step2, effectiveK, n - 1);
+  const step3 = [...step2];
+  rev(step3, 0, n - 1);
+
+  let html = `<div style="color:#059669; font-weight:850; font-size:1.05rem; margin-bottom:0.75rem;">
+    🔄 Result after ${dir.toUpperCase()} Rotation by ${kVal} (Effective Shift = ${effectiveK} mod ${n}):<br>
+    [ <strong style="color:var(--tile-crimson);">${step3.join(', ')}</strong> ]
+  </div>
+  <div style="font-size:0.85rem; line-height:1.6; background:var(--bg-card); padding:1rem; border-radius:6px; border:1px solid var(--border-subtle);">
+    <strong>Three-Reversal Theorem Execution Steps (O(N) time, O(1) space):</strong><br>
+    • <strong>Original:</strong> <code>[ ${orig.join(', ')} ]</code><br>
+    • <strong>Step 1:</strong> Reverse prefix <code>T[1..${effectiveK}]</code> &rarr; <code>[ ${step1.join(', ')} ]</code><br>
+    • <strong>Step 2:</strong> Reverse suffix <code>T[${effectiveK + 1}..${n}]</code> &rarr; <code>[ ${step2.join(', ')} ]</code><br>
+    • <strong>Step 3:</strong> Reverse entire array <code>T[1..${n}]</code> &rarr; <code>[ <strong style="color:#059669;">${step3.join(', ')}</strong> ]</code>
+  </div>`;
+
+  res.innerHTML = html;
 
   if (window.monsterCompanion) {
     window.monsterCompanion.react('correct');
   }
+};
+
+
+// Challenge 4: Complete University Quadratic Equation Analyzer
+window.loadQuadPreset = function(a, b, c) {
+  document.getElementById('ex-quad-a').value = a;
+  document.getElementById('ex-quad-b').value = b;
+  document.getElementById('ex-quad-c').value = c;
+  window.solveQuadratic();
 };
 
 window.solveQuadratic = function() {
@@ -1048,46 +1251,152 @@ window.solveQuadratic = function() {
   const b = parseFloat(document.getElementById('ex-quad-b').value);
   const c = parseFloat(document.getElementById('ex-quad-c').value);
   const res = document.getElementById('ex-quad-res');
-  if (isNaN(a) || isNaN(b) || isNaN(c)) return;
-  if (a === 0) {
-    if (b === 0) res.innerHTML = c === 0 ? "Infinite roots (0=0)" : "No roots (contradiction)";
-    else res.innerHTML = `Linear root: x = ${(-c / b).toFixed(4)}`;
-  } else {
-    const d = b * b - 4 * a * c;
-    if (d > 0) res.innerHTML = `&Delta; = ${d} &gt; 0: x1 = ${((-b - Math.sqrt(d))/(2*a)).toFixed(4)}, x2 = ${((-b + Math.sqrt(d))/(2*a)).toFixed(4)}`;
-    else if (d === 0) res.innerHTML = `&Delta; = 0: Double root x0 = ${(-b / (2 * a)).toFixed(4)}`;
-    else res.innerHTML = `&Delta; = ${d} &lt; 0: No real roots in &reals;.`;
+  if (isNaN(a) || isNaN(b) || isNaN(c)) {
+    res.innerHTML = '<span style="color:#c84b31;">Please enter numerical values for a, b, and c.</span>';
+    return;
   }
 
+  let html = '';
+  if (a === 0) {
+    if (b === 0) {
+      if (c === 0) {
+        html = `<div style="color:#059669; font-weight:850; font-size:1.05rem;">
+          ♾️ Indeterminate Equation (0 · x = 0)<br>
+          <span style="font-size:0.9rem; font-weight:600; color:var(--text-muted);">Every real number is a solution: <code>S = ℝ</code></span>
+        </div>`;
+      } else {
+        html = `<div style="color:#c84b31; font-weight:850; font-size:1.05rem;">
+          ❌ Contradiction / Impossible Equation (${c} = 0)<br>
+          <span style="font-size:0.9rem; font-weight:600; color:var(--text-muted);">No values satisfy this statement: <code>S = ∅</code></span>
+        </div>`;
+      }
+    } else {
+      const root = -c / b;
+      html = `<div style="color:#059669; font-weight:850; font-size:1.05rem;">
+        📏 Degenerate Linear Equation (Degree 1): <code>${b}x + ${c} = 0</code><br>
+        <span style="font-size:0.95rem; font-weight:700;">Unique Root: <code>x = ${root.toFixed(4)}</code> (exact: <code>${-c}/${b}</code>)</span>
+      </div>`;
+    }
+  } else {
+    const delta = b * b - 4 * a * c;
+    if (delta > 0) {
+      const sq = Math.sqrt(delta);
+      const x1 = (-b - sq) / (2 * a);
+      const x2 = (-b + sq) / (2 * a);
+      html = `<div style="color:#059669; font-weight:850; font-size:1.05rem;">
+        ✓ Δ = ${delta} &gt; 0: Two Distinct Real Roots in ℝ<br>
+        <span style="font-size:0.95rem; font-weight:700;">x₁ = ${x1.toFixed(4)}</span> &bull; 
+        <span style="font-size:0.95rem; font-weight:700;">x₂ = ${x2.toFixed(4)}</span>
+      </div>
+      <div style="font-size:0.85rem; color:var(--text-muted); margin-top:0.4rem;">
+        Formula: <code>x₁,₂ = (-(${b}) ± √${delta}) / (2 · ${a})</code>
+      </div>`;
+    } else if (delta === 0) {
+      const x0 = -b / (2 * a);
+      html = `<div style="color:#059669; font-weight:850; font-size:1.05rem;">
+        ✓ Δ = 0: Single Real Double Root (Racine Double)<br>
+        <span style="font-size:0.95rem; font-weight:700;">x₀ = ${x0.toFixed(4)}</span>
+      </div>
+      <div style="font-size:0.85rem; color:var(--text-muted); margin-top:0.4rem;">
+        Formula: <code>x₀ = -b / (2a) = -(${b}) / (2 · ${a})</code>
+      </div>`;
+    } else {
+      const realPart = (-b / (2 * a)).toFixed(4);
+      const imagPart = (Math.sqrt(Math.abs(delta)) / (2 * Math.abs(a))).toFixed(4);
+      html = `<div style="color:#8a70b5; font-weight:850; font-size:1.05rem;">
+        ⚛️ Δ = ${delta} &lt; 0: No Real Roots in ℝ, Two Conjugate Complex Roots in ℂ<br>
+        <span style="font-size:0.95rem; font-weight:700;">z₁ = ${realPart} - ${imagPart}i</span> &bull; 
+        <span style="font-size:0.95rem; font-weight:700;">z₂ = ${realPart} + ${imagPart}i</span>
+      </div>
+      <div style="font-size:0.85rem; color:var(--text-muted); margin-top:0.4rem;">
+        Formula: <code>z₁,₂ = (-b ± i√|Δ|) / (2a)</code>
+      </div>`;
+    }
+  }
+
+  res.innerHTML = html;
+
   if (window.monsterCompanion) {
-    window.monsterCompanion.say('Quadratic solver evaluated with all edge cases handled! 📐', 'happy');
+    window.monsterCompanion.say('Quadratic case tree completely mapped and calculated! 📐', 'happy');
   }
 };
 
+
+// Challenge 5: Arbitrary Matrix Saddle Point Inspector with Minimax Bound
+window.loadSaddlePreset = function(r1, r2, r3) {
+  document.getElementById('ex-mat-1').value = r1;
+  document.getElementById('ex-mat-2').value = r2;
+  document.getElementById('ex-mat-3').value = r3;
+  window.solveSaddle();
+};
+
 window.solveSaddle = function() {
-  const r1 = document.getElementById('ex-mat-1').value.split(',').map(x => parseInt(x.trim()));
-  const r2 = document.getElementById('ex-mat-2').value.split(',').map(x => parseInt(x.trim()));
-  const r3 = document.getElementById('ex-mat-3').value.split(',').map(x => parseInt(x.trim()));
+  const r1 = document.getElementById('ex-mat-1').value.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
+  const r2 = document.getElementById('ex-mat-2').value.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
+  const r3 = document.getElementById('ex-mat-3').value.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
   const res = document.getElementById('ex-mat-res');
-  const mat = [r1, r2, r3];
-  let found = [];
-  for (let i = 0; i < 3; i++) {
-    let minCol = 0;
-    for (let j = 1; j < 3; j++) { if (mat[i][j] < mat[i][minCol]) minCol = j; }
-    const cand = mat[i][minCol];
-    let isMax = true;
-    for (let k = 0; k < 3; k++) { if (mat[k][minCol] > cand) { isMax = false; break; } }
-    if (isMax) found.push(`M[${i+1}, ${minCol+1}] = ${cand}`);
+  
+  if (!r1.length || !r2.length || !r3.length || r1.length !== r2.length || r2.length !== r3.length) {
+    res.innerHTML = '<span style="color:#c84b31;">All 3 rows must have the same number of comma-separated integers.</span>';
+    return;
   }
-  res.innerHTML = found.length 
-    ? `<strong style="color:#2e7d32;">&#10004; Saddle Point(s): ${found.join(', ')}</strong>` 
-    : `<strong style="color:#c84b31;">No saddle point found.</strong>`;
+
+  const mat = [r1, r2, r3];
+  const R = 3;
+  const C = r1.length;
+
+  const rowMins = [];
+  for (let i = 0; i < R; i++) {
+    rowMins.push(Math.min(...mat[i]));
+  }
+
+  const colMaxs = [];
+  for (let j = 0; j < C; j++) {
+    let mx = -Infinity;
+    for (let i = 0; i < R; i++) {
+      if (mat[i][j] > mx) mx = mat[i][j];
+    }
+    colMaxs.push(mx);
+  }
+
+  const saddles = [];
+  for (let i = 0; i < R; i++) {
+    for (let j = 0; j < C; j++) {
+      if (mat[i][j] === rowMins[i] && mat[i][j] === colMaxs[j]) {
+        saddles.push({ r: i + 1, c: j + 1, val: mat[i][j] });
+      }
+    }
+  }
+
+  let html = '';
+  if (saddles.length > 0) {
+    html += `<div style="color:#059669; font-weight:850; font-size:1.05rem; margin-bottom:0.75rem;">
+      🎯 Detected ${saddles.length} Saddle Point${saddles.length > 1 ? 's' : ''} (Point-Selle):<br>
+      ${saddles.map(s => `<code>M[${s.r}, ${s.c}] = ${s.val}</code> (Min in Row ${s.r}, Max in Col ${s.c})`).join('<br>')}
+    </div>`;
+  } else {
+    html += `<div style="color:#c84b31; font-weight:850; font-size:1.05rem; margin-bottom:0.75rem;">
+      ❌ No Saddle Point exists in this matrix configuration.<br>
+      <span style="font-size:0.85rem; font-weight:600; color:var(--text-muted);">
+        Max of Row Minimums = ${Math.max(...rowMins)} &bull; Min of Column Maximums = ${Math.min(...colMaxs)}.
+      </span>
+    </div>`;
+  }
+
+  html += `<details style="margin-top:0.4rem; cursor:pointer;" open><summary style="font-weight:750; font-size:0.85rem; color:var(--text-muted);">Matrix Grid & Extrema Vectors</summary>
+    <div style="font-size:0.85rem; margin-top:0.6rem; font-family:var(--font-mono); line-height:1.6;">
+      Row Mins: [ ${rowMins.join(', ')} ]<br>
+      Col Maxs: [ ${colMaxs.join(', ')} ]
+    </div>
+  </details>`;
+
+  res.innerHTML = html;
 
   if (window.monsterCompanion) {
-    if (found.length) {
+    if (saddles.length > 0) {
       window.monsterCompanion.react('correct');
     } else {
-      window.monsterCompanion.say('Matrix scanned! No saddle point (row-min & col-max) found in this configuration! 🔍', 'pop');
+      window.monsterCompanion.say('Matrix scanned! No saddle point found across row minima and column maxima! 🔍', 'pop');
     }
   }
 };

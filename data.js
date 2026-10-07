@@ -24,7 +24,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 1,
             "exp": "Finiteness guarantees execution terminates and never loops infinitely."
-          }
+          },
+          "bridge": "Now that you know what an algorithm is (a deterministic sequence with inputs and outputs), how do we label and store values in memory during execution? In Lesson 1.2, you will learn Variable Identifiers and Naming Rules.",
+          "exercises": [
+            {
+              "question": "Which property states that an algorithm must always terminate after a finite number of steps?",
+              "options": [
+                "Definiteness",
+                "Finiteness",
+                "Effectiveness",
+                "Input"
+              ],
+              "ans": 1,
+              "exp": "Finiteness guarantees execution terminates and never loops infinitely."
+            },
+            {
+              "question": "Bridge Check: Why does an algorithm need variables to satisfy Knuth's Input and Output properties?",
+              "options": [
+                "Variables are required to name loops",
+                "Variables hold the input values in memory and store computed results before outputting them",
+                "Variables prevent the program from stopping",
+                "Variables are only used to print colors"
+              ],
+              "ans": 1,
+              "exp": "Without variables (storage cells in RAM), an algorithm has nowhere to hold incoming inputs or intermediate results."
+            }
+          ]
         },
         {
           "id": "l1-2",
@@ -42,7 +67,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 2,
             "exp": "total_score_2 starts with a letter and uses only letters, digits, and underscores."
-          }
+          },
+          "bridge": "We can name our storage cells using valid identifiers, but what kinds of data can actually fit inside those cells? In Lesson 1.3, you will discover Elementary Data Types.",
+          "exercises": [
+            {
+              "question": "Which of these is a syntactically valid identifier in algorithms?",
+              "options": [
+                "1stPlace",
+                "first-name",
+                "total_score_2",
+                "While"
+              ],
+              "ans": 2,
+              "exp": "total_score_2 starts with a letter and uses only letters, digits, and underscores."
+            },
+            {
+              "question": "Bridge Check: If you declare a variable called studentGrade, why must you also specify its data type before using it?",
+              "options": [
+                "Because the CPU needs to know how many bytes to allocate and what operations are valid",
+                "To make the code longer",
+                "Because variable names cannot have vowels",
+                "Only for printing purposes"
+              ],
+              "ans": 0,
+              "exp": "Data types tell the system how much memory to allocate (e.g. 4 bytes for integer) and which operations (arithmetic, boolean) are valid."
+            }
+          ]
         },
         {
           "id": "l1-3",
@@ -60,7 +110,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 2,
             "exp": "A boolean holds binary truth values: True or False."
-          }
+          },
+          "bridge": "Now that we understand integers, floats, booleans, and characters, how do we perform calculations on them? In Lesson 1.4, you will learn the vital distinction between real division, integer quotient (DIV), and remainder (MOD).",
+          "exercises": [
+            {
+              "question": "Which data type should store whether a user is logged in or out?",
+              "options": [
+                "integer",
+                "char",
+                "boolean",
+                "float"
+              ],
+              "ans": 2,
+              "exp": "A boolean holds binary truth values: True or False."
+            },
+            {
+              "question": "Bridge Check: If N is an integer and you compute N / 2 versus N DIV 2, what is the critical difference in their types?",
+              "options": [
+                "Both always produce an integer",
+                "N / 2 produces a float (real), while N DIV 2 produces an integer",
+                "DIV is only for negative numbers",
+                "Both cause a compile-time error"
+              ],
+              "ans": 1,
+              "exp": "Real division (/) produces a real approximation (3.5), whereas DIV strictly discards the fraction to return an integer quotient (3)."
+            }
+          ]
         },
         {
           "id": "l1-4",
@@ -78,7 +153,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 0,
             "exp": "17 = 5 * 3 + 2. The integer quotient is 3, and the remainder is 2."
-          }
+          },
+          "bridge": "With arithmetic operators like DIV and MOD in hand, how do we track memory step-by-step and safely swap two numbers? In Lesson 1.5, you will master the Trace Table.",
+          "exercises": [
+            {
+              "question": "What is the result of 17 DIV 5 and 17 MOD 5?",
+              "options": [
+                "3 and 2",
+                "3.4 and 2",
+                "2 and 3",
+                "3 and 0.4"
+              ],
+              "ans": 0,
+              "exp": "17 = 5 * 3 + 2. The integer quotient is 3, and the remainder is 2."
+            },
+            {
+              "question": "Bridge Check: How can you use DIV and MOD to isolate the hundreds digit of a 3-digit number N = 482?",
+              "options": [
+                "N MOD 10",
+                "N DIV 100",
+                "N MOD 100",
+                "(N DIV 10) MOD 10"
+              ],
+              "ans": 1,
+              "exp": "482 DIV 100 gives 4, which is exactly the hundreds digit."
+            }
+          ]
         },
         {
           "id": "l1-5",
@@ -96,7 +196,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 1,
             "exp": "x is overwritten with y, so the original value of x is lost."
-          }
+          },
+          "bridge": "Congratulations on completing Chapter 1! So far, our programs execute sequentially from top to bottom. But what if we need to make decisions and execute instructions ONLY when certain conditions are true? In Chapter 2 (Lesson 2.1), you will unlock Conditional Branching (If-Then-Else).",
+          "exercises": [
+            {
+              "question": "What happens if we execute x <- y before saving x in temp?",
+              "options": [
+                "Both variables swap normally",
+                "The original value of x is permanently lost",
+                "y is deleted",
+                "Compilation error"
+              ],
+              "ans": 1,
+              "exp": "x is overwritten with y, so the original value of x is lost."
+            },
+            {
+              "question": "Bridge Check: In a trace table, if an instruction x <- x + 5 executes, what is the new value of x if its previous value was 12?",
+              "options": [
+                "5",
+                "12",
+                "17",
+                "7"
+              ],
+              "ans": 2,
+              "exp": "The expression x + 5 evaluates to 12 + 5 = 17, which overwrites x in memory."
+            }
+          ]
         }
       ]
     },
@@ -124,7 +249,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 1,
             "exp": "The Else branch executes if and only if the boolean test evaluates to False."
-          }
+          },
+          "bridge": "Single and double alternatives let us pick between two paths. But what happens when the problem has multiple sub-cases with secondary conditions? In Lesson 2.2, you will learn Nested Conditionals and solve the complete Quadratic Equation tree.",
+          "exercises": [
+            {
+              "question": "When is the Else branch executed in an If-Then-Else statement?",
+              "options": [
+                "Always",
+                "Only when the condition is False",
+                "Only when the condition is True",
+                "When an error happens"
+              ],
+              "ans": 1,
+              "exp": "The Else branch executes if and only if the boolean test evaluates to False."
+            },
+            {
+              "question": "Bridge Check: What boolean operator connects two conditions when BOTH must be satisfied simultaneously?",
+              "options": [
+                "OR",
+                "AND",
+                "NOT",
+                "XOR"
+              ],
+              "ans": 1,
+              "exp": "AND requires both operands to be True for the compound condition to evaluate to True."
+            }
+          ]
         },
         {
           "id": "l2-2",
@@ -142,7 +292,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 1,
             "exp": "With a = 0, the x^2 term vanishes, leaving a linear equation bx + c = 0."
-          }
+          },
+          "bridge": "Nested If-Else structures handle complex continuous ranges, but when matching a single discrete integer or char against multiple values, they become verbose. In Lesson 2.3, you will learn the streamlined Switch/Case structure.",
+          "exercises": [
+            {
+              "question": "In ax^2 + bx + c = 0, what happens if a = 0 and b != 0?",
+              "options": [
+                "Equation is quadratic with double root",
+                "Degenerates into a linear equation x = -c/b",
+                "No solution exists",
+                "Infinite solutions"
+              ],
+              "ans": 1,
+              "exp": "With a = 0, the x^2 term vanishes, leaving a linear equation bx + c = 0."
+            },
+            {
+              "question": "Bridge Check: In the quadratic equation ax² + bx + c = 0, why is checking a = 0 first mandatory before computing Δ = b² - 4ac?",
+              "options": [
+                "Because the formula for roots divides by 2a, which causes a division-by-zero crash if a = 0",
+                "Because delta cannot be calculated for integers",
+                "To make the code run faster",
+                "It is not mandatory"
+              ],
+              "ans": 0,
+              "exp": "The quadratic formula divides by 2a. If a = 0, division by zero occurs unless the linear case is handled first."
+            }
+          ]
         },
         {
           "id": "l2-3",
@@ -160,7 +335,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 1,
             "exp": "Switch/Case evaluates a single discrete selector against known constant cases."
-          }
+          },
+          "bridge": "With decision branching mastered, we can choose different paths. But what if we need to repeat an action 100 or 1,000 times? Writing 1,000 If statements is impossible. In Chapter 3 (Lesson 3.1), you will unlock the For Loop.",
+          "exercises": [
+            {
+              "question": "When should Switch/Case be preferred over If-Else?",
+              "options": [
+                "Comparing complex real inequalities",
+                "Testing a single discrete variable against discrete constants",
+                "Executing an infinite loop",
+                "Allocating memory"
+              ],
+              "ans": 1,
+              "exp": "Switch/Case evaluates a single discrete selector against known constant cases."
+            },
+            {
+              "question": "Bridge Check: Can Switch/Case easily test if a real variable x falls in the continuous range 10.5 <= x <= 19.8?",
+              "options": [
+                "Yes, Switch/Case is ideal for real ranges",
+                "No, Switch/Case requires discrete integer or character constants; continuous ranges require If-Else",
+                "Yes, using commas",
+                "Only on Sundays"
+              ],
+              "ans": 1,
+              "exp": "Switch/Case requires discrete ordinal constants (integers/chars). Continuous intervals must use If-Else."
+            }
+          ]
         }
       ]
     },
@@ -188,7 +388,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 1,
             "exp": "The counter takes values 1, 2, ..., 10 inclusive, exactly 10 iterations."
-          }
+          },
+          "bridge": "The For loop is perfect when the iteration count is known in advance. But what if the number of repetitions depends on user input or a condition discovered during execution? In Lesson 3.2, you will master the While Loop.",
+          "exercises": [
+            {
+              "question": "How many times does 'For i <- 1 To 10 Do' execute?",
+              "options": [
+                "9 times",
+                "10 times",
+                "11 times",
+                "0 times"
+              ],
+              "ans": 1,
+              "exp": "The counter takes values 1, 2, ..., 10 inclusive, exactly 10 iterations."
+            },
+            {
+              "question": "Bridge Check: In For i <- 1 To N Do, if the user inputs N = 0, how many times does the loop body execute?",
+              "options": [
+                "0 times",
+                "1 time",
+                "Infinite times",
+                "Causes a syntax error"
+              ],
+              "ans": 0,
+              "exp": "Since the initial value (1) already exceeds the upper bound (0), the loop body executes 0 times."
+            }
+          ]
         },
         {
           "id": "l3-2",
@@ -206,7 +431,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 0,
             "exp": "Because While is pre-tested, a False initial condition skips the loop entirely."
-          }
+          },
+          "bridge": "The While loop checks its condition at the entry. But what if an action must execute at least once before checking the condition (like prompting for valid input)? In Lesson 3.3, you will learn the Repeat-Until Loop.",
+          "exercises": [
+            {
+              "question": "If the While loop condition is False upon entry, how many times does the body execute?",
+              "options": [
+                "0 times",
+                "1 time",
+                "Infinite times",
+                "Compiler error"
+              ],
+              "ans": 0,
+              "exp": "Because While is pre-tested, a False initial condition skips the loop entirely."
+            },
+            {
+              "question": "Bridge Check: If you forget to increment the loop variable inside a While (i <= 10) Do body, what happens?",
+              "options": [
+                "The loop terminates immediately",
+                "An infinite loop occurs because i <= 10 remains True forever",
+                "The compiler automatically increments i",
+                "The computer shuts down"
+              ],
+              "ans": 1,
+              "exp": "Without updating the loop variable, the condition remains True infinitely."
+            }
+          ]
         },
         {
           "id": "l3-3",
@@ -224,7 +474,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 1,
             "exp": "Because condition checking happens at the end, the body runs at least once."
-          }
+          },
+          "bridge": "Now that you know For, While, and Repeat-Until, how do we use them to accumulate totals and stop at special sentinel values? In Lesson 3.4, you will master Accumulators and Sentinel Termination.",
+          "exercises": [
+            {
+              "question": "What is the minimum number of times a Repeat..Until body executes?",
+              "options": [
+                "0 times",
+                "At least 1 time",
+                "At least 2 times",
+                "Depends on condition"
+              ],
+              "ans": 1,
+              "exp": "Because condition checking happens at the end, the body runs at least once."
+            },
+            {
+              "question": "Bridge Check: What is the key semantic difference between While (condition) and Repeat..Until (condition)?",
+              "options": [
+                "Repeat executes at least once and stops when condition is True; While checks first and stops when condition is False",
+                "They are completely identical",
+                "While is only for multiplication",
+                "Repeat cannot use integer variables"
+              ],
+              "ans": 0,
+              "exp": "Repeat..Until evaluates at exit and terminates when True. While evaluates at entry and terminates when False."
+            }
+          ]
         },
         {
           "id": "l3-4",
@@ -242,7 +517,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 0,
             "exp": "Zero added to any number equals that number (x + 0 = x), preventing garbage values from corrupting the sum."
-          }
+          },
+          "bridge": "Loops allow processing sequences of data, but where do we store 100 values simultaneously in memory instead of overwriting a single variable? In Chapter 4 (Lesson 4.1), you will unlock 1D Arrays.",
+          "exercises": [
+            {
+              "question": "Why initialize sum <- 0 before an accumulation loop?",
+              "options": [
+                "0 is the additive identity element",
+                "Arrays start at 0",
+                "To make the loop run faster",
+                "Required by compiler"
+              ],
+              "ans": 0,
+              "exp": "Zero added to any number equals that number (x + 0 = x), preventing garbage values from corrupting the sum."
+            },
+            {
+              "question": "Bridge Check: When calculating a product P = x1 * x2 * ... * xN using a loop, what must P be initialized to before the loop starts?",
+              "options": [
+                "0",
+                "1",
+                "-1",
+                "N"
+              ],
+              "ans": 1,
+              "exp": "The multiplicative neutral element is 1. If initialized to 0, 0 * anything remains 0 forever."
+            }
+          ]
         }
       ]
     },
@@ -270,7 +570,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 1,
             "exp": "Static arrays have fixed bounds; accessing outside [1..10] triggers an index out of bounds error."
-          }
+          },
+          "bridge": "Now that we can store N elements in a 1D array T[1..N], how do we search through them to find the minimum, maximum, or a specific key? In Lesson 4.2, you will learn Extremum & Linear Search.",
+          "exercises": [
+            {
+              "question": "What happens if an algorithm accesses T[11] on an Array[1..10]?",
+              "options": [
+                "Array resizes automatically",
+                "Index Out of Bounds error",
+                "Returns 0",
+                "Reads T[1]"
+              ],
+              "ans": 1,
+              "exp": "Static arrays have fixed bounds; accessing outside [1..10] triggers an index out of bounds error."
+            },
+            {
+              "question": "Bridge Check: In USTHB algorithms, if an array has size N = 5, what are the valid index bounds?",
+              "options": [
+                "0 to 4",
+                "1 to 5",
+                "1 to 4",
+                "0 to 5"
+              ],
+              "ans": 1,
+              "exp": "Standard university Algerian algorithms are 1-indexed: indices run from 1 to N inclusive."
+            }
+          ]
         },
         {
           "id": "l4-2",
@@ -288,7 +613,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 1,
             "exp": "If array elements are all negative, initializing to 0 gives a false answer since 0 is greater than all elements."
-          }
+          },
+          "bridge": "Finding elements by scanning is fundamental, but how do we rearrange an array in-place without using extra memory? In Lesson 4.3, you will learn In-Place Array Reversal and the Two-Pointer technique.",
+          "exercises": [
+            {
+              "question": "Why initialize max <- T[1] instead of max <- 0?",
+              "options": [
+                "Setting max <- 0 is a syntax error",
+                "If all numbers are negative, max <- 0 would return an incorrect result",
+                "max <- T[1] halves loop count",
+                "Both are identical"
+              ],
+              "ans": 1,
+              "exp": "If array elements are all negative, initializing to 0 gives a false answer since 0 is greater than all elements."
+            },
+            {
+              "question": "Bridge Check: When finding the maximum of an array T[1..N], what should the variable maxVal initially be set to?",
+              "options": [
+                "0 (fails if all numbers are negative)",
+                "T[1] (the first element of the array)",
+                "1000",
+                "N"
+              ],
+              "ans": 1,
+              "exp": "Initializing to T[1] correctly handles arrays where all numbers are negative."
+            }
+          ]
         },
         {
           "id": "l4-3",
@@ -306,7 +656,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 0,
             "exp": "Looping all the way to N swaps every pair twice, restoring the original arrangement."
-          }
+          },
+          "bridge": "Array manipulation techniques apply directly to strings, because a string is an ordered array of characters! In Lesson 4.4, you will learn Character Strings & ASCII Arithmetic.",
+          "exercises": [
+            {
+              "question": "Why must the reversal loop run only up to N DIV 2?",
+              "options": [
+                "Running up to N would double-swap elements back to original order",
+                "To save memory",
+                "The compiler enforces it",
+                "Because N is odd"
+              ],
+              "ans": 0,
+              "exp": "Looping all the way to N swaps every pair twice, restoring the original arrangement."
+            },
+            {
+              "question": "Bridge Check: When reversing an array of size N in-place, how many swaps are performed?",
+              "options": [
+                "N swaps",
+                "N DIV 2 swaps",
+                "N * 2 swaps",
+                "N - 1 swaps"
+              ],
+              "ans": 1,
+              "exp": "Two pointers move from both ends toward the center, swapping exactly N DIV 2 pairs."
+            }
+          ]
         },
         {
           "id": "l4-4",
@@ -324,7 +699,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 1,
             "exp": "Adding 32 to an uppercase ASCII code shifts it into the lowercase range."
-          }
+          },
+          "bridge": "1D arrays represent linear data. But what if we need a grid, table, or game board with rows and columns? In Chapter 5 (Lesson 5.1), you will unlock 2D Matrices.",
+          "exercises": [
+            {
+              "question": "Given ord('A') = 65 and ord('a') = 97, how do we convert uppercase c to lowercase?",
+              "options": [
+                "char(ord(c) - 32)",
+                "char(ord(c) + 32)",
+                "char(ord(c) * 2)",
+                "char(ord(c) + 26)"
+              ],
+              "ans": 1,
+              "exp": "Adding 32 to an uppercase ASCII code shifts it into the lowercase range."
+            },
+            {
+              "question": "Bridge Check: If character c holds 'D', what is the expression to convert it into its 0-based alphabetic rank (A=0, B=1, ...)?",
+              "options": [
+                "c - 'A'",
+                "c + 'A'",
+                "c * 2",
+                "c / 10"
+              ],
+              "ans": 0,
+              "exp": "Subtracting ASCII code of 'A' yields the 0-based position: 'D' - 'A' = 68 - 65 = 3."
+            }
+          ]
         }
       ]
     },
@@ -352,7 +752,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 1,
             "exp": "4 rows * 5 columns = 20 total cells."
-          }
+          },
+          "bridge": "Now that you can traverse a matrix using nested loops (rows and columns), how do you navigate its diagonals? In Lesson 5.2, you will learn Diagonal Properties (Main vs Secondary Diagonals).",
+          "exercises": [
+            {
+              "question": "How many total cells are in a matrix M: Array[1..4, 1..5] of integer?",
+              "options": [
+                "9",
+                "20",
+                "18",
+                "40"
+              ],
+              "ans": 1,
+              "exp": "4 rows * 5 columns = 20 total cells."
+            },
+            {
+              "question": "Bridge Check: In a matrix M[1..R, 1..C], which loop variable typically iterates through rows and which through columns?",
+              "options": [
+                "i iterates through rows (1..R), j iterates through columns (1..C)",
+                "Only one loop is needed for a matrix",
+                "Columns must always be traversed before rows",
+                "Matrices cannot be traversed"
+              ],
+              "ans": 0,
+              "exp": "Row-major traversal uses outer loop i for rows and inner loop j for columns."
+            }
+          ]
         },
         {
           "id": "l5-2",
@@ -370,7 +795,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 1,
             "exp": "For secondary diagonal cells, the row and column index always sum to N + 1."
-          }
+          },
+          "bridge": "Diagonals test index relationships. Now let us solve the most prestigious matrix problem on USTHB exams: In Lesson 5.3, you will master the Saddle Point (Point-Selle).",
+          "exercises": [
+            {
+              "question": "Which mathematical condition identifies cells on the secondary diagonal of an NxN matrix?",
+              "options": [
+                "i = j",
+                "i + j = N + 1",
+                "i - j = 1",
+                "i * j = N"
+              ],
+              "ans": 1,
+              "exp": "For secondary diagonal cells, the row and column index always sum to N + 1."
+            },
+            {
+              "question": "Bridge Check: In a square matrix of size N, what mathematical relation identifies elements on the secondary (anti) diagonal?",
+              "options": [
+                "i = j",
+                "i + j = N + 1",
+                "i * j = N",
+                "i - j = 1"
+              ],
+              "ans": 1,
+              "exp": "On the anti-diagonal, the sum of row index i and column index j always equals N + 1."
+            }
+          ]
         },
         {
           "id": "l5-3",
@@ -388,7 +838,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 1,
             "exp": "By definition, a saddle point is min in its row and max in its column."
-          }
+          },
+          "bridge": "You have mastered both 1D arrays and 2D matrices! But when arrays contain thousands of unordered items, searching is slow. In Chapter 6 (Lesson 6.1), you will learn how to sort them using Selection Sort.",
+          "exercises": [
+            {
+              "question": "What is a matrix saddle point?",
+              "options": [
+                "The maximum element of the whole matrix",
+                "Minimum in its row AND maximum in its column",
+                "Element where i = j",
+                "The average of all cells"
+              ],
+              "ans": 1,
+              "exp": "By definition, a saddle point is min in its row and max in its column."
+            },
+            {
+              "question": "Bridge Check: Can a matrix have more than one saddle point with different values?",
+              "options": [
+                "Yes, any values",
+                "No, by the Saddle Uniqueness Theorem, all saddle points in a matrix must have the exact same value",
+                "Only if the matrix is 1x1",
+                "Only if the matrix has complex numbers"
+              ],
+              "ans": 1,
+              "exp": "All saddle points in any matrix must share the identical numerical value."
+            }
+          ]
         }
       ]
     },
@@ -402,7 +877,7 @@ const CURRICULUM_DATA = {
       "lessons": [
         {
           "id": "l6-1",
-          "title": "Selection Sort (Tri par S\u00e9lection)",
+          "title": "Selection Sort (Tri par Sélection)",
           "duration": "6 min read",
           "content": "<p><strong>Principle:</strong> Divides the array into sorted and unsorted segments. Repeatedly finds the minimum element in the unsorted portion and swaps it with the first unsorted position.</p><p>Total comparisons: <code>N(N-1)/2 = O(N²)</code> in all cases. Performs at most <code>N - 1</code> swaps (<code>O(N)</code>).</p>",
           "code": "Algorithm Selection_Sort;\nVar i, j, min, p, temp: integer;\nBegin\n  For i <- 1 To N - 1 Do\n    min <- T[i]; p <- i;\n    For j <- i + 1 To N Do\n      If (T[j] < min) Then min <- T[j]; p <- j; End If;\n    End For;\n    temp <- T[i]; T[i] <- min; T[p] <- temp;\n  End For;\nEnd;",
@@ -416,11 +891,36 @@ const CURRICULUM_DATA = {
             ],
             "ans": 1,
             "exp": "Comparing T[1] against T[2], T[3], T[4], and T[5] requires exactly 4 comparisons (N - 1)."
-          }
+          },
+          "bridge": "Selection Sort guarantees at most N-1 swaps, but always takes O(N²) comparisons. Can we design a sorting algorithm that detects when an array is already sorted and finishes early? In Lesson 6.2, you will learn Bubble Sort with early exit flag.",
+          "exercises": [
+            {
+              "question": "How many comparisons does Selection Sort perform on an array of size N = 5 in pass 1?",
+              "options": [
+                "1",
+                "4",
+                "5",
+                "10"
+              ],
+              "ans": 1,
+              "exp": "Comparing T[1] against T[2], T[3], T[4], and T[5] requires exactly 4 comparisons (N - 1)."
+            },
+            {
+              "question": "Bridge Check: In Selection Sort on an array of N elements, how many comparisons are performed in the worst case and best case?",
+              "options": [
+                "O(N) best case, O(N²) worst case",
+                "Always N*(N-1)/2 comparisons in all cases",
+                "O(log N) comparisons",
+                "Zero comparisons"
+              ],
+              "ans": 1,
+              "exp": "Selection Sort unconditionally scans the remaining unsorted subarray for the minimum, always performing N*(N-1)/2 comparisons."
+            }
+          ]
         },
         {
           "id": "l6-2",
-          "title": "Bubble Sort (Tri \u00e0 Bulles)",
+          "title": "Bubble Sort (Tri à Bulles)",
           "duration": "6 min read",
           "content": "<p><strong>Principle:</strong> Repeatedly compares adjacent pairs <code>(T[j], T[j+1])</code> and swaps them if out of order. Each pass bubbles the largest unsorted element to its final rightmost position.</p><p><strong>Optimization:</strong> Using a boolean flag <code>swapped</code> allows early termination in <code>O(N)</code> time if the array is already sorted.</p>",
           "code": "Algorithm Bubble_Sort;\nVar i, j, temp: integer; swapped: boolean;\nBegin\n  For i <- 1 To N - 1 Do\n    swapped <- False;\n    For j <- 1 To N - i Do\n      If (T[j] > T[j+1]) Then\n        temp <- T[j]; T[j] <- T[j+1]; T[j+1] <- temp;\n        swapped <- True;\n      End If;\n    End For;\n    If (NOT swapped) Then Break; End If;\n  End For;\nEnd;",
@@ -434,7 +934,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 1,
             "exp": "If no swaps occur in a full pass, the array is verified as sorted, terminating early."
-          }
+          },
+          "bridge": "Now that we can sort any array into ascending order, how fast can we search it? In Lesson 6.3, you will discover Binary Search: searching a sorted array in O(log₂ N) logarithmic time!",
+          "exercises": [
+            {
+              "question": "How does Bubble Sort achieve O(N) best-case time complexity?",
+              "options": [
+                "Sorting only half the array",
+                "Using a boolean flag that detects zero swaps in a pass",
+                "Reversing the array first",
+                "Using float numbers"
+              ],
+              "ans": 1,
+              "exp": "If no swaps occur in a full pass, the array is verified as sorted, terminating early."
+            },
+            {
+              "question": "Bridge Check: How does Bubble Sort achieve O(N) best-case time complexity on an already sorted array?",
+              "options": [
+                "By skipping every second element",
+                "Using a boolean swapped flag that remains False after pass 1, triggering an immediate early exit",
+                "By reversing the array first",
+                "Using binary search"
+              ],
+              "ans": 1,
+              "exp": "If pass 1 performs 0 swaps, the swapped flag stays False and the algorithm terminates in O(N)."
+            }
+          ]
         },
         {
           "id": "l6-3",
@@ -452,7 +977,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 1,
             "exp": "Binary search relies on ordering to discard half the search space each step."
-          }
+          },
+          "bridge": "Sorting and searching are powerful tools. But as programs grow to hundreds of lines, how do we organize code into reusable, modular building blocks? In Chapter 7 (Lesson 7.1), you will learn Modular Programming: Functions vs Procedures.",
+          "exercises": [
+            {
+              "question": "What is the mandatory prerequisite before applying Binary Search?",
+              "options": [
+                "All numbers must be positive",
+                "The array must already be sorted",
+                "Array size must be a power of 2",
+                "No duplicates"
+              ],
+              "ans": 1,
+              "exp": "Binary search relies on ordering to discard half the search space each step."
+            },
+            {
+              "question": "Bridge Check: Why CANNOT Binary Search be used on an unsorted array?",
+              "options": [
+                "Because it will delete the elements",
+                "Because the decision to discard the left or right half relies entirely on the elements being in sorted order",
+                "Because it requires real numbers",
+                "Because computers cannot divide by 2"
+              ],
+              "ans": 1,
+              "exp": "Binary Search assumes that if target > T[mid], target can only exist to the right. On an unsorted array, this assumption fails."
+            }
+          ]
         }
       ]
     },
@@ -480,7 +1030,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 0,
             "exp": "A function returns a typed value to its caller; a procedure executes statements without returning a value."
-          }
+          },
+          "bridge": "We know Functions return a single result while Procedures perform actions. But how do parameters get communicated? In Lesson 7.2, you will learn Parameter Passing: Pass-by-Value vs Pass-by-Reference (Variable).",
+          "exercises": [
+            {
+              "question": "What distinguishes a Function from a Procedure?",
+              "options": [
+                "A function returns a value; a procedure does not return a value",
+                "A procedure only handles arrays",
+                "Functions cannot have local variables",
+                "Procedures run faster"
+              ],
+              "ans": 0,
+              "exp": "A function returns a typed value to its caller; a procedure executes statements without returning a value."
+            },
+            {
+              "question": "Bridge Check: If a subprogram needs to return THREE modified values back to the caller, should you use a Function or a Procedure?",
+              "options": [
+                "A Function with 3 return types",
+                "A Procedure with 3 parameters passed by reference (VAR)",
+                "It is impossible in algorithms",
+                "A while loop"
+              ],
+              "ans": 1,
+              "exp": "Functions return exactly one value. Procedures can return multiple outputs via VAR (reference) parameters."
+            }
+          ]
         },
         {
           "id": "l7-2",
@@ -498,7 +1073,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 1,
             "exp": "Pass-by-value works on an isolated copy, protecting caller data from alteration."
-          }
+          },
+          "bridge": "You now have all foundational tools: types, decisions, loops, arrays, matrices, sorting, and modular routines! In Chapter 8 (Lesson 8.1), you will enter the Exam Problem Vault: Sheet 1 Number Theory (Armstrong numbers, primes, GCD).",
+          "exercises": [
+            {
+              "question": "In pass-by-value, what happens to the caller's variable if the function modifies the parameter?",
+              "options": [
+                "The caller's variable is modified",
+                "The caller's variable remains unchanged",
+                "The variable is deleted",
+                "Runtime error"
+              ],
+              "ans": 1,
+              "exp": "Pass-by-value works on an isolated copy, protecting caller data from alteration."
+            },
+            {
+              "question": "Bridge Check: In pass-by-value, if the subprogram changes parameter x <- 99, what happens to the argument variable in the caller?",
+              "options": [
+                "It changes to 99",
+                "It remains completely unchanged because the subprogram only received a local copy",
+                "It gets deleted from memory",
+                "A compilation error occurs"
+              ],
+              "ans": 1,
+              "exp": "Pass-by-value works on a local copy. Modifications do not affect the caller's original variable."
+            }
+          ]
         },
         {
           "id": "l7-3",
@@ -516,7 +1116,20 @@ const CURRICULUM_DATA = {
             ],
             "ans": 1,
             "exp": "Variable shadowing ensures the innermost local declaration takes precedence during execution."
-          }
+          },
+          "exercises": [
+            {
+              "question": "What happens when a local variable has the same name as a global variable?",
+              "options": [
+                "Compilation collision error",
+                "Variable shadowing occurs: local masks the global variable inside the function",
+                "Both merge into an array",
+                "Global overwrites local"
+              ],
+              "ans": 1,
+              "exp": "Variable shadowing ensures the innermost local declaration takes precedence during execution."
+            }
+          ]
         }
       ]
     },
@@ -544,7 +1157,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 1,
             "exp": "Each digit raised to the 3rd power (length 3) sums back to 153."
-          }
+          },
+          "bridge": "Mastering digit extraction (DIV/MOD) and divisibility leads directly to advanced array problem solving. In Lesson 8.2, you will tackle Sheet 2 Advanced Array Challenges (Leaders, Prefix Equilibrium, and Rotation).",
+          "exercises": [
+            {
+              "question": "Why is 153 an Armstrong number?",
+              "options": [
+                "It is divisible by 3",
+                "1^3 + 5^3 + 3^3 = 153",
+                "153 is prime",
+                "Sum of its digits is 9"
+              ],
+              "ans": 1,
+              "exp": "Each digit raised to the 3rd power (length 3) sums back to 153."
+            },
+            {
+              "question": "Bridge Check: Why is an Armstrong number check essentially a combination of Chapter 1 operators and Chapter 3 loops?",
+              "options": [
+                "Because it uses MOD 10 to extract digits, DIV 10 to shrink the number, and a While loop until N = 0",
+                "Because it uses matrices",
+                "Because it requires binary search",
+                "It does not use loops"
+              ],
+              "ans": 0,
+              "exp": "Armstrong number extraction repeatedly extracts the last digit with MOD 10 and strips it with DIV 10 inside a While loop."
+            }
+          ]
         },
         {
           "id": "l8-2",
@@ -562,7 +1200,32 @@ const CURRICULUM_DATA = {
             ],
             "ans": 1,
             "exp": "2 is the rightmost (leader); 5 > 2 (leader); 17 > 5 (leader). Output: 17, 5, 2."
-          }
+          },
+          "bridge": "You have completed the entire ALGØ 1 university track! Test your comprehensive skills with the 50-Question Master Certification Quiz and the 5 Real University Exam Labs!",
+          "exercises": [
+            {
+              "question": "In array [16, 17, 4, 3, 5, 2], which elements are leaders?",
+              "options": [
+                "16, 17, 4",
+                "17, 5, 2",
+                "17 only",
+                "2 only"
+              ],
+              "ans": 1,
+              "exp": "2 is the rightmost (leader); 5 > 2 (leader); 17 > 5 (leader). Output: 17, 5, 2."
+            },
+            {
+              "question": "Bridge Check: Why is calculating the Equilibrium Index in O(N) using TotalSum - LeftSum superior to the naive O(N²) approach?",
+              "options": [
+                "It avoids re-summing the entire right subarray on every iteration, reducing 1,000,000 steps to 1,000 steps",
+                "It uses less disk space",
+                "It changes the array elements",
+                "There is no difference"
+              ],
+              "ans": 0,
+              "exp": "Computing TotalSum once allows calculating RightSum in O(1) as TotalSum - LeftSum - T[i], reducing overall time from O(N²) to O(N)."
+            }
+          ]
         }
       ]
     }

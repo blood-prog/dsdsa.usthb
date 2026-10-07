@@ -64,15 +64,15 @@ Open `http://localhost:3000` in your web browser.
 
 ## 🌐 Live Platform & Deploy to Vercel
 
-- **Live URL**: [https://dsdsa.usthb.vercel.com](https://dsdsa.usthb.vercel.com)
-- **Repository**: [https://github.com/blood-prog/blood-prog](https://github.com/blood-prog/blood-prog) — ⭐ *Please star the repo if you find it helpful!*
+- **Live URL**: [https://dsdsausthb.vercel.app](https://dsdsausthb.vercel.app)
+- **Repository**: [https://github.com/blood-prog/dsdsa.usthb](https://github.com/blood-prog/dsdsa.usthb) — ⭐ *Please star the repo if you find it helpful!*
 
 This repository includes a production-ready `vercel.json` configuration for zero-config static deployment:
 
-1. Push your repository to GitHub (`https://github.com/blood-prog/blood-prog`).
+1. Push your repository to GitHub (`https://github.com/blood-prog/dsdsa.usthb.git`).
 2. Go to [Vercel](https://vercel.com) and click **"New Project"**.
-3. Import your GitHub repository.
-4. Set domain to `dsdsa.usthb.vercel.com` (or your preferred custom domain).
+3. Import your GitHub repository (`blood-prog/dsdsa.usthb`).
+4. Set domain to `dsdsausthb.vercel.app`.
 5. Click **"Deploy"**. Your site will be live immediately with global CDN caching.
 
 ---

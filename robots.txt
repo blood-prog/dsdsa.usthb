@@ -1,6 +1,6 @@
 # Robots.txt for ALGØ 1 — Algorithms & Data Structures I
 # Created by Ibrahim Benabida (https://github.com/blood-prog/blood-prog)
-# Production URL: https://dsdsa.usthb.vercel.com
+# Production URL: https://dsdsausthb.vercel.app
 
 User-agent: *
 Allow: /
@@ -37,4 +37,4 @@ User-agent: CCBot
 Allow: /
 
 # Sitemaps & LLM Reading Lists
-Sitemap: https://dsdsa.usthb.vercel.com/sitemap.xml
+Sitemap: https://dsdsausthb.vercel.app/sitemap.xml
