@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Primary SEO Meta Tags -->
+  <title>ALGØ 1 — Algorithms &amp; Data Structures I | Interactive Study Guide by Ibrahim Benabida</title>
+  <meta name="title" content="ALGØ 1 — Algorithms &amp; Data Structures I | Interactive Study Guide by Ibrahim Benabida">
+  <meta name="description" content="Master Algorithms &amp; Data Structures I with this interactive study guide by Ibrahim Benabida (USTHB). Includes 8 structured chapters, 26 step-by-step lessons, visualizers, 50-Q quiz, and exam labs.">
+  <meta name="keywords" content="Algorithms, Data Structures, Algo 1, Ibrahim Benabida, blood-prog, USTHB, Selection Sort, Bubble Sort, Binary Search, 2D Matrices, Matrix Saddle Point, Array Reversal, Prefix Sum, Trace Table, Computer Science Study Guide">
+  <meta name="author" content="Ibrahim Benabida">
+  <meta name="creator" content="Ibrahim Benabida">
+  <meta name="publisher" content="Ibrahim Benabida">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="canonical" href="https://dsdsa.usthb.vercel.com/">
+
+  <!-- Open Graph / Facebook / LinkedIn / Discord -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dsdsa.usthb.vercel.com/">
+  <meta property="og:site_name" content="ALGØ 1 Study Guide — Ibrahim Benabida">
+  <meta property="og:title" content="ALGØ 1 — Algorithms &amp; Data Structures I | Interactive Study Guide">
+  <meta property="og:description" content="Master university algorithms with 8 chapters, 26 lessons, interactive visualizers, and 50 quiz questions. Created by Ibrahim Benabida. Live at https://dsdsa.usthb.vercel.com — Star on GitHub!">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://dsdsa.usthb.vercel.com/">
+  <meta name="twitter:title" content="ALGØ 1 — Algorithms &amp; Data Structures I | Ibrahim Benabida">
+  <meta name="twitter:description" content="Interactive Algorithms &amp; Data Structures study guide by Ibrahim Benabida (USTHB). Live at https://dsdsa.usthb.vercel.com • Star the project on GitHub: https://github.com/blood-prog/blood-prog">
+
+  <!-- Theme & Mobile Optimizations -->
+  <meta name="theme-color" content="#181716">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="ALGØ 1">
+
+  <!-- JSON-LD Structured Data: Schema.org (Course, Person, WebSite, FAQPage) for Google Rich Snippets & LLM Grounding -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://dsdsa.usthb.vercel.com/#author",
+        "name": "Ibrahim Benabida",
+        "url": "https://github.com/blood-prog/blood-prog",
+        "sameAs": [
+          "https://github.com/blood-prog/blood-prog",
+          "https://github.com/blood-prog"
+        ],
+        "jobTitle": "Computer Science Student & Curriculum Author",
+        "affiliation": {
+          "@type": "EducationalOrganization",
+          "name": "USTHB"
+        },
+        "knowsAbout": [
+          "Algorithms and Data Structures",
+          "Computer Science",
+          "Algorithm Complexity Analysis",
+          "Sorting and Searching Algorithms",
+          "Matrix Algebra Algorithms"
+        ]
+      },
+      {
+        "@type": "Course",
+        "@id": "https://dsdsa.usthb.vercel.com/#course",
+        "name": "Algorithms & Data Structures I (ALGØ 1)",
+        "courseCode": "ALGO1",
+        "url": "https://dsdsa.usthb.vercel.com",
+        "description": "Comprehensive undergraduate study guide for Algorithms & Data Structures I covering variables, conditionals, loops, 1D/2D arrays, sorting, binary search, and exam-level problem solving.",
+        "provider": {
+          "@id": "https://dsdsa.usthb.vercel.com/#author"
+        },
+        "author": {
+          "@id": "https://dsdsa.usthb.vercel.com/#author"
+        },
+        "creator": {
+          "@id": "https://dsdsa.usthb.vercel.com/#author"
+        },
+        "educationalLevel": "Undergraduate First Year",
+        "inLanguage": ["en", "fr"],
+        "isAccessibleForFree": true,
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "Online Interactive Self-Paced",
+          "instructor": {
+            "@id": "https://dsdsa.usthb.vercel.com/#author"
+          }
+        },
+        "teaches": [
+          "Algorithm definition and Knuth's 5 properties",
+          "Trace tables and variable memory dry-runs",
+          "Conditionals, Boolean logic, and quadratic equation case tree",
+          "Iterative loops (For, While, Repeat-Until)",
+          "1D static arrays, in-place reversal, and string ASCII processing",
+          "2D matrices, main and secondary diagonals, and saddle points",
+          "Selection Sort, Bubble Sort with early-exit flag, and Binary Search O(log N)",
+          "Functions, procedures, pass-by-value vs pass-by-reference",
+          "Number theory (Armstrong numbers, Euclidean GCD), prefix sums, and array rotation"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://dsdsa.usthb.vercel.com/#website",
+        "url": "https://dsdsa.usthb.vercel.com",
+        "name": "ALGØ 1 Interactive Study Guide",
+        "author": {
+          "@id": "https://dsdsa.usthb.vercel.com/#author"
+        },
+        "description": "Interactive study guide and curriculum tracker for Algorithms & Data Structures I, created by Ibrahim Benabida."
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://dsdsa.usthb.vercel.com/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Who created the ALGØ 1 study guide?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The ALGØ 1 interactive study guide was developed by Ibrahim Benabida, a computer science student at USTHB, based on the teacher's official curriculum. The platform is accessible at https://dsdsa.usthb.vercel.com and open-source at https://github.com/blood-prog/blood-prog."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What topics are included in the Algorithms & Data Structures 1 curriculum?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The curriculum contains 8 chapters: 1) Algorithm Foundations & Variables, 2) Conditionals & Decision Branching, 3) Repetition & Iterative Loops, 4) 1D Static Arrays & Strings, 5) 2D Matrices & Diagonals, 6) Sorting (Selection, Bubble) & Binary Search, 7) Modular Programming & Call Stack, and 8) Exam Revision Vault & Number Theory."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the time complexity of Selection Sort and Bubble Sort?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Selection Sort performs N(N-1)/2 comparisons in O(N²) time across all cases, with at most N-1 swaps. Bubble Sort is also O(N²) in average and worst cases, but achieves O(N) best-case time complexity using an early-termination flag when the array is already sorted."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is Binary Search faster than Linear Search?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Binary Search requires a sorted array and halves the search space at every step, running in O(log₂ N) logarithmic time (at most 10 comparisons for N = 1000), compared to Linear Search which requires O(N) comparisons."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does in-place array rotation by k work using the Three-Reversal Theorem?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "To rotate an array left by k positions in O(N) time and O(1) space: 1) Reverse the first k elements A[1..k], 2) Reverse the remaining elements A[k+1..N], and 3) Reverse the entire array A[1..N]."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a saddle point (point-selle) in a matrix?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "An element M[i, j] in a matrix is a saddle point if it is simultaneously the minimum element in its row i and the maximum element in its column j."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;850&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=2.4">
+</head>
+<body>
+
+  <!-- Slide-out Drawer Navigation -->
+  <!-- Slide-out Drawer Navigation -->
+  <div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+  <aside class="drawer-content" id="drawer-content">
+    <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:1rem; border-bottom:1px solid var(--border-subtle);">
+      <span style="font-size:1.35rem; font-weight:850; letter-spacing:-0.03em;">algø. track</span>
+      <button style="background:none; border:none; font-size:1.6rem; cursor:pointer; color:var(--text-main);" onclick="closeDrawer()" aria-label="Close menu">&times;</button>
+    </div>
+    
+    <div class="drawer-links">
+      <button class="drawer-link-btn" onclick="navigateTo('home');"><span>⌂</span> Home</button>
+      <button class="drawer-link-btn" onclick="navigateTo('track');"><span>📚</span> Full Course Track</button>
+      <button class="drawer-link-btn" onclick="navigateTo('visualizer');"><span>⚡</span> Sorting &amp; Binary Visualizer</button>
+      <button class="drawer-link-btn" onclick="navigateTo('quiz');"><span>✍</span> 50-Question Master Quiz</button>
+      <button class="drawer-link-btn" onclick="navigateTo('exams');"><span>🏆</span> 5 Exam-Level Challenges</button>
+    </div>
+    
+    <div style="margin-top:2rem; padding-top:1.2rem; border-top:1px solid var(--border-subtle);">
+      <span style="font-size:0.75rem; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-muted); display:block; margin-bottom:0.75rem;">Jump to Chapter</span>
+      <div style="display:flex; flex-direction:column; gap:0.35rem;">
+        <button class="drawer-chapter-link" onclick="openChapterDirectly('ch1')">Ch 1: Foundations &amp; Variables</button>
+        <button class="drawer-chapter-link" onclick="openChapterDirectly('ch2')">Ch 2: Conditionals &amp; Branching</button>
+        <button class="drawer-chapter-link" onclick="openChapterDirectly('ch3')">Ch 3: Loops &amp; Iteration</button>
+        <button class="drawer-chapter-link" onclick="openChapterDirectly('ch4')">Ch 4: 1D Arrays &amp; Strings</button>
+        <button class="drawer-chapter-link" onclick="openChapterDirectly('ch5')">Ch 5: 2D Matrices &amp; Diagonals</button>
+        <button class="drawer-chapter-link" onclick="openChapterDirectly('ch6')">Ch 6: Sorting &amp; Binary Search</button>
+        <button class="drawer-chapter-link" onclick="openChapterDirectly('ch7')">Ch 7: Functions &amp; Call Stack</button>
+        <button class="drawer-chapter-link" onclick="openChapterDirectly('ch8')">Ch 8: Final Vault &amp; Exams</button>
+      </div>
+    </div>
+    
+    <div style="margin-top:auto; padding-top:1.5rem; border-top:1px solid var(--border-subtle); font-size:0.8rem; color:var(--text-muted); line-height:1.45;">
+      <a href="https://github.com/blood-prog/blood-prog" target="_blank" rel="noopener noreferrer" class="btn-github-star" style="width:100%; justify-content:center; margin-bottom:0.85rem;">
+        ⭐ Star on GitHub (blood-prog)
+      </a>
+      Made with ❤️ by <a href="https://github.com/blood-prog/blood-prog" target="_blank" rel="noopener noreferrer" class="author-gh-link">Ibrahim Benabida</a>, student in USTHB, based on the course given by the teacher.<br>
+      <span style="font-size:0.75rem; color:#6b6762; display:block; margin-top:0.35rem;">If this study guide helped you, please <a href="https://github.com/blood-prog/blood-prog" target="_blank" rel="noopener noreferrer" class="star-callout-link">give it a star on GitHub ⭐</a>!</span>
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       VIEW 1: HERO HOME (EXACT MATCH TO REFERENCE SCREENSHOT)
+       ========================================================================= -->
+  <section class="view-panel active" id="view-home">
+    <div class="hero-wrapper">
+      <div class="hero-box">
+        
+        <!-- Top bar inside the box -->
+        <div class="hero-topbar">
+          <div class="brand-noho" onclick="navigateTo('home')">algø</div>
+          <div style="display:flex; align-items:center; gap:0.75rem;">
+            <a href="https://github.com/blood-prog/blood-prog" target="_blank" rel="noopener noreferrer" class="btn-github-star" title="Star blood-prog on GitHub">
+              <span>⭐</span> Star on GitHub
+            </a>
+            <button class="btn-hamburger" onclick="openDrawer()" aria-label="Open menu">
+              <div class="hamburger-icon">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Center Split: Bold Headline Left & Exact Staggered Grid Right -->
+        <div class="hero-center-split">
+          
+          <!-- Left Column: Bold Headline & Start Button (No text under headline) -->
+          <div>
+            <h1 class="hero-headline">
+              We make algorithms<br>
+              that's flexible, and<br>
+              playful, to fit<br>
+              modern life
+            </h1>
+            <div>
+              <button class="btn-start-primary" onclick="navigateTo('track')">
+                Start Studying Algo 1 &rarr;
+              </button>
+            </div>
+          </div>
+
+          <!-- Right Column: Exact 4-Column Asymmetric Grid with Meaningful Algorithmic Icons -->
+          <div class="hero-art-grid">
+            
+            <!-- Pos 1: Row 1, Col 1 (Sand / Ch 1: Foundations & Memory Swap) -->
+            <div class="art-card card-pos-1" onclick="openChapterDirectly('ch1')" title="Chapter 1: Foundations, Variables & Memory Swap">
+              <svg class="art-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100" height="100" fill="#dfbe88"/>
+                <!-- Temp float box -->
+                <rect x="36" y="11" width="28" height="15" rx="3" fill="#ffffff" stroke="#181716" stroke-width="2" stroke-dasharray="2.5 2"/>
+                <text x="50" y="22" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="800" fill="#181716">temp</text>
+                <!-- Swooping swap arrows -->
+                <path d="M 30 46 C 30 30, 48 30, 48 26" fill="none" stroke="#181716" stroke-width="2" stroke-linecap="round"/>
+                <path d="M 30 47 C 30 30, 70 30, 70 47" fill="none" stroke="#c84b31" stroke-width="2.5" stroke-linecap="round"/>
+                <polygon points="67,42 73,42 70,48" fill="#c84b31"/>
+                <!-- Box A -->
+                <rect x="14" y="49" width="32" height="34" rx="4" fill="#ffffff" stroke="#181716" stroke-width="2.5"/>
+                <rect x="19" y="54" width="22" height="8" rx="2" fill="#e8d5b5"/>
+                <text x="30" y="75" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="13" font-weight="850" fill="#181716">A</text>
+                <!-- Box B -->
+                <rect x="54" y="49" width="32" height="34" rx="4" fill="#ffffff" stroke="#181716" stroke-width="2.5"/>
+                <rect x="59" y="54" width="22" height="8" rx="2" fill="#c84b31"/>
+                <text x="70" y="75" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="13" font-weight="850" fill="#181716">B</text>
+                <!-- Bottom return swap arrow -->
+                <path d="M 68 87 C 50 93, 50 93, 33 87" fill="none" stroke="#181716" stroke-width="2" stroke-linecap="round"/>
+                <polygon points="35,85 31,88 35,91" fill="#181716"/>
+              </svg>
+              <div class="art-tooltip">Ch 01: Variables &amp; Swap</div>
+            </div>
+
+            <!-- Pos 2: Row 1, Col 2 (Crimson Red / Ch 2: Conditionals & Branching) -->
+            <div class="art-card card-pos-2" onclick="openChapterDirectly('ch2')" title="Chapter 2: Conditionals & Decision Branching">
+              <svg class="art-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100" height="100" fill="#c84b31"/>
+                <!-- Root stem -->
+                <line x1="50" y1="8" x2="50" y2="18" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+                <!-- Decision Diamond -->
+                <rect x="41" y="16" width="18" height="18" rx="2.5" fill="#f6c83b" stroke="#181716" stroke-width="2" transform="rotate(45 50 25)"/>
+                <text x="50" y="29" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="900" fill="#181716">?</text>
+                <!-- Left Branch (True) -->
+                <path d="M 40 33 C 24 44, 24 58, 24 66" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+                <!-- Right Branch (False) -->
+                <path d="M 60 33 C 76 44, 76 58, 76 66" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-dasharray="3.5 2.5"/>
+                <!-- Left Target: True Badge -->
+                <circle cx="24" cy="74" r="9.5" fill="#ffffff" stroke="#181716" stroke-width="2"/>
+                <path d="M 19 74 L 23 78 L 29 70" fill="none" stroke="#2e7d32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="24" y="93" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="800" fill="#ffffff">TRUE</text>
+                <!-- Right Target: False Badge -->
+                <circle cx="76" cy="74" r="9.5" fill="#181716" stroke="#ffffff" stroke-width="2"/>
+                <path d="M 72 70 L 80 78 M 80 70 L 72 78" fill="none" stroke="#f6c83b" stroke-width="2.5" stroke-linecap="round"/>
+                <text x="76" y="93" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="800" fill="#ffffff">FALSE</text>
+              </svg>
+              <div class="art-tooltip">Ch 02: If-Else &amp; Branching</div>
+            </div>
+
+            <!-- Pos 3: Row 2, Col 2 (Light Sand / Ch 3: Loops & Iteration) -->
+            <div class="art-card card-pos-3" onclick="openChapterDirectly('ch3')" title="Chapter 3: Loops & Iteration">
+              <svg class="art-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100" height="100" fill="#e8d5b5"/>
+                <!-- Big energetic loop track -->
+                <path d="M 50 18 A 30 30 0 1 1 22 58" fill="none" stroke="#181716" stroke-width="3.5" stroke-linecap="round"/>
+                <!-- Arrow Head -->
+                <polygon points="19,53 28,58 20,65" fill="#181716"/>
+                <!-- Stepper dots on orbit -->
+                <circle cx="50" cy="18" r="4.5" fill="#c84b31" stroke="#181716" stroke-width="1.5"/>
+                <circle cx="80" cy="48" r="4.5" fill="#e6be36" stroke="#181716" stroke-width="1.5"/>
+                <circle cx="50" cy="78" r="4.5" fill="#788a4e" stroke="#181716" stroke-width="1.5"/>
+                <!-- Center pill badge -->
+                <rect x="33" y="40" width="34" height="18" rx="9" fill="#ffffff" stroke="#181716" stroke-width="2.2"/>
+                <text x="50" y="53" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="850" fill="#181716">i++</text>
+                <!-- Orbit label -->
+                <text x="50" y="92" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="700" fill="#6b6762">1 &rarr; N</text>
+              </svg>
+              <div class="art-tooltip">Ch 03: Loops &amp; Iteration</div>
+            </div>
+
+            <!-- Pos 4: Row 2, Col 3 (Lilac / Ch 4: 1D Arrays & Strings) -->
+            <div class="art-card card-pos-4" onclick="openChapterDirectly('ch4')" title="Chapter 4: 1D Arrays & Strings">
+              <svg class="art-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100" height="100" fill="#9d84c6"/>
+                <!-- Index row above -->
+                <text x="21" y="24" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7" font-weight="700" fill="#ffffff">[1]</text>
+                <text x="41" y="24" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7" font-weight="800" fill="#f6c83b">[2]</text>
+                <text x="61" y="24" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7" font-weight="700" fill="#ffffff">[3]</text>
+                <text x="81" y="24" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7" font-weight="700" fill="#ffffff">[4]</text>
+                <!-- Array Train Cells -->
+                <rect x="12" y="30" width="18" height="24" rx="3" fill="#ffffff" stroke="#181716" stroke-width="2"/>
+                <text x="21" y="47" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="850" fill="#181716">A</text>
+                <!-- Cell 2: 'L' (Highlighted active) -->
+                <rect x="32" y="30" width="18" height="24" rx="3" fill="#f6c83b" stroke="#181716" stroke-width="2.5"/>
+                <text x="41" y="47" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="900" fill="#181716">L</text>
+                <!-- Cell 3: 'G' -->
+                <rect x="52" y="30" width="18" height="24" rx="3" fill="#ffffff" stroke="#181716" stroke-width="2"/>
+                <text x="61" y="47" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="850" fill="#181716">G</text>
+                <!-- Cell 4: 'O' -->
+                <rect x="72" y="30" width="18" height="24" rx="3" fill="#ffffff" stroke="#181716" stroke-width="2"/>
+                <text x="81" y="47" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="850" fill="#181716">O</text>
+                <!-- Cursor pointing up at [2] -->
+                <path d="M 41 68 L 41 58 M 38 62 L 41 57 L 44 62" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <rect x="33" y="72" width="16" height="12" rx="3" fill="#181716"/>
+                <text x="41" y="81" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="800" fill="#ffffff">i</text>
+              </svg>
+              <div class="art-tooltip">Ch 04: Arrays &amp; Strings</div>
+            </div>
+
+            <!-- Pos 5: Row 2, Col 4 (Sunflower Yellow / Ch 5: 2D Matrices & Diagonals) -->
+            <div class="art-card card-pos-5" onclick="openChapterDirectly('ch5')" title="Chapter 5: 2D Matrices & Diagonals">
+              <svg class="art-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100" height="100" fill="#e6be36"/>
+                <!-- Row 1 -->
+                <rect x="22" y="20" width="16" height="16" rx="3" fill="#181716" stroke="#181716" stroke-width="1.8"/>
+                <circle cx="30" cy="28" r="2.5" fill="#f6c83b"/>
+                <rect x="42" y="20" width="16" height="16" rx="3" fill="#ffffff" stroke="#181716" stroke-width="1.8"/>
+                <rect x="62" y="20" width="16" height="16" rx="3" fill="#ffffff" stroke="#181716" stroke-width="1.8"/>
+
+                <!-- Row 2 -->
+                <rect x="22" y="40" width="16" height="16" rx="3" fill="#ffffff" stroke="#181716" stroke-width="1.8"/>
+                <rect x="42" y="40" width="16" height="16" rx="3" fill="#181716" stroke="#181716" stroke-width="1.8"/>
+                <circle cx="50" cy="48" r="2.5" fill="#f6c83b"/>
+                <rect x="62" y="40" width="16" height="16" rx="3" fill="#ffffff" stroke="#181716" stroke-width="1.8"/>
+
+                <!-- Row 3 -->
+                <rect x="22" y="60" width="16" height="16" rx="3" fill="#ffffff" stroke="#181716" stroke-width="1.8"/>
+                <rect x="42" y="60" width="16" height="16" rx="3" fill="#ffffff" stroke="#181716" stroke-width="1.8"/>
+                <rect x="62" y="60" width="16" height="16" rx="3" fill="#181716" stroke="#181716" stroke-width="1.8"/>
+                <circle cx="70" cy="68" r="2.5" fill="#f6c83b"/>
+
+                <!-- Diagonal line connector -->
+                <line x1="30" y1="28" x2="70" y2="68" stroke="#c84b31" stroke-width="2" stroke-dasharray="2.5 2"/>
+
+                <!-- Bottom label: i = j -->
+                <rect x="36" y="82" width="28" height="12" rx="3" fill="#ffffff" stroke="#181716" stroke-width="1.5"/>
+                <text x="50" y="91" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="800" fill="#181716">i = j</text>
+              </svg>
+              <div class="art-tooltip">Ch 05: 2D Matrices</div>
+            </div>
+
+            <!-- Pos 6: Row 3, Col 1 (Lilac / Ch 6: Sorting & Binary Search) -->
+            <div class="art-card card-pos-6" onclick="openChapterDirectly('ch6')" title="Chapter 6: Sorting & Binary Search">
+              <svg class="art-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100" height="100" fill="#9d84c6"/>
+                <!-- Baseline -->
+                <line x1="12" y1="74" x2="88" y2="74" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+                <!-- Sorted Bars -->
+                <rect x="16" y="56" width="10" height="18" rx="2.5" fill="#ffffff" stroke="#181716" stroke-width="1.8"/>
+                <rect x="30" y="46" width="10" height="28" rx="2.5" fill="#ffffff" stroke="#181716" stroke-width="1.8"/>
+                <!-- Bar 3 (Mid Target) -->
+                <rect x="44" y="32" width="12" height="42" rx="2.5" fill="#c84b31" stroke="#181716" stroke-width="2.2"/>
+                <rect x="60" y="24" width="10" height="50" rx="2.5" fill="#ffffff" stroke="#181716" stroke-width="1.8"/>
+                <rect x="74" y="14" width="10" height="60" rx="2.5" fill="#ffffff" stroke="#181716" stroke-width="1.8"/>
+                
+                <!-- Target Reticle over Bar 3 -->
+                <circle cx="50" cy="24" r="10" fill="none" stroke="#f6c83b" stroke-width="2.5"/>
+                <line x1="50" y1="11" x2="50" y2="15" stroke="#f6c83b" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="50" y1="33" x2="50" y2="37" stroke="#f6c83b" stroke-width="2.5" stroke-linecap="round"/>
+                
+                <!-- Dichotomic Labels -->
+                <text x="21" y="85" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="800" fill="#ffffff">L</text>
+                <text x="50" y="86" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="900" fill="#f6c83b">mid</text>
+                <text x="79" y="85" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="800" fill="#ffffff">R</text>
+              </svg>
+              <div class="art-tooltip">Ch 06: Sorting &amp; Search</div>
+            </div>
+
+            <!-- Pos 7: Row 3, Col 2 (Olive Green / Ch 7: Functions & Call Stack) -->
+            <div class="art-card card-pos-7" onclick="openChapterDirectly('ch7')" title="Chapter 7: Functions & Call Stack">
+              <svg class="art-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100" height="100" fill="#788a4e"/>
+                <!-- Call Stack Frame 1: main() -->
+                <rect x="25" y="20" width="50" height="16" rx="3.5" fill="#f6c83b" stroke="#181716" stroke-width="2"/>
+                <text x="50" y="32" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8.5" font-weight="800" fill="#181716">main()</text>
+                <!-- Notch -->
+                <line x1="50" y1="36" x2="50" y2="40" stroke="#181716" stroke-width="2.5"/>
+                <!-- Call Stack Frame 2: f(x) -->
+                <rect x="20" y="40" width="60" height="18" rx="3.5" fill="#ffffff" stroke="#181716" stroke-width="2.2"/>
+                <text x="50" y="53" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="850" fill="#181716">f(x) : res</text>
+                <!-- Notch -->
+                <line x1="50" y1="58" x2="50" y2="62" stroke="#181716" stroke-width="2.5"/>
+                <!-- Call Stack Frame 3: return -->
+                <rect x="28" y="62" width="44" height="16" rx="3.5" fill="#dfbe88" stroke="#181716" stroke-width="2"/>
+                <text x="50" y="74" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="800" fill="#181716">return</text>
+
+                <!-- Input Arrow -->
+                <path d="M 10 49 L 18 49 M 15 46 L 18 49 L 15 52" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+                <!-- Output Arrow -->
+                <path d="M 82 49 L 90 49 M 87 46 L 90 49 L 87 52" fill="none" stroke="#f6c83b" stroke-width="2" stroke-linecap="round"/>
+                <text x="50" y="90" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7" font-weight="700" fill="#ffffff">STACK FRAME</text>
+              </svg>
+              <div class="art-tooltip">Ch 07: Functions &amp; Stack</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Bottom Line (Author attribution matching the layout) -->
+        <div class="hero-bottom-note">
+          Made with ❤️ by <a href="https://github.com/blood-prog/blood-prog" target="_blank" rel="noopener noreferrer" class="author-gh-link">Ibrahim Benabida</a>, student in USTHB, based on the course given by the teacher &bull; <a href="https://github.com/blood-prog/blood-prog" target="_blank" rel="noopener noreferrer" class="star-callout-link">Star on GitHub ⭐</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       VIEW 2: DATACAMP-STYLE TRACK ROADMAP
+       ========================================================================= -->
+  <section class="view-panel" id="view-track">
+    <div class="track-page-container">
+      
+      <div class="track-top-bar">
+        <button class="btn-pill-back" onclick="navigateTo('home')">
+          &larr; Home
+        </button>
+        <div style="display:flex; align-items:center; gap:0.6rem;">
+          <a href="https://github.com/blood-prog/blood-prog" target="_blank" rel="noopener noreferrer" class="btn-github-star" title="Star blood-prog on GitHub">
+            <span>⭐</span> Star on GitHub
+          </a>
+          <button class="btn-pill-back" onclick="openDrawer()">
+            Course Menu ☰
+          </button>
+        </div>
+      </div>
+
+      <div class="track-header-hero">
+        <div class="moving-border-kicker" id="track-moving-border-kicker">
+          <svg class="moving-border-svg" width="100%" height="100%">
+            <rect rx="999" ry="999" width="100%" height="100%" fill="none" class="moving-border-path"></rect>
+          </svg>
+          <div class="moving-border-beam"></div>
+          <div class="moving-border-content">
+            <span>Computer Science Foundations &bull; Algorithmic Study Track</span>
+          </div>
+        </div>
+        <h1 class="track-main-title">Algorithms &amp; Data Structures I</h1>
+        <p class="track-main-desc">
+          Master the complete first-half university program (Weeks 01–05 &amp; Sheets 1–2). Work through 8 structured chapters, 26 step-by-step lessons, interactive checkpoints, and algorithm visualizers.
+        </p>
+
+        <!-- Modern 3-Card Metric Dashboard Grid with Motiq Border Beam -->
+        <div class="track-metrics-grid">
+          
+          <!-- Metric Card 1: Curriculum Progress -->
+          <div class="metric-card border-beam-panel metric-card-progress" data-beam-color="#059669" data-beam-accent="#10b981">
+            <div class="mk-beam-glow"></div>
+            <div class="mk-beam-ring"></div>
+            <div class="metric-card-header-row">
+              <span class="metric-label">Curriculum Progress</span>
+              <span class="metric-live-pct" id="track-metric-pct">0%</span>
+            </div>
+            <div class="metric-track-outer">
+              <div class="metric-track-fill" id="track-progress-fill"></div>
+            </div>
+            <div class="metric-footer-note" id="track-progress-text">
+              0 of 26 Lessons Mastered
+            </div>
+          </div>
+
+          <!-- Metric Card 2: Syllabus Architecture -->
+          <div class="metric-card border-beam-panel" data-beam-color="#c84b31" data-beam-accent="#f6c83b">
+            <div class="mk-beam-glow"></div>
+            <div class="mk-beam-ring"></div>
+            <div class="metric-card-header-row">
+              <span class="metric-label">Curriculum Scope</span>
+              <span class="metric-syllabus-badge">Semester 1</span>
+            </div>
+            <div class="metric-big-num">8 Chapters</div>
+            <div class="metric-chips-row">
+              <span class="metric-chip">26 Lessons</span>
+              <span class="metric-chip">50-Q Quiz</span>
+              <span class="metric-chip">5 Exam Labs</span>
+            </div>
+          </div>
+
+          <!-- Metric Card 3: 3D Companion Byte -->
+          <div class="metric-card border-beam-panel metric-card-companion" data-beam-color="#c84b31" data-beam-accent="#dfbe88" onclick="if(window.monsterCompanion) window.monsterCompanion.say('I\'m right here with you! Drag me anywhere on your screen! 🧶', 'happy')" title="Click to summon Byte!">
+            <div class="mk-beam-glow"></div>
+            <div class="mk-beam-ring"></div>
+            <div class="metric-card-header-row">
+              <span class="metric-label">Companion</span>
+              <span class="metric-companion-status">3D Byte</span>
+            </div>
+            <div class="metric-companion-body">
+              <div class="companion-felt-badge">🧶</div>
+              <div class="companion-text-box">
+                <strong>Byte (3D Felt Monster)</strong>
+                <p id="track-mascot-speech">Drag anywhere &bull; Instant reactions &bull; Click for tips</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="track-privacy-strip">
+          <span>🔒 Progress saved automatically in your browser &bull; No account or login required</span>
+          <button class="btn-text-reset" onclick="resetAllProgress()">Reset Progress</button>
+        </div>
+      </div>
+
+      <!-- Chapters Accordion List -->
+      <div id="chapters-list-container">
+        <!-- Injected dynamically by app.js -->
+      </div>
+
+      <div class="site-footer-note">
+        Algorithms &amp; Data Structures I (ALGØ 1) &bull; Student Interactive Study Guide<br>
+        Made with ❤️ by <a href="https://github.com/blood-prog/blood-prog" target="_blank" rel="noopener noreferrer" class="author-gh-link">Ibrahim Benabida</a>, student in USTHB, based on the course given by the teacher.<br>
+        <span style="font-size:0.75rem; color:#6b6762; display:inline-block; margin-top:0.35rem;">⭐ If this study guide helped you, please <a href="https://github.com/blood-prog/blood-prog" target="_blank" rel="noopener noreferrer" class="star-callout-link">give it a star on GitHub</a>!</span>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       VIEW 3: LESSON LEARNING ROOM (DATACAMP FOCUSED READER)
+       ========================================================================= -->
+  <section class="view-panel" id="view-lesson">
+    <div class="lesson-room-wrap">
+      
+      <!-- Left Sidebar -->
+      <aside class="lesson-sidebar-panel">
+        <button class="btn-pill-back" style="margin-bottom:1.5rem; width:100%;" onclick="navigateTo('track')">
+          &larr; Back to Track
+        </button>
+        <div id="lesson-sidebar-lessons">
+          <!-- Injected dynamically by app.js -->
+        </div>
+      </aside>
+
+      <!-- Main Lesson Article -->
+      <article class="lesson-main-article" id="lesson-main-content">
+        <!-- Injected dynamically by app.js -->
+      </article>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       VIEW 4: INTERACTIVE VISUALIZERS (SORTING & BINARY SEARCH)
+       ========================================================================= -->
+  <section class="view-panel" id="view-visualizer">
+    <div class="aux-page-wrap">
+      <div class="track-top-bar">
+        <button class="btn-pill-back" onclick="navigateTo('track')">&larr; Back to Track</button>
+        <button class="btn-pill-back" onclick="openDrawer()">Course Menu ☰</button>
+      </div>
+
+      <div class="aux-header">
+        <h2>Interactive Algorithm Visualizer</h2>
+        <p>Observe Selection Sort, Bubble Sort, and Binary Search with step-by-step animations and pointers.</p>
+      </div>
+
+      <div style="background:#fff; border:1px solid var(--border-subtle); border-radius:10px; padding:2rem; margin-bottom:2.5rem; box-shadow:0 4px 16px rgba(0,0,0,0.02);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.5rem;">
+          <div>
+            <h3 style="font-size:1.3rem; font-weight:800; letter-spacing:-0.02em;">Sorting Studio (Selection &amp; Bubble Sort)</h3>
+            <p style="font-size:0.88rem; color:var(--text-muted); margin-top:0.2rem;">Try different presets or type your own comma-separated integers.</p>
+          </div>
+          <div style="display:flex; gap:0.4rem; align-items:center; flex-wrap:wrap;">
+            <span style="font-size:0.75rem; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Speed:</span>
+            <button class="quiz-cat-pill" id="speed-slow" onclick="setSortSpeed(650, 'slow')">Slow</button>
+            <button class="quiz-cat-pill active" id="speed-norm" onclick="setSortSpeed(350, 'norm')">Normal</button>
+            <button class="quiz-cat-pill" id="speed-fast" onclick="setSortSpeed(120, 'fast')">Fast</button>
+          </div>
+        </div>
+        
+        <!-- Presets -->
+        <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; margin-bottom:1.2rem;">
+          <span style="font-size:0.75rem; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Presets:</span>
+          <button class="quiz-cat-pill" onclick="loadSortPreset([29, 10, 14, 37, 5, 42, 19])">Mixed (Default)</button>
+          <button class="quiz-cat-pill" onclick="loadSortPreset([45, 38, 29, 21, 14, 6])">Worst-Case (Reverse)</button>
+          <button class="quiz-cat-pill" onclick="loadSortPreset([6, 14, 21, 29, 38, 45])">Best-Case (Sorted)</button>
+          <button class="quiz-cat-pill" onclick="loadSortPreset([12, 3, 42, 18, 9, 31, 25])">Random 7</button>
+        </div>
+
+        <div style="display:flex; gap:0.8rem; align-items:center; flex-wrap:wrap; margin-bottom:1.5rem;">
+          <input type="text" class="runner-input" id="sort-custom-input" value="29, 10, 14, 37, 5, 42, 19" style="min-width:240px; flex:1;">
+          <button class="btn-pill-back" onclick="resetSortArray()">Reset</button>
+          <button class="btn-pill-back" style="background:var(--tile-crimson); color:#fff; border-color:var(--tile-crimson);" onclick="runSelectionSortViz()">Run Selection Sort</button>
+          <button class="btn-pill-back" style="background:var(--tile-olive); color:#fff; border-color:var(--tile-olive);" onclick="runBubbleSortViz()">Run Bubble Sort</button>
+        </div>
+
+        <!-- Legend -->
+        <div style="display:flex; gap:1.2rem; align-items:center; flex-wrap:wrap; margin-bottom:1rem; font-size:0.78rem; font-weight:750;">
+          <div style="display:flex; align-items:center; gap:0.4rem;">
+            <span style="width:12px; height:12px; border-radius:2px; background:var(--tile-sunflower); border:1px solid #181716;"></span>
+            <span>Comparing</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.4rem;">
+            <span style="width:12px; height:12px; border-radius:2px; background:var(--tile-lilac); border:1px solid #181716;"></span>
+            <span>Current Minimum</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.4rem;">
+            <span style="width:12px; height:12px; border-radius:2px; background:var(--tile-crimson); border:1px solid #181716;"></span>
+            <span>Swapping</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.4rem;">
+            <span style="width:12px; height:12px; border-radius:2px; background:#10b981; border:1px solid #065f46;"></span>
+            <span>Sorted</span>
+          </div>
+        </div>
+
+        <div id="sort-stage"></div>
+        <div id="sort-log-output" style="background:#1c1d1f; color:#a8ffb2; font-family:var(--font-mono); font-size:0.88rem; padding:1.1rem 1.4rem; border-radius:8px; line-height:1.5;">Ready to sort. Click Selection Sort or Bubble Sort to begin!</div>
+
+        <!-- Binary Search Section -->
+        <div style="margin-top:3.5rem; padding-top:2.2rem; border-top:1.5px solid var(--border-subtle);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1rem;">
+            <div>
+              <h3 style="font-size:1.3rem; font-weight:800; letter-spacing:-0.02em;">Binary Search (Dichotomic Search)</h3>
+              <p style="color:var(--text-muted); font-size:0.9rem; margin-top:0.2rem;">Halves the search range on every comparison: <code class="math-expr">O(log₂ N)</code> logarithmic complexity.</p>
+            </div>
+            <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+              <span style="font-size:0.75rem; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Try Target:</span>
+              <button class="quiz-cat-pill" onclick="setBsTarget(42)">42 (Mid)</button>
+              <button class="quiz-cat-pill" onclick="setBsTarget(3)">3 (First)</button>
+              <button class="quiz-cat-pill" onclick="setBsTarget(95)">95 (Last)</button>
+              <button class="quiz-cat-pill" onclick="setBsTarget(50)">50 (Absent)</button>
+            </div>
+          </div>
+          
+          <div style="display:flex; gap:0.8rem; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap;">
+            <label style="font-weight:750; font-size:0.92rem;">Target Value:</label>
+            <input type="number" class="runner-input" id="bs-target-input" value="42" style="max-width:100px;">
+            <button class="btn-pill-back" style="background:var(--tile-crimson); color:#fff; border-color:var(--tile-crimson);" onclick="runBinarySearchViz()">Run Binary Search</button>
+          </div>
+
+          <div id="bs-cells-container"></div>
+          <div id="bs-log-output" style="background:#201c19; color:#ffdfba; font-family:var(--font-mono); font-size:0.88rem; padding:1.1rem 1.4rem; border-radius:8px; line-height:1.5;">Ready to search. Click Run Binary Search above!</div>
+        </div>
+      </div>
+
+      <div class="site-footer-note">
+        Algorithms &amp; Data Structures I (ALGØ 1) &bull; Student Interactive Study Guide<br>
+        Made with ❤️ by <a href="https://github.com/blood-prog/blood-prog" target="_blank" rel="noopener noreferrer" class="author-gh-link">Ibrahim Benabida</a>, student in USTHB, based on the course given by the teacher.<br>
+        <span style="font-size:0.75rem; color:#6b6762; display:inline-block; margin-top:0.35rem;">⭐ If this study guide helped you, please <a href="https://github.com/blood-prog/blood-prog" target="_blank" rel="noopener noreferrer" class="star-callout-link">give it a star on GitHub</a>!</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       VIEW 5: 50-QUESTION MASTER QUIZ
+       ========================================================================= -->
+  <section class="view-panel" id="view-quiz">
+    <div class="aux-page-wrap">
+      <div class="track-top-bar">
+        <button class="btn-pill-back" onclick="navigateTo('track')">&larr; Back to Track</button>
+        <button class="btn-pill-back" onclick="openDrawer()">Course Menu ☰</button>
+      </div>
+
+      <div class="aux-header">
+        <h2>50-Question Master Certification Quiz</h2>
+        <p>Complete assessment covering Weeks 01 to 05, Sheet 1 &amp; 2, and exam preparation with instant feedback.</p>
+      </div>
+
+      <div style="background:#fff; border:1px solid var(--border-subtle); border-radius:8px; padding:2rem;">
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; margin-bottom:1.5rem; border-bottom:1px solid var(--border-subtle); padding-bottom:1rem;">
+          <div style="display:flex; align-items:center; gap:1rem;">
+            <div style="width:50px; height:50px; border-radius:50%; background:var(--tile-crimson); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:850; font-family:var(--font-mono); font-size:1.2rem;" id="quiz-score-val">0</div>
+            <div>
+              <h4 style="font-weight:800;">Your Score</h4>
+              <p id="quiz-answered-val" style="font-size:0.85rem; color:var(--text-muted);">0 / 50 Answered</p>
+            </div>
+          </div>
+          <div style="display:flex; gap:0.4rem; flex-wrap:wrap;" id="quiz-cat-filters"></div>
+          <button class="btn-pill-back" onclick="resetQuiz()" style="color:var(--tile-crimson);">Reset Quiz</button>
+        </div>
+
+        <div style="display:flex; flex-wrap:wrap; gap:5px; margin-bottom:2rem; background:var(--bg-frame); padding:0.8rem; border-radius:6px;" id="quiz-palette"></div>
+        <div id="quiz-questions-list"></div>
+      </div>
+
+      <div class="site-footer-note">
+        Algorithms &amp; Data Structures I (ALGØ 1) &bull; Student Interactive Study Guide<br>
+        Made with ❤️ by <a href="https://github.com/blood-prog/blood-prog" target="_blank" rel="noopener noreferrer" class="author-gh-link">Ibrahim Benabida</a>, student in USTHB, based on the course given by the teacher.<br>
+        <span style="font-size:0.75rem; color:#6b6762; display:inline-block; margin-top:0.35rem;">⭐ If this study guide helped you, please <a href="https://github.com/blood-prog/blood-prog" target="_blank" rel="noopener noreferrer" class="star-callout-link">give it a star on GitHub</a>!</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       VIEW 6: 5 EXAM-LEVEL CHALLENGES
+       ========================================================================= -->
+  <section class="view-panel" id="view-exams">
+    <div class="aux-page-wrap">
+      <div class="track-top-bar">
+        <button class="btn-pill-back" onclick="navigateTo('track')">&larr; Back to Track</button>
+        <button class="btn-pill-back" onclick="openDrawer()">Course Menu ☰</button>
+      </div>
+
+      <div class="aux-header">
+        <h2>5 USTHB Exam-Level Challenges</h2>
+        <p>Master the most frequent, high-difficulty exam problems with formal pseudocode and live runners.</p>
+      </div>
+
+      <!-- Challenge 1 -->
+      <div style="background:#fff; border:1px solid var(--border-subtle); border-radius:8px; padding:2rem; margin-bottom:2rem;">
+        <span style="font-size:0.75rem; font-weight:800; background:var(--tile-crimson); color:#fff; padding:0.2rem 0.5rem; border-radius:3px;">Challenge 01 &bull; Sheet 2 Ex 8</span>
+        <h3 style="font-size:1.4rem; font-weight:800; margin:0.8rem 0 0.5rem;">The Equilibrium Index (<code class="math-expr">O(N)</code> Prefix-Sum)</h3>
+        <p style="color:var(--text-muted); margin-bottom:1.2rem;">Find an index <code>k</code> such that sum of elements strictly to the left equals sum of elements strictly to the right.</p>
+
+        <div style="display:flex; gap:0.8rem; align-items:center; margin-bottom:0.8rem;">
+          <input type="text" class="runner-input" id="ex-eq-input" value="-7, 1, 5, 2, -4, 3, 0" style="flex:1;">
+          <button class="btn-pill-back" style="background:var(--tile-crimson); color:#fff; border-color:var(--tile-crimson);" onclick="solveEquilibrium()">Solve</button>
+        </div>
+        <div id="ex-eq-res" style="font-family:var(--font-mono); font-size:0.9rem; padding:0.8rem; background:var(--bg-frame); border-radius:4px;">Result will appear here.</div>
+      </div>
+
+      <!-- Challenge 2 -->
+      <div style="background:#fff; border:1px solid var(--border-subtle); border-radius:8px; padding:2rem; margin-bottom:2rem;">
+        <span style="font-size:0.75rem; font-weight:800; background:var(--tile-crimson); color:#fff; padding:0.2rem 0.5rem; border-radius:3px;">Challenge 02 &bull; Sheet 2 Ex 7</span>
+        <h3 style="font-size:1.4rem; font-weight:800; margin:0.8rem 0 0.5rem;">Leaders in an Array (<code class="math-expr">O(N)</code> Suffix Maximum)</h3>
+        <p style="color:var(--text-muted); margin-bottom:1.2rem;">An element is a Leader if it is strictly greater than all elements to its right. Rightmost is always a leader.</p>
+
+        <div style="display:flex; gap:0.8rem; align-items:center; margin-bottom:0.8rem;">
+          <input type="text" class="runner-input" id="ex-lead-input" value="16, 17, 4, 3, 5, 2" style="flex:1;">
+          <button class="btn-pill-back" style="background:var(--tile-crimson); color:#fff; border-color:var(--tile-crimson);" onclick="solveLeaders()">Solve</button>
+        </div>
+        <div id="ex-lead-res" style="font-family:var(--font-mono); font-size:0.9rem; padding:0.8rem; background:var(--bg-frame); border-radius:4px;">Result will appear here.</div>
+      </div>
+
+      <!-- Challenge 3 -->
+      <div style="background:#fff; border:1px solid var(--border-subtle); border-radius:8px; padding:2rem; margin-bottom:2rem;">
+        <span style="font-size:0.75rem; font-weight:800; background:var(--tile-crimson); color:#fff; padding:0.2rem 0.5rem; border-radius:3px;">Challenge 03 &bull; Sheet 2 Ex 4</span>
+        <h3 style="font-size:1.4rem; font-weight:800; margin:0.8rem 0 0.5rem;">In-Place Left-Rotation by <code>k</code> (Three-Reversal Theorem)</h3>
+        <p style="color:var(--text-muted); margin-bottom:1.2rem;">Rotate array elements <code>k</code> positions left in <code class="math-expr">O(N)</code> time and <code class="math-expr">O(1)</code> extra space.</p>
+
+        <div style="display:flex; gap:0.8rem; align-items:center; margin-bottom:0.8rem;">
+          <input type="text" class="runner-input" id="ex-rot-input" value="1, 2, 3, 4, 5, 6, 7, 8, 9, 10" style="flex:2;">
+          <input type="number" class="runner-input" id="ex-rot-k" value="3" style="max-width:70px;">
+          <button class="btn-pill-back" style="background:var(--tile-crimson); color:#fff; border-color:var(--tile-crimson);" onclick="solveRotation()">Rotate</button>
+        </div>
+        <div id="ex-rot-res" style="font-family:var(--font-mono); font-size:0.9rem; padding:0.8rem; background:var(--bg-frame); border-radius:4px;">Result will appear here.</div>
+      </div>
+
+      <!-- Challenge 4 -->
+      <div style="background:#fff; border:1px solid var(--border-subtle); border-radius:8px; padding:2rem; margin-bottom:2rem;">
+        <span style="font-size:0.75rem; font-weight:800; background:var(--tile-crimson); color:#fff; padding:0.2rem 0.5rem; border-radius:3px;">Challenge 04 &bull; Sheet 1 Ex 10</span>
+        <h3 style="font-size:1.4rem; font-weight:800; margin:0.8rem 0 0.5rem;">Complete Degenerate Quadratic Solver</h3>
+        <p style="color:var(--text-muted); margin-bottom:1.2rem;">Solve <code>ax² + bx + c = 0</code> rigorously handling <code>a = 0</code> (linear equation) and all discriminant cases.</p>
+
+        <div style="display:flex; gap:0.8rem; align-items:center; margin-bottom:0.8rem;">
+          <input type="number" class="runner-input" id="ex-quad-a" value="1" style="max-width:70px;">
+          <input type="number" class="runner-input" id="ex-quad-b" value="-5" style="max-width:70px;">
+          <input type="number" class="runner-input" id="ex-quad-c" value="6" style="max-width:70px;">
+          <button class="btn-pill-back" style="background:var(--tile-crimson); color:#fff; border-color:var(--tile-crimson);" onclick="solveQuadratic()">Solve</button>
+        </div>
+        <div id="ex-quad-res" style="font-family:var(--font-mono); font-size:0.9rem; padding:0.8rem; background:var(--bg-frame); border-radius:4px;">Result will appear here.</div>
+      </div>
+
+      <!-- Challenge 5 -->
+      <div style="background:#fff; border:1px solid var(--border-subtle); border-radius:8px; padding:2rem; margin-bottom:2rem;">
+        <span style="font-size:0.75rem; font-weight:800; background:var(--tile-crimson); color:#fff; padding:0.2rem 0.5rem; border-radius:3px;">Challenge 05 &bull; Matrix Classic</span>
+        <h3 style="font-size:1.4rem; font-weight:800; margin:0.8rem 0 0.5rem;">Matrix Saddle Point (Point-Selle)</h3>
+        <p style="color:var(--text-muted); margin-bottom:1.2rem;">Find elements that are simultaneously the minimum in their row and maximum in their column.</p>
+
+        <div style="display:flex; flex-direction:column; gap:0.4rem; margin-bottom:0.8rem;">
+          <input type="text" class="runner-input" id="ex-mat-1" value="1, 2, 3">
+          <input type="text" class="runner-input" id="ex-mat-2" value="4, 5, 6">
+          <input type="text" class="runner-input" id="ex-mat-3" value="7, 8, 9">
+          <button class="btn-pill-back" style="background:var(--tile-crimson); color:#fff; border-color:var(--tile-crimson); width:fit-content;" onclick="solveSaddle()">Find Saddle Point</button>
+        </div>
+        <div id="ex-mat-res" style="font-family:var(--font-mono); font-size:0.9rem; padding:0.8rem; background:var(--bg-frame); border-radius:4px;">Result will appear here.</div>
+      </div>
+
+      <div class="site-footer-note">
+        Algorithms &amp; Data Structures I (ALGØ 1) &bull; Student Interactive Study Guide<br>
+        Made with ❤️ by <a href="https://github.com/blood-prog/blood-prog" target="_blank" rel="noopener noreferrer" class="author-gh-link">Ibrahim Benabida</a>, student in USTHB, based on the course given by the teacher.<br>
+        <span style="font-size:0.75rem; color:#6b6762; display:inline-block; margin-top:0.35rem;">⭐ If this study guide helped you, please <a href="https://github.com/blood-prog/blood-prog" target="_blank" rel="noopener noreferrer" class="star-callout-link">give it a star on GitHub</a>!</span>
+      </div>
+    </div>
+  </section>
+
+  <script src="three.min.js"></script>
+  <script src="GLTFLoader.js"></script>
+  <script src="avatar_model_data.js?v=2.4"></script>
+  <script src="monster.js?v=2.4"></script>
+  <script src="data.js?v=2.4"></script>
+  <script src="app.js?v=2.4"></script>
+</body>
+</html>
