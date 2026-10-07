@@ -2,29 +2,42 @@
 // =============================================================================
 // THEME SWITCHER (DARK MODE / LIGHT MODE)
 // =============================================================================
-function initTheme() {
-  const saved = localStorage.getItem('algo_theme');
-  if (saved === 'dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+function applyTheme(isDark) {
+  if (isDark) {
     document.documentElement.setAttribute('data-theme', 'dark');
+    document.documentElement.classList.add('dark-theme');
+    if (document.body) document.body.classList.add('dark-theme');
   } else {
     document.documentElement.removeAttribute('data-theme');
+    document.documentElement.classList.remove('dark-theme');
+    if (document.body) document.body.classList.remove('dark-theme');
   }
 }
 
+function initTheme() {
+  const saved = localStorage.getItem('algo_theme');
+  const shouldBeDark = (saved === 'dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches));
+  applyTheme(shouldBeDark);
+}
+
 window.toggleTheme = function() {
-  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark' ||
+                 document.documentElement.classList.contains('dark-theme') ||
+                 (document.body && document.body.classList.contains('dark-theme'));
+  
   if (isDark) {
-    document.documentElement.removeAttribute('data-theme');
+    applyTheme(false);
     localStorage.setItem('algo_theme', 'light');
     if (window.monsterCompanion) window.monsterCompanion.say('Light mode activated! Crisp paper aesthetics! ☀️', 'happy');
   } else {
-    document.documentElement.setAttribute('data-theme', 'dark');
+    applyTheme(true);
     localStorage.setItem('algo_theme', 'dark');
     if (window.monsterCompanion) window.monsterCompanion.say('Dark mode engaged! Saving eyes and preventing bug attraction! 🌙', 'happy');
   }
 };
 
 initTheme();
+document.addEventListener('DOMContentLoaded', initTheme);
 
 /**
  * ALGØ STUDIO — Modern Learning Experience

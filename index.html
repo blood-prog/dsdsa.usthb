@@ -180,10 +180,18 @@
   <meta property="og:image:alt" content="ALGØ 1 — USTHB Algorithmic Study Guide with Felt Monster Byte">
   <meta name="twitter:image" content="https://dsdsausthb.vercel.app/og-image.jpg">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;850&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=2.5">
+  <script>
+    (function() {
+      try {
+        const saved = localStorage.getItem('algo_theme');
+        if (saved === 'dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          document.documentElement.classList.add('dark-theme');
+        }
+      } catch(e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="style.css?v=2.6">
 </head>
 <body>
 
@@ -645,7 +653,7 @@
         <p>Observe Selection Sort, Bubble Sort, and Binary Search with step-by-step animations and pointers.</p>
       </div>
 
-      <div style="background:#fff; border:1px solid var(--border-subtle); border-radius:10px; padding:2rem; margin-bottom:2.5rem; box-shadow:0 4px 16px rgba(0,0,0,0.02);">
+      <div class="aux-card-surface" style="border:1px solid var(--border-subtle); border-radius:10px; padding:2rem; margin-bottom:2.5rem; box-shadow:0 4px 16px rgba(0,0,0,0.02);">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.5rem;">
           <div>
             <h3 style="font-size:1.3rem; font-weight:800; letter-spacing:-0.02em;">Sorting Studio (Selection &amp; Bubble Sort)</h3>
@@ -758,7 +766,7 @@
         <p>Complete assessment covering Weeks 01 to 05, Sheet 1 &amp; 2, and exam preparation with instant feedback.</p>
       </div>
 
-      <div style="background:#fff; border:1px solid var(--border-subtle); border-radius:8px; padding:2rem;">
+      <div class="aux-card-surface" style="border:1px solid var(--border-subtle); border-radius:8px; padding:2rem;">
         <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; margin-bottom:1.5rem; border-bottom:1px solid var(--border-subtle); padding-bottom:1rem;">
           <div style="display:flex; align-items:center; gap:1rem;">
             <div style="width:50px; height:50px; border-radius:50%; background:var(--tile-crimson); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:850; font-family:var(--font-mono); font-size:1.2rem;" id="quiz-score-val">0</div>
