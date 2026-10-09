@@ -352,14 +352,13 @@
 
       <!-- Drag Handle & 3D Canvas -->
       <div class="monster-canvas-wrapper" id="monster-canvas-wrapper" title="Click to poke me! Drag to move me anywhere on screen.">
-        <div class="monster-placeholder-icon" id="monster-placeholder-icon">
-          <img src="avatar.jpg" alt="Byte" class="monster-fallback-img">
-        </div>
         <canvas id="monster-three-canvas"></canvas>
         <div class="monster-drag-pill">Byte</div>
       </div>
     `;
 
+    containerEl.style.opacity = '0';
+    containerEl.style.transition = 'opacity 0.35s ease';
     document.body.appendChild(containerEl);
 
     canvasEl = document.getElementById('monster-three-canvas');
@@ -888,6 +887,10 @@
 
       if (canvasEl) {
         canvasEl.style.opacity = '1';
+      }
+      if (containerEl) {
+        containerEl.classList.add('ready');
+        containerEl.style.opacity = '1';
       }
 
       // First welcome message

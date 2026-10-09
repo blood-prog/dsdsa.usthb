@@ -456,7 +456,7 @@
 
   </script>
 
-  <link rel="stylesheet" href="style.css?v=8.0">
+  <link rel="stylesheet" href="style.css?v=9.0">
 
 </head>
 
@@ -2111,355 +2111,217 @@
 
   <section class="view-panel" id="view-exams">
 
-    <div class="aux-page-wrap">
-
-      
+    <div class="datacamp-workspace-wrap">
 
       <!-- Mobile Header for Exams View -->
-
       <header class="mobile-app-header">
-
         <div class="mobile-brand-title" onclick="navigateTo('home')">algø</div>
-
         <div class="mobile-header-actions">
-
           <button class="mobile-circle-action btn-theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" title="Toggle Theme">
-
             <span class="theme-icon-light"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
-
             <span class="theme-icon-dark"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
-
           </button>
-
           <a href="https://github.com/blood-prog/blood-prog" target="_blank" rel="noopener noreferrer" class="mobile-circle-action mobile-star-btn" title="Star on GitHub">
-
             <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-
           </a>
-
           <button class="mobile-circle-action mobile-menu-btn" onclick="openDrawer()" aria-label="Course Menu" title="Course Menu">
-
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-
           </button>
-
         </div>
-
       </header>
 
-      <div class="track-top-bar">
+      <!-- DataCamp Top Exercise Navigation Bar -->
+      <div class="datacamp-header">
+        <div class="datacamp-header-left">
+          <button class="btn-pill-back" onclick="navigateTo('track')" title="Back to Track" style="padding:0.35rem 0.65rem; font-size:0.8rem;">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            <span>Track</span>
+          </button>
 
-        <button class="btn-pill-back" onclick="navigateTo('track')">
+          <button class="dc-nav-btn" id="dc-prev-btn" onclick="prevExercise()" title="Previous Exercise">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
 
-          <svg class="back-svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          <div class="dc-outline-dropdown-wrap">
+            <button class="dc-outline-btn" id="dc-outline-btn" onclick="toggleExerciseOutline()">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+              <span id="dc-current-exercise-title">Exercise 1 of 5: Equilibrium Index</span>
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="dc-outline-menu" id="dc-outline-menu">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
 
-          <span>Back to Track</span>
+          <button class="dc-nav-btn" id="dc-next-btn" onclick="nextExercise()" title="Next Exercise">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
 
-        </button>
-
-        <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+        <div class="datacamp-header-right">
+          <div class="dc-xp-pill">
+            <span>⚡</span>
+            <span>Exam XP:</span>
+            <span class="dc-xp-val" id="exam-total-score">0 / 25 pts</span>
+          </div>
 
           <button class="btn-theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" title="Toggle Dark/Light Mode">
-
-            <span class="theme-icon-light"><svg class="theme-svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
-
-            <span class="theme-icon-dark"><svg class="theme-svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
-
+            <span class="theme-icon-light"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+            <span class="theme-icon-dark"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/></svg></span>
           </button>
 
-          <a href="https://github.com/blood-prog/blood-prog" target="_blank" rel="noopener noreferrer" class="btn-github-star" title="Star blood-prog on GitHub">
-
-            <svg class="star-svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-
+          <a href="https://github.com/blood-prog/blood-prog" target="_blank" rel="noopener noreferrer" class="btn-github-star" title="Star on GitHub">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
             <span>Star</span>
-
           </a>
-
-          <button class="btn-pill-back" onclick="openDrawer()">
-
-            <svg class="menu-svg" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-
-            <span>Menu</span>
-
-          </button>
-
-        </div>
-
-      </div>
-
-      <div class="aux-header">
-
-      <div class="aux-header">
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
-          <div>
-            <h2>5 Applied Exam Challenges</h2>
-            <p style="color:var(--text-muted); font-size:0.9rem; margin-top:0.25rem;">Solve each problem and submit your answer for instant grading and evaluation notes.</p>
-          </div>
-          <div style="background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:2px; padding:0.5rem 1rem; display:flex; align-items:center; gap:0.6rem;">
-            <span style="font-size:0.75rem; font-weight:800; text-transform:uppercase; color:var(--text-muted);">Lab Score:</span>
-            <span id="exam-total-score" style="font-size:1.15rem; font-weight:900; color:var(--tile-crimson); font-family:var(--font-mono);">0 / 25 pts</span>
-          </div>
         </div>
       </div>
 
-      <!-- Challenge 1 -->
-      <div class="chapter-accordion-card aux-card-surface" style="padding:2rem; margin-bottom:2rem;">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:0.5rem;">
-          <span style="font-size:0.75rem; font-weight:800; background:var(--tile-crimson); color:#fff; padding:0.2rem 0.55rem; border-radius:2px;">Challenge 01 • Sheet 2 Ex 8</span>
-          <span style="font-size:0.75rem; font-weight:800; color:var(--text-muted); font-family:var(--font-mono);">O(N) Time • O(1) Auxiliary Space</span>
-        </div>
-        <h3 style="font-size:1.4rem; font-weight:800; margin:0.8rem 0 0.5rem;">The Dual-Pivot Equilibrium &amp; Prefix-Suffix Balance</h3>
-        <p style="color:var(--text-muted); font-size:0.92rem; margin-bottom:1rem; line-height:1.55;">
-          Find every index <code>k ∈ [1..N]</code> such that the prefix sum <code>∑ T[1..k-1]</code> strictly equals the suffix sum <code>∑ T[k+1..N]</code>. Must handle negative integers, multiple equilibrium points, and boundary cases where <code>k = 1</code> or <code>k = N</code>.
-        </p>
-
-        <!-- Presets -->
-        <div style="display:flex; gap:0.4rem; align-items:center; flex-wrap:wrap; margin-bottom:1rem;">
-          <span style="font-size:0.74rem; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Test Presets:</span>
-          <button class="quiz-cat-pill" onclick="loadEqPreset('-7, 1, 5, 2, -4, 3, 0')">Classic Sheet 2</button>
-          <button class="quiz-cat-pill" onclick="loadEqPreset('0, -3, 5, -4, -2, 3, 1, 0')">Dual Pivots</button>
-          <button class="quiz-cat-pill" onclick="loadEqPreset('0, 0, 0, 0, 0')">All Zeroes (Every Index)</button>
-          <button class="quiz-cat-pill" onclick="loadEqPreset('-1, -1, -1, -1, 0, -4')">Negative Numbers</button>
-          <button class="quiz-cat-pill" onclick="loadEqPreset('1, 2, 3, 4, 5')">No Equilibrium (-1)</button>
-        </div>
-
-        <div style="display:flex; gap:0.8rem; align-items:center; flex-wrap:wrap; margin-bottom:1rem;">
-          <label style="font-size:0.82rem; font-weight:800; color:var(--text-muted);">Array T:</label>
-          <input type="text" class="runner-input" id="ex-eq-input" value="-7, 1, 5, 2, -4, 3, 0" style="flex:1; min-width:260px;">
-        </div>
-
-        <!-- Applied Answer Box -->
-        <div style="margin-top:0.8rem; padding:1.2rem; background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:2px;">
-          <div style="font-size:0.82rem; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-main); margin-bottom:0.5rem;">
-            ✍ Your Answer:
+      <!-- Main Split DataCamp Grid: Left (Instructions) & Right (IDE + Shell) -->
+      <div class="datacamp-grid">
+        <!-- LEFT PANE: Instructions & Concept -->
+        <aside class="datacamp-left-pane">
+          <div class="dc-pane-header">
+            <span class="dc-pane-tag">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+              <span id="dc-exercise-badge">Exercise 1 of 5</span>
+            </span>
+            <span class="dc-meta-tag" id="dc-exercise-tag">Sheet 2 Ex 8</span>
           </div>
-          <div style="display:flex; gap:0.6rem; align-items:center; flex-wrap:wrap;">
-            <input type="text" class="runner-input" id="ex-eq-user-ans" placeholder="Enter equilibrium index k (1-indexed, e.g. 4, or -1)" style="flex:1; min-width:220px;">
-            <button class="btn-pill-back" style="background:var(--tile-crimson); color:#fff; border-color:var(--tile-crimson);" onclick="gradeEquilibrium()">Grade Answer (5 pts)</button>
-            <button class="btn-pill-back" onclick="solveEquilibrium()">Reveal Solution</button>
-          </div>
-          <div id="ex-eq-grade" style="margin-top:0.8rem; font-family:var(--font-mono); font-size:0.88rem; display:none;"></div>
-        </div>
 
-        <div id="ex-eq-res" style="font-family:var(--font-mono); font-size:0.9rem; padding:1.2rem; background:var(--bg-subtle); border-radius:2px; border:1px solid var(--border-subtle); margin-top:1rem; display:none;"></div>
+          <div class="dc-pane-scrollable">
+            <h2 class="dc-exercise-heading" id="dc-problem-title">The Dual-Pivot Equilibrium &amp; Prefix-Suffix Balance</h2>
+            
+            <div class="dc-problem-narrative" id="dc-problem-context">
+              <!-- Injected by JS -->
+            </div>
+
+            <!-- Instructions Block -->
+            <div class="dc-instructions-block">
+              <div class="dc-instructions-header">
+                <span class="dc-inst-title">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                  Instructions
+                </span>
+                <span class="dc-inst-xp">+5 XP</span>
+              </div>
+              <ul class="dc-instructions-list" id="dc-instructions-list">
+                <!-- Injected by JS -->
+              </ul>
+            </div>
+
+            <!-- Presets Selector -->
+            <div class="dc-presets-block">
+              <span class="dc-presets-label">Test Presets:</span>
+              <div class="dc-preset-buttons" id="dc-presets-container">
+                <!-- Injected by JS -->
+              </div>
+            </div>
+
+            <!-- Hint Accordion -->
+            <details class="dc-hint-details" id="dc-hint-details">
+              <summary class="dc-hint-summary">
+                <span class="dc-hint-icon">💡</span>
+                <span>Hint</span>
+              </summary>
+              <div class="dc-hint-content" id="dc-hint-body">
+                <!-- Injected by JS -->
+              </div>
+            </details>
+          </div>
+        </aside>
+
+        <!-- RIGHT PANE: Code Editor (Top) & Interactive Shell (Bottom) -->
+        <main class="datacamp-right-pane">
+          <!-- Top Half: Code Editor Box -->
+          <div class="datacamp-editor-box">
+            <div class="dc-editor-header">
+              <div class="dc-editor-tabs">
+                <button class="dc-editor-tab active" id="dc-tab-script" onclick="switchEditorTab('script')">script.algo</button>
+                <button class="dc-editor-tab" id="dc-tab-solution" onclick="switchEditorTab('solution')">solution.algo</button>
+              </div>
+              <div class="dc-editor-tools">
+                <span class="dc-lang-badge">USTHB ALGO</span>
+                <button class="dc-tool-btn" onclick="resetCurrentCode()" title="Reset to Starter Code">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                  <span>Reset</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="dc-editor-body">
+              <div class="dc-editor-gutter" id="dc-editor-gutter">1</div>
+              <textarea class="dc-code-textarea" id="dc-code-input" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
+            </div>
+
+            <div class="dc-editor-footer">
+              <div class="dc-footer-left">
+                <button class="dc-btn-reset" onclick="resetCurrentCode()">↺ Reset Code</button>
+              </div>
+              <div class="dc-footer-actions">
+                <button class="dc-btn-run" id="dc-run-btn" onclick="runCurrentCode()">
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <span>Run Code</span>
+                </button>
+                <button class="dc-btn-submit" id="dc-submit-btn" onclick="submitCurrentSolution()">
+                  <span>✓ Submit Answer</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Half: Interactive Shell / Console -->
+          <div class="datacamp-shell-box">
+            <div class="dc-shell-header">
+              <div class="dc-shell-tabs">
+                <button class="dc-shell-tab active" id="dc-shell-tab-repl" onclick="switchShellTab('repl')">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+                  <span>IPython Shell</span>
+                </button>
+                <button class="dc-shell-tab" id="dc-shell-tab-trace" onclick="switchShellTab('trace')">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                  <span>Trace Table</span>
+                </button>
+                <button class="dc-shell-tab" id="dc-shell-tab-tests" onclick="switchShellTab('tests')">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Test Cases</span>
+                </button>
+              </div>
+              <button class="dc-shell-clear" onclick="clearShellConsole()" title="Clear Console">Clear</button>
+            </div>
+
+            <!-- Panel 1: REPL Console -->
+            <div class="dc-shell-content" id="dc-shell-panel-repl">
+              <div class="dc-terminal" id="dc-terminal-log">
+                <div class="dc-term-welcome">ALGØ 1 Interactive Console • DataCamp Workspace ready.</div>
+              </div>
+              <div class="dc-prompt-line">
+                <span class="dc-prompt-tag" id="dc-prompt-tag">In [1]:</span>
+                <input type="text" class="dc-prompt-input" id="dc-prompt-input" placeholder="Enter command or press Run Code..." onkeydown="handleShellPrompt(event)">
+              </div>
+            </div>
+
+            <!-- Panel 2: Trace Table -->
+            <div class="dc-shell-content dc-hidden" id="dc-shell-panel-trace">
+              <div class="dc-trace-scroll" id="dc-trace-output">
+                <div style="color:#64748b; font-size:0.82rem; padding:1rem; font-family:var(--font-mono);">Press 'Run Code' or 'Submit Answer' to inspect the execution trace table.</div>
+              </div>
+            </div>
+
+            <!-- Panel 3: Test Cases -->
+            <div class="dc-shell-content dc-hidden" id="dc-shell-panel-tests">
+              <div class="dc-tests-checklist" id="dc-tests-list">
+                <!-- Injected by JS -->
+              </div>
+            </div>
+          </div>
+        </main>
       </div>
 
-      <!-- Challenge 2 -->
-      <div class="chapter-accordion-card aux-card-surface" style="padding:2rem; margin-bottom:2rem;">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:0.5rem;">
-          <span style="font-size:0.75rem; font-weight:800; background:var(--tile-crimson); color:#fff; padding:0.2rem 0.55rem; border-radius:2px;">Challenge 02 • Sheet 2 Ex 7</span>
-          <span style="font-size:0.75rem; font-weight:800; color:var(--text-muted); font-family:var(--font-mono);">O(N) Backward Scan • Strict Monotonicity</span>
-        </div>
-        <h3 style="font-size:1.4rem; font-weight:800; margin:0.8rem 0 0.5rem;">Leaders in an Array &amp; Plateau Defense</h3>
-        <p style="color:var(--text-muted); font-size:0.92rem; margin-bottom:1rem; line-height:1.55;">
-          An element <code>T[i]</code> is a Leader if and only if it is strictly greater than all elements to its right (<code>T[i] &gt; max(T[i+1..N])</code>). If duplicate maximums occur, neither is strictly dominant! Solve in a single backward pass.
-        </p>
-
-        <!-- Presets -->
-        <div style="display:flex; gap:0.4rem; align-items:center; flex-wrap:wrap; margin-bottom:1rem;">
-          <span style="font-size:0.74rem; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Test Presets:</span>
-          <button class="quiz-cat-pill" onclick="loadLeadPreset('16, 17, 4, 3, 5, 2')">Standard Sheet 2</button>
-          <button class="quiz-cat-pill" onclick="loadLeadPreset('10, 10, 8, 8, 4, 2')">Duplicate Plateau Trap</button>
-          <button class="quiz-cat-pill" onclick="loadLeadPreset('50, 40, 30, 20, 10')">Strictly Decreasing (All Leaders)</button>
-          <button class="quiz-cat-pill" onclick="loadLeadPreset('1, 5, 10, 20, 50')">Strictly Increasing (Only Last)</button>
-          <button class="quiz-cat-pill" onclick="loadLeadPreset('-5, -2, -1, -8, -10')">All Negative Integers</button>
-        </div>
-
-        <div style="display:flex; gap:0.8rem; align-items:center; flex-wrap:wrap; margin-bottom:1rem;">
-          <label style="font-size:0.82rem; font-weight:800; color:var(--text-muted);">Array T:</label>
-          <input type="text" class="runner-input" id="ex-lead-input" value="16, 17, 4, 3, 5, 2" style="flex:1; min-width:260px;">
-        </div>
-
-        <!-- Applied Answer Box -->
-        <div style="margin-top:0.8rem; padding:1.2rem; background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:2px;">
-          <div style="font-size:0.82rem; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-main); margin-bottom:0.5rem;">
-            ✍ Your Answer:
-          </div>
-          <div style="display:flex; gap:0.6rem; align-items:center; flex-wrap:wrap;">
-            <input type="text" class="runner-input" id="ex-lead-user-ans" placeholder="Enter leaders from left to right (e.g. 17, 5, 2)" style="flex:1; min-width:220px;">
-            <button class="btn-pill-back" style="background:var(--tile-crimson); color:#fff; border-color:var(--tile-crimson);" onclick="gradeLeaders()">Grade Answer (5 pts)</button>
-            <button class="btn-pill-back" onclick="solveLeaders()">Reveal Solution</button>
-          </div>
-          <div id="ex-lead-grade" style="margin-top:0.8rem; font-family:var(--font-mono); font-size:0.88rem; display:none;"></div>
-        </div>
-
-        <div id="ex-lead-res" style="font-family:var(--font-mono); font-size:0.9rem; padding:1.2rem; background:var(--bg-subtle); border-radius:2px; border:1px solid var(--border-subtle); margin-top:1rem; display:none;"></div>
-      </div>
-
-      <!-- Challenge 3 -->
-      <div class="chapter-accordion-card aux-card-surface" style="padding:2rem; margin-bottom:2rem;">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:0.5rem;">
-          <span style="font-size:0.75rem; font-weight:800; background:var(--tile-crimson); color:#fff; padding:0.2rem 0.55rem; border-radius:2px;">Challenge 03 • Sheet 2 Ex 4</span>
-          <span style="font-size:0.75rem; font-weight:800; color:var(--text-muted); font-family:var(--font-mono);">O(N) Time • O(1) Memory • 3 Reversals</span>
-        </div>
-        <h3 style="font-size:1.4rem; font-weight:800; margin:0.8rem 0 0.5rem;">Cyclic Array Rotation by Arbitrary <code>k</code> (Three-Reversal Algorithm)</h3>
-        <p style="color:var(--text-muted); font-size:0.92rem; margin-bottom:1rem; line-height:1.55;">
-          Rotate an array cyclically left or right by <code>k</code> positions in-place without creating secondary arrays. Handles <code>k &gt; N</code> (using <code>k mod N</code>), negative <code>k</code>, and single elements.
-        </p>
-
-        <!-- Presets -->
-        <div style="display:flex; gap:0.4rem; align-items:center; flex-wrap:wrap; margin-bottom:1rem;">
-          <span style="font-size:0.74rem; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Test Presets:</span>
-          <button class="quiz-cat-pill" onclick="loadRotPreset('1, 2, 3, 4, 5, 6, 7, 8, 9, 10', 3, 'left')">Left by 3</button>
-          <button class="quiz-cat-pill" onclick="loadRotPreset('10, 20, 30, 40, 50, 60, 70', 4, 'right')">Right by 4</button>
-          <button class="quiz-cat-pill" onclick="loadRotPreset('1, 2, 3, 4, 5, 6, 7', 25, 'left')">Large k=25 (25 mod 7 = 4)</button>
-          <button class="quiz-cat-pill" onclick="loadRotPreset('99, 100, 101', -2, 'left')">Negative k=-2</button>
-        </div>
-
-        <div style="display:flex; gap:0.8rem; align-items:center; flex-wrap:wrap; margin-bottom:1rem;">
-          <input type="text" class="runner-input" id="ex-rot-input" value="1, 2, 3, 4, 5, 6, 7, 8, 9, 10" style="flex:2; min-width:240px;">
-          <div style="display:flex; align-items:center; gap:0.4rem;">
-            <label style="font-size:0.82rem; font-weight:800;">k:</label>
-            <input type="number" class="runner-input" id="ex-rot-k" value="3" style="width:70px;">
-          </div>
-          <div style="display:flex; align-items:center; gap:0.4rem;">
-            <label style="font-size:0.82rem; font-weight:800;">Dir:</label>
-            <select class="runner-input" id="ex-rot-dir" style="width:85px; padding:0.45rem;">
-              <option value="left">Left</option>
-              <option value="right">Right</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Applied Answer Box -->
-        <div style="margin-top:0.8rem; padding:1.2rem; background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:2px;">
-          <div style="font-size:0.82rem; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-main); margin-bottom:0.5rem;">
-            ✍ Your Answer:
-          </div>
-          <div style="display:flex; gap:0.6rem; align-items:center; flex-wrap:wrap;">
-            <input type="text" class="runner-input" id="ex-rot-user-ans" placeholder="Enter rotated array, e.g. 4, 5, 6, 7, 8, 9, 10, 1, 2, 3" style="flex:1; min-width:220px;">
-            <button class="btn-pill-back" style="background:var(--tile-crimson); color:#fff; border-color:var(--tile-crimson);" onclick="gradeRotation()">Grade Answer (5 pts)</button>
-            <button class="btn-pill-back" onclick="solveRotation()">Reveal Solution</button>
-          </div>
-          <div id="ex-rot-grade" style="margin-top:0.8rem; font-family:var(--font-mono); font-size:0.88rem; display:none;"></div>
-        </div>
-
-        <div id="ex-rot-res" style="font-family:var(--font-mono); font-size:0.9rem; padding:1.2rem; background:var(--bg-subtle); border-radius:2px; border:1px solid var(--border-subtle); margin-top:1rem; display:none;"></div>
-      </div>
-
-      <!-- Challenge 4 -->
-      <div class="chapter-accordion-card aux-card-surface" style="padding:2rem; margin-bottom:2rem;">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:0.5rem;">
-          <span style="font-size:0.75rem; font-weight:800; background:var(--tile-crimson); color:#fff; padding:0.2rem 0.55rem; border-radius:2px;">Challenge 04 • Sheet 1 Ex 10</span>
-          <span style="font-size:0.75rem; font-weight:800; color:var(--text-muted); font-family:var(--font-mono);">6-Branch Exhaustive Decision Tree</span>
-        </div>
-        <h3 style="font-size:1.4rem; font-weight:800; margin:0.8rem 0 0.5rem;">Complete Degenerate Quadratic Equation Analyzer</h3>
-        <p style="color:var(--text-muted); font-size:0.92rem; margin-bottom:1rem; line-height:1.55;">
-          Solves <code>ax² + bx + c = 0</code> strictly adhering to the USTHB case tree: degenerate linear equations when <code>a = 0</code>, indeterminate equations (<code>S = ℝ</code>), contradiction (<code>S = ∅</code>), and both real and conjugate complex roots (<code>Δ &lt; 0</code> in ℂ).
-        </p>
-
-        <!-- Presets -->
-        <div style="display:flex; gap:0.4rem; align-items:center; flex-wrap:wrap; margin-bottom:1rem;">
-          <span style="font-size:0.74rem; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Test Presets:</span>
-          <button class="quiz-cat-pill" onclick="loadQuadPreset(1, -5, 6)">Δ &gt; 0 (Two Real)</button>
-          <button class="quiz-cat-pill" onclick="loadQuadPreset(1, -6, 9)">Δ = 0 (Double Root)</button>
-          <button class="quiz-cat-pill" onclick="loadQuadPreset(1, 2, 5)">Δ &lt; 0 (Complex in ℂ)</button>
-          <button class="quiz-cat-pill" onclick="loadQuadPreset(0, 4, -12)">a = 0 (Linear)</button>
-          <button class="quiz-cat-pill" onclick="loadQuadPreset(0, 0, 7)">a=b=0, c≠0 (Empty ∅)</button>
-          <button class="quiz-cat-pill" onclick="loadQuadPreset(0, 0, 0)">a=b=c=0 (Infinite ℝ)</button>
-        </div>
-
-        <div style="display:flex; gap:0.8rem; align-items:center; flex-wrap:wrap; margin-bottom:1rem;">
-          <div style="display:flex; align-items:center; gap:0.4rem;">
-            <label style="font-size:0.85rem; font-weight:800;">a:</label>
-            <input type="number" class="runner-input" id="ex-quad-a" value="1" style="width:75px;">
-          </div>
-          <div style="display:flex; align-items:center; gap:0.4rem;">
-            <label style="font-size:0.85rem; font-weight:800;">b:</label>
-            <input type="number" class="runner-input" id="ex-quad-b" value="-5" style="width:75px;">
-          </div>
-          <div style="display:flex; align-items:center; gap:0.4rem;">
-            <label style="font-size:0.85rem; font-weight:800;">c:</label>
-            <input type="number" class="runner-input" id="ex-quad-c" value="6" style="width:75px;">
-          </div>
-        </div>
-
-        <!-- Applied Answer Box -->
-        <div style="margin-top:0.8rem; padding:1.2rem; background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:2px;">
-          <div style="font-size:0.82rem; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-main); margin-bottom:0.5rem;">
-            ✍ Your Answer:
-          </div>
-          <div style="display:flex; gap:0.6rem; align-items:center; flex-wrap:wrap; margin-bottom:0.6rem;">
-            <select class="runner-input" id="ex-quad-user-case" style="flex:1; min-width:200px;">
-              <option value="">-- Select Decision Case --</option>
-              <option value="two-real">Δ &gt; 0: Two Distinct Real Roots</option>
-              <option value="double-root">Δ = 0: Single Double Root</option>
-              <option value="complex">Δ &lt; 0: Conjugate Complex in ℂ</option>
-              <option value="linear">a = 0: Degenerate Linear</option>
-              <option value="empty">a=b=0, c≠0: Contradiction (∅)</option>
-              <option value="infinite">a=b=c=0: Indeterminate (ℝ)</option>
-            </select>
-            <input type="text" class="runner-input" id="ex-quad-user-roots" placeholder="Root(s), e.g. 2, 3 (or 3, or none)" style="flex:1; min-width:180px;">
-          </div>
-          <div style="display:flex; gap:0.6rem; align-items:center; flex-wrap:wrap;">
-            <button class="btn-pill-back" style="background:var(--tile-crimson); color:#fff; border-color:var(--tile-crimson);" onclick="gradeQuadratic()">Grade Answer (5 pts)</button>
-            <button class="btn-pill-back" onclick="solveQuadratic()">Reveal Solution</button>
-          </div>
-          <div id="ex-quad-grade" style="margin-top:0.8rem; font-family:var(--font-mono); font-size:0.88rem; display:none;"></div>
-        </div>
-
-        <div id="ex-quad-res" style="font-family:var(--font-mono); font-size:0.9rem; padding:1.2rem; background:var(--bg-subtle); border-radius:2px; border:1px solid var(--border-subtle); margin-top:1rem; display:none;"></div>
-      </div>
-
-      <!-- Challenge 5 -->
-      <div class="chapter-accordion-card aux-card-surface" style="padding:2rem; margin-bottom:2rem;">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:0.5rem;">
-          <span style="font-size:0.75rem; font-weight:800; background:var(--tile-crimson); color:#fff; padding:0.2rem 0.55rem; border-radius:2px;">Challenge 05 • Matrix Classic</span>
-          <span style="font-size:0.75rem; font-weight:800; color:var(--text-muted); font-family:var(--font-mono);">Minimax Bound • Row-Min &amp; Col-Max</span>
-        </div>
-        <h3 style="font-size:1.4rem; font-weight:800; margin:0.8rem 0 0.5rem;">Multi-Saddle Point (Point-Selle) Matrix Inspector</h3>
-        <p style="color:var(--text-muted); font-size:0.92rem; margin-bottom:1rem; line-height:1.55;">
-          An entry <code>M[i, j]</code> is a Saddle Point if and only if it is simultaneously the minimum element in row <code>i</code> and the maximum element in column <code>j</code>. Evaluates both square and rectangular matrices with the Minimax Theorem.
-        </p>
-
-        <!-- Presets -->
-        <div style="display:flex; gap:0.4rem; align-items:center; flex-wrap:wrap; margin-bottom:1rem;">
-          <span style="font-size:0.74rem; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Test Presets:</span>
-          <button class="quiz-cat-pill" onclick="loadSaddlePreset('1, 2, 3', '4, 5, 6', '7, 8, 9')">Classic Saddle Point</button>
-          <button class="quiz-cat-pill" onclick="loadSaddlePreset('7, 7, 7', '7, 7, 7', '7, 7, 7')">Uniform Matrix (9 Saddles)</button>
-          <button class="quiz-cat-pill" onclick="loadSaddlePreset('9, 2, 8', '3, 7, 1', '4, 6, 5')">No Saddle Point</button>
-          <button class="quiz-cat-pill" onclick="loadSaddlePreset('1, 4, 3, 2', '2, 5, 4, 3', '3, 6, 5, 4')">Rectangular 3x4 Grid</button>
-        </div>
-
-        <div style="display:flex; flex-direction:column; gap:0.5rem; margin-bottom:1rem;">
-          <div style="display:flex; align-items:center; gap:0.6rem;">
-            <label style="font-size:0.8rem; font-weight:800; width:65px;">Row 1:</label>
-            <input type="text" class="runner-input" id="ex-mat-1" value="1, 2, 3" style="flex:1;">
-          </div>
-          <div style="display:flex; align-items:center; gap:0.6rem;">
-            <label style="font-size:0.8rem; font-weight:800; width:65px;">Row 2:</label>
-            <input type="text" class="runner-input" id="ex-mat-2" value="4, 5, 6" style="flex:1;">
-          </div>
-          <div style="display:flex; align-items:center; gap:0.6rem;">
-            <label style="font-size:0.8rem; font-weight:800; width:65px;">Row 3:</label>
-            <input type="text" class="runner-input" id="ex-mat-3" value="7, 8, 9" style="flex:1;">
-          </div>
-        </div>
-
-        <!-- Applied Answer Box -->
-        <div style="margin-top:0.8rem; padding:1.2rem; background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:2px;">
-          <div style="font-size:0.82rem; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-main); margin-bottom:0.5rem;">
-            ✍ Your Answer:
-          </div>
-          <div style="display:flex; gap:0.6rem; align-items:center; flex-wrap:wrap;">
-            <input type="text" class="runner-input" id="ex-mat-user-ans" placeholder="Enter coordinate (row, col) e.g. (3, 1), value, or none" style="flex:1; min-width:220px;">
-            <button class="btn-pill-back" style="background:var(--tile-crimson); color:#fff; border-color:var(--tile-crimson);" onclick="gradeSaddle()">Grade Answer (5 pts)</button>
-            <button class="btn-pill-back" onclick="solveSaddle()">Reveal Solution</button>
-          </div>
-          <div id="ex-mat-grade" style="margin-top:0.8rem; font-family:var(--font-mono); font-size:0.88rem; display:none;"></div>
-        </div>
-
-        <div id="ex-mat-res" style="font-family:var(--font-mono); font-size:0.9rem; padding:1.2rem; background:var(--bg-subtle); border-radius:2px; border:1px solid var(--border-subtle); margin-top:1rem; display:none;"></div>
-      </div>
-
-      <div class="site-footer-note">
-
+      <div class="site-footer-note" style="margin-top:2rem;">
         Algorithms &amp; Data Structures I (ALGØ 1) • Student Interactive Study Guide<br>
-
         Made with ❤️ by <a href="https://github.com/blood-prog/blood-prog" target="_blank" rel="noopener noreferrer" class="author-gh-link">Ibrahim Benabida</a>, student in USTHB, based on the course given by the teacher.<br>
-
         <span style="font-size:0.75rem; color:#6b6762; display:inline-block; margin-top:0.35rem;">⭐ If this study guide helped you, please <a href="https://github.com/blood-prog/blood-prog" target="_blank" rel="noopener noreferrer" class="star-callout-link">give it a star on GitHub</a>!</span>
-
       </div>
 
     </div>
@@ -2538,11 +2400,11 @@
 
   <script src="avatar_model_data.js?v=5.0"></script>
 
-  <script src="monster.js?v=5.0"></script>
+  <script src="monster.js?v=9.0"></script>
 
   <script src="data.js?v=5.0"></script>
 
-  <script src="app.js?v=5.1"></script>
+  <script src="app.js?v=9.0"></script>
 
   <!-- FIXED PLAYFUL MEMPHIS ABSTRACT ART BACKDROP (Exact match to media_1791578845273.webp) -->
   <div class="page-art-backdrop" id="page-art-backdrop" aria-hidden="true" style="position:fixed; top:0; left:0; width:100vw; height:100vh; width:100dvw; height:100dvh; z-index:-1; pointer-events:none; overflow:hidden; user-select:none;">
