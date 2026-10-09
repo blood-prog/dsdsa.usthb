@@ -75,119 +75,7 @@ function computeQuizScore() {
 }
 computeQuizScore();
 
-// =============================================================================
-// MOTIQ BORDER BEAM & MOVING BORDER PHYSICS ENGINES (Zero Dependencies)
-// =============================================================================
-class MotiqSpring {
-  constructor(value, k = 30, d = 11) {
-    this.x = value;
-    this.target = value;
-    this.k = k;
-    this.d = d;
-    this.v = 0;
-  }
-  step(dt) {
-    const a = this.k * (this.target - this.x) - this.d * this.v;
-    this.v += a * dt;
-    this.x += this.v * dt;
-    return this.x;
-  }
-}
-
-const clampDelta = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
-
-function makeComet(tail, head, tip, midAlpha, start) {
-  return [
-    `color-mix(in srgb, ${tail} 4%, transparent) ${start + 18}deg`,
-    `color-mix(in srgb, ${tail} ${midAlpha}%, transparent) ${start + 46}deg`,
-    `${head} ${start + 56}deg`,
-    `${tip} ${start + 60}deg`,
-    `transparent ${start + 63}deg`,
-  ].join(", ");
-}
-
-function generateRingGradient(color1, color2) {
-  const tail0 = color1 || "#c84b31";
-  const head0 = color2 || "#f6c83b";
-  const tail1 = color2 || "#dfbe88";
-  const head1 = color1 || "#c84b31";
-
-  const stops = [
-    "transparent 0deg",
-    makeComet(tail0, head0, `color-mix(in srgb, ${head0} 22%, #ffffff)`, 55, 0),
-    "transparent 198deg",
-    makeComet(tail1, head1, `color-mix(in srgb, ${head1} 26%, #ffffff)`, 50, 198),
-    "transparent 360deg"
-  ];
-  return `conic-gradient(from var(--mk-beam-a, 0deg), ${stops.join(", ")})`;
-}
-
-function initBorderBeamPanels() {
-  const panels = document.querySelectorAll('.border-beam-panel');
-  panels.forEach((el, index) => {
-    if (el._motiqBeamInitialized) return;
-    el._motiqBeamInitialized = true;
-
-    const baseColor = el.dataset.beamColor || "#c84b31";
-    const accentColor = el.dataset.beamAccent || "#f6c83b";
-    const gradient = generateRingGradient(baseColor, accentColor);
-    el.style.setProperty('--mk-beam-gradient', gradient);
-    const ring = el.querySelector('.mk-beam-ring');
-    const glow = el.querySelector('.mk-beam-glow');
-    if (ring) ring.style.background = gradient;
-    if (glow) glow.style.background = gradient;
-
-    const speed = new MotiqSpring(42, 30, 11);
-    let angle = ((index * 137.5) % 360 + 360) % 360;
-    let last = 0;
-
-    el.addEventListener('pointerenter', () => { speed.target = 240; });
-    el.addEventListener('pointerleave', () => { speed.target = 42; });
-    el.addEventListener('focus', () => { speed.target = 240; });
-    el.addEventListener('blur', () => { speed.target = 42; });
-
-    function frame(now) {
-      if (!last) last = now;
-      const dt = clampDelta((now - last) / 1000, 0, 0.05);
-      last = now;
-      angle = (angle + speed.step(dt) * dt) % 360;
-      el.style.setProperty('--mk-beam-a', `${angle.toFixed(2)}deg`);
-      requestAnimationFrame(frame);
-    }
-    requestAnimationFrame(frame);
-  });
-}
-
-function initMovingBorderKickers() {
-  document.querySelectorAll('.moving-border-kicker').forEach(kicker => {
-    if (kicker._movingBorderInitialized) return;
-    kicker._movingBorderInitialized = true;
-
-    const svgRect = kicker.querySelector('.moving-border-path');
-    const beam = kicker.querySelector('.moving-border-beam');
-    if (!svgRect || !beam) return;
-
-    let progress = 0;
-    const duration = 2800;
-    let lastTime = 0;
-
-    function animate(time) {
-      if (!lastTime) lastTime = time;
-      const dt = time - lastTime;
-      lastTime = time;
-
-      const length = svgRect.getTotalLength ? svgRect.getTotalLength() : 0;
-      if (length > 0) {
-        const pxPerMs = length / duration;
-        progress = (progress + (dt * pxPerMs)) % length;
-        const pt = svgRect.getPointAtLength(progress);
-        beam.style.transform = `translate(${pt.x}px, ${pt.y}px) translate(-50%, -50%)`;
-      }
-      requestAnimationFrame(animate);
-    }
-    requestAnimationFrame(animate);
-  });
-}
+// Card animations cleanly removed per minimalist design
 
 // Initialize on DOM Ready
 document.addEventListener('DOMContentLoaded', () => {
@@ -196,8 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initQuiz();
   renderSortBars();
   renderBinarySearchTrack();
-  initBorderBeamPanels();
-  initMovingBorderKickers();
 
   // Handle URL hash if any
   const hash = window.location.hash.replace('#', '');
@@ -243,8 +129,6 @@ window.navigateTo = function(viewName, options = {}) {
   if (viewName === 'track') {
     renderTrack();
     updateProgressUI();
-    initBorderBeamPanels();
-    initMovingBorderKickers();
   } else if (viewName === 'visualizer') {
     renderSortBars();
     renderBinarySearchTrack();
@@ -367,14 +251,17 @@ function renderTrack() {
           <div class="lesson-row-left">
             <span class="lesson-step-num">${stepNum}</span>
             <div class="lesson-status-icon ${isDone ? 'completed' : ''}">
-              ${isDone ? '&#10003;' : ''}
+              ${isDone ? '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
             </div>
             <div class="lesson-title-meta">
               <span class="lesson-title-text">${l.title}</span>
             </div>
           </div>
           <div class="lesson-row-right">
-            <span class="lesson-duration-badge">⏱ ${l.duration}</span>
+            <span class="lesson-duration-badge">
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              ${l.duration}
+            </span>
             <button class="lesson-action-pill ${isDone ? 'done' : ''}" onclick="event.stopPropagation(); openLesson('${l.id}')">
               ${isDone ? 'Completed ✓' : 'Start Lesson &rarr;'}
             </button>
@@ -384,7 +271,7 @@ function renderTrack() {
     }).join('');
 
     return `
-      <div class="chapter-accordion-card open" id="ch-card-${ch.id}">
+      <div class="chapter-accordion-card open" id="ch-card-${ch.id}" data-chapter-id="${ch.id}">
         <div class="chapter-card-header" onclick="toggleChapterAccordion('${ch.id}')">
           <div class="chapter-header-left">
             <div class="chapter-code-badge" style="background-color: ${ch.badgeColor}; color: ${badgeTextColor};">
@@ -400,7 +287,7 @@ function renderTrack() {
           </div>
           <div class="chapter-header-right">
             <span class="chapter-completion-badge ${isAllDone ? 'mastered' : ''}">
-              ${isAllDone ? '✓ Mastered' : `${completedInChapter} / ${totalInChapter} Completed`}
+              ${isAllDone ? '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:3px;"><polyline points="20 6 9 17 4 12"/></svg> Mastered' : `${completedInChapter} / ${totalInChapter} Completed`}
             </span>
             <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <polyline points="6 9 12 15 18 9"></polyline>
@@ -415,9 +302,36 @@ function renderTrack() {
       </div>
     `;
   }).join('');
-
-  initBorderBeamPanels();
 }
+
+window.filterChapterTab = function(chapterId, btn) {
+  document.querySelectorAll('.cat-pill-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  const container = document.getElementById('chapters-list-container');
+  if (!container) return;
+
+  const cards = container.querySelectorAll('.chapter-accordion-card');
+  cards.forEach(card => {
+    const cardCh = card.getAttribute('data-chapter-id');
+    if (chapterId === 'all' || cardCh === chapterId) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+
+  if (chapterId !== 'all') {
+    const targetCard = document.getElementById(`ch-card-${chapterId}`);
+    if (targetCard) {
+      targetCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const drawer = targetCard.querySelector('.chapter-lessons-drawer');
+      if (drawer && !targetCard.classList.contains('open')) {
+        targetCard.classList.add('open');
+      }
+    }
+  }
+};
 
 window.toggleChapterAccordion = function(chId) {
   const card = document.getElementById(`ch-card-${chId}`);
@@ -654,7 +568,7 @@ window.checkMultiMicroExercise = function(exIdx, selectedIdx, correctIdx) {
   if (expBox) {
     expBox.classList.add('show');
     if (isCorrect) {
-      expBox.innerHTML = `<div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.6rem; color:#065f46; font-weight:800; font-size:0.95rem;"><span>🎉</span> Spot on! Byte is proud of your reasoning!</div>` + expBox.innerHTML;
+      expBox.innerHTML = `<div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.6rem; font-weight:800; font-size:0.95rem;" class="micro-exp-success-title"><span>🎉</span> Spot on! Byte is proud of your reasoning!</div>` + expBox.innerHTML;
     }
   }
 

@@ -302,6 +302,17 @@
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
         osc.start(now);
         osc.stop(now + 0.2);
+      } else if (type === 'weeeiii') {
+        // High playful slide-whistle "weee-iii!" pitch glide
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(420, now);
+        osc.frequency.exponentialRampToValueAtTime(1050, now + 0.22);
+        osc.frequency.exponentialRampToValueAtTime(1380, now + 0.38);
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.linearRampToValueAtTime(0.15, now + 0.18);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.42);
+        osc.start(now);
+        osc.stop(now + 0.42);
       }
     } catch(e) {
       // Audio optional / graceful degradation
@@ -330,7 +341,7 @@
       <div class="monster-speech-bubble" id="monster-speech-bubble">
         <div class="monster-speech-tail"></div>
         <div class="monster-speech-header">
-          <span class="monster-name-tag">🧶 Byte</span>
+          <span class="monster-name-tag">Byte</span>
           <button class="monster-speech-close" id="monster-speech-close" title="Dismiss message">&times;</button>
         </div>
         <div class="monster-speech-body" id="monster-speech-body">
@@ -341,9 +352,11 @@
 
       <!-- Drag Handle & 3D Canvas -->
       <div class="monster-canvas-wrapper" id="monster-canvas-wrapper" title="Click to poke me! Drag to move me anywhere on screen.">
-        <div class="monster-placeholder-icon" id="monster-placeholder-icon">🧶</div>
+        <div class="monster-placeholder-icon" id="monster-placeholder-icon">
+          <img src="avatar.jpg" alt="Byte" class="monster-fallback-img">
+        </div>
         <canvas id="monster-three-canvas"></canvas>
-        <div class="monster-drag-pill">Drag Me</div>
+        <div class="monster-drag-pill">Byte</div>
       </div>
     `;
 
@@ -358,40 +371,56 @@
       speechEl.classList.remove('visible');
     });
 
-    // Positioning: Restore saved position or default to bottom-right
-    let hasValidPos = false;
-    try {
-      const savedPos = JSON.parse(localStorage.getItem('monster_avatar_pos') || 'null');
-      if (savedPos && 
-          typeof savedPos.x === 'number' && !isNaN(savedPos.x) && 
-          typeof savedPos.y === 'number' && !isNaN(savedPos.y) &&
-          savedPos.x > 0 && savedPos.y > 0 &&
-          savedPos.x < (window.innerWidth || 1920) && savedPos.y < (window.innerHeight || 1080)) {
-        const maxX = (window.innerWidth || 1920) - 180;
-        const maxY = (window.innerHeight || 1080) - 200;
-        const clampedX = Math.min(Math.max(20, savedPos.x), maxX);
-        const clampedY = Math.min(Math.max(20, savedPos.y), maxY);
-        containerEl.style.left = `${clampedX}px`;
-        containerEl.style.top = `${clampedY}px`;
-        containerEl.style.right = 'auto';
-        containerEl.style.bottom = 'auto';
-        hasValidPos = true;
-      }
-    } catch(e) {}
-
-    if (!hasValidPos) {
-      containerEl.style.right = '28px';
-      containerEl.style.bottom = '28px';
+    // Positioning: On mobile, always anchor safely above the floating capsule dock
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      containerEl.style.right = '14px';
+      containerEl.style.bottom = '86px';
       containerEl.style.left = 'auto';
       containerEl.style.top = 'auto';
+    } else {
+      let hasValidPos = false;
+      try {
+        const savedPos = JSON.parse(localStorage.getItem('monster_avatar_pos') || 'null');
+        if (savedPos && 
+            typeof savedPos.x === 'number' && !isNaN(savedPos.x) && 
+            typeof savedPos.y === 'number' && !isNaN(savedPos.y) &&
+            savedPos.x > 0 && savedPos.y > 0 &&
+            savedPos.x < (window.innerWidth - 180) && savedPos.y < (window.innerHeight - 200)) {
+          const maxX = window.innerWidth - 180;
+          const maxY = window.innerHeight - 200;
+          const clampedX = Math.min(Math.max(20, savedPos.x), maxX);
+          const clampedY = Math.min(Math.max(20, savedPos.y), maxY);
+          containerEl.style.left = `${clampedX}px`;
+          containerEl.style.top = `${clampedY}px`;
+          containerEl.style.right = 'auto';
+          containerEl.style.bottom = 'auto';
+          hasValidPos = true;
+        }
+      } catch(e) {}
+
+      if (!hasValidPos) {
+        containerEl.style.right = '28px';
+        containerEl.style.bottom = '28px';
+        containerEl.style.left = 'auto';
+        containerEl.style.top = 'auto';
+      }
     }
 
-    // Setup Dragging
+    // Setup Dragging & Touching
     setupDragInteraction();
 
     // Setup Smart Bubble Alignment
     adjustSpeechBubbleOrientation();
-    window.addEventListener('resize', adjustSpeechBubbleOrientation);
+    window.addEventListener('resize', () => {
+      if (window.innerWidth <= 768) {
+        containerEl.style.right = '14px';
+        containerEl.style.bottom = '86px';
+        containerEl.style.left = 'auto';
+        containerEl.style.top = 'auto';
+      }
+      adjustSpeechBubbleOrientation();
+    });
   }
 
   // Smart Speech Bubble Orientation
@@ -419,16 +448,17 @@
     }
   }
 
-  // Drag and Drop
+  // Drag and Touch Interaction
   function setupDragInteraction() {
     const handle = document.getElementById('monster-canvas-wrapper');
     let hasMoved = false;
+    let dragSoundPlayed = false;
 
     function onPointerDown(e) {
-      // Only left mouse button or touch
       if (e.button && e.button !== 0) return;
       isDragging = true;
       hasMoved = false;
+      dragSoundPlayed = false;
       const rect = containerEl.getBoundingClientRect();
       dragStartX = e.clientX;
       dragStartY = e.clientY;
@@ -449,24 +479,40 @@
 
       if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
         hasMoved = true;
+        if (!dragSoundPlayed) {
+          dragSoundPlayed = true;
+          playCuteSound('weeeiii');
+          const weeeTexts = [
+            "Weeeeeeiii! 🎈",
+            "Weee-iii! Look at me fly! 🚀",
+            "Wheeeeee! Zero gravity! ✨",
+            "Weeeiii! New vantage point! 🤸‍♂️",
+            "Weeeeeeiii! Hold on tight! 🌪️"
+          ];
+          const chosenWeee = weeeTexts[Math.floor(Math.random() * weeeTexts.length)];
+          speak(chosenWeee, 'weeeiii');
+        }
       }
 
       let newX = initialPosX + dx;
       let newY = initialPosY + dy;
 
-      // Clamp to screen bounds
-      const minX = 10;
-      const maxX = window.innerWidth - 170;
-      const minY = 10;
-      const maxY = window.innerHeight - 170;
+      const rect = containerEl.getBoundingClientRect();
+      const w = rect.width || 80;
+      const h = rect.height || 80;
+      const minX = 0;
+      const maxX = Math.max(0, window.innerWidth - w);
+      const minY = 0;
+      const maxY = Math.max(0, window.innerHeight - h);
 
       newX = Math.max(minX, Math.min(newX, maxX));
       newY = Math.max(minY, Math.min(newY, maxY));
 
-      containerEl.style.left = `${newX}px`;
-      containerEl.style.top = `${newY}px`;
-      containerEl.style.right = 'auto';
-      containerEl.style.bottom = 'auto';
+      containerEl.classList.add('dragged-custom');
+      containerEl.style.setProperty('right', 'auto', 'important');
+      containerEl.style.setProperty('bottom', 'auto', 'important');
+      containerEl.style.setProperty('left', `${newX}px`, 'important');
+      containerEl.style.setProperty('top', `${newY}px`, 'important');
 
       // Tilt towards drag direction
       targetRotationY = Math.max(-0.6, Math.min(0.6, dx * 0.015));
@@ -478,6 +524,7 @@
     function onPointerUp(e) {
       if (!isDragging) return;
       isDragging = false;
+      dragSoundPlayed = false;
       containerEl.classList.remove('dragging');
       squashScale = { x: 1, y: 1, z: 1 };
 
@@ -498,6 +545,33 @@
     }
 
     handle.addEventListener('pointerdown', onPointerDown);
+
+    // Native touch listeners for mobile phones
+    handle.addEventListener('touchstart', (e) => {
+      if (!e.touches || e.touches.length === 0) return;
+      onPointerDown({
+        button: 0,
+        clientX: e.touches[0].clientX,
+        clientY: e.touches[0].clientY,
+        preventDefault: () => {}
+      });
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      if (!isDragging || !e.touches || e.touches.length === 0) return;
+      onPointerMove({
+        clientX: e.touches[0].clientX,
+        clientY: e.touches[0].clientY
+      });
+    }, { passive: true });
+
+    window.addEventListener('touchend', (e) => {
+      if (!isDragging) return;
+      onPointerUp({
+        clientX: dragStartX,
+        clientY: dragStartY
+      });
+    }, { passive: true });
 
     // Global cursor tracking (monster glances at cursor)
     window.addEventListener('mousemove', (e) => {
@@ -973,6 +1047,7 @@
 
   // Public Reactive API
   window.monsterCompanion = {
+    playCuteSound: function(sound) { playCuteSound(sound); },
     say: function(text, sound = 'pop') {
       speak(text, sound);
     },
