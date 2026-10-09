@@ -129,11 +129,15 @@ html, body {
    HERO / HOME PAGE (EXACT MATCH TO REFERENCE IMAGE)
    ========================================================================== */
 .hero-wrapper {
-  min-height: 100vh;
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 4rem;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  box-sizing: border-box;
 }
 
 .hero-box {
@@ -3285,4 +3289,375 @@ html[data-theme="dark"] .micro-explanation-box {
   background-color: #064e3b33 !important;
   border-color: #059669 !important;
   color: #d1fae5 !important;
+}
+
+
+/* ==========================================================================
+   KRACKERZ & WOONPACT INSPIRED EDITORIAL DESIGN SYSTEM
+   Directly matching media_1791522124949, 954, 955, 978, 008
+   ========================================================================== */
+
+/* Mascot Kicker Badge */
+.hero-mascot-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(24, 23, 22, 0.06);
+  padding: 4px 10px 4px 5px;
+  border-radius: 999px;
+  margin-bottom: 0.85rem;
+  border: 1px solid rgba(24, 23, 22, 0.08);
+}
+.mascot-kicker-text {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--text-main);
+  text-transform: uppercase;
+}
+
+/* Neo-Hero Headline with Playful Italic Accent */
+.neo-hero-headline {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5.2vw, 3.6rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  color: var(--text-main);
+  margin: 0 0 0.75rem 0;
+  text-transform: uppercase;
+}
+.neo-hero-headline em {
+  font-style: italic;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 400;
+  color: var(--tile-crimson);
+  text-transform: lowercase;
+  padding: 0 3px;
+}
+
+.hero-punchy-desc {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 1.4rem;
+}
+
+/* Krackerz Neo-Brutalist Lime Button */
+.btn-krackerz {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  background: #d4f82d;
+  color: #181716;
+  border: 2.5px solid #181716;
+  box-shadow: 4px 4px 0px #181716;
+  padding: 0.85rem 1.8rem;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  text-transform: uppercase;
+  user-select: none;
+}
+.btn-krackerz-arrow {
+  display: inline-block;
+  font-size: 1.15rem;
+  transition: transform 0.15s ease;
+}
+.btn-krackerz:hover {
+  transform: translate(-1.5px, -1.5px);
+  box-shadow: 5.5px 5.5px 0px #181716;
+  background: #dbfa42;
+}
+.btn-krackerz:hover .btn-krackerz-arrow {
+  transform: translateX(3px);
+}
+.btn-krackerz:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0px #181716;
+}
+
+/* Woonpact Timeline Ruler Strip (media_1791522124949.png) */
+.woonpact-timeline-strip {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1.4rem 1.6rem;
+  margin-top: 1.8rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+}
+.woonpact-top-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.woonpact-title-condensed {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 3.5vw, 1.7rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--text-main);
+  line-height: 1;
+}
+.woonpact-fraction {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  font-family: var(--font-display);
+}
+.woonpact-big-num {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--text-main);
+  line-height: 1;
+}
+.woonpact-total-num {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+.woonpact-ruler {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0.6rem 0;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 0.85rem;
+  overflow-x: auto;
+}
+.woonpact-tick {
+  flex: 1;
+  min-width: 14px;
+  height: 28px;
+  border-left: 2px solid var(--border-subtle);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+}
+.woonpact-tick:first-child {
+  border-left-width: 3px;
+  border-left-color: var(--text-main);
+}
+.woonpact-tick.active {
+  border-left: 3.5px solid var(--tile-crimson);
+  background: rgba(200, 75, 49, 0.08);
+}
+.woonpact-tick:hover {
+  border-left-color: var(--tile-crimson);
+}
+.woonpact-bottom-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.woonpact-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--text-main);
+  color: #ffffff;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-family: var(--font-display);
+  font-size: 0.76rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+.woonpact-pill-caption {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* Krackerz Scalloped Modules Section (media_1791522124978.png) */
+.krackerz-cards-section {
+  width: 100%;
+  margin-top: 2rem;
+}
+.krackerz-section-title {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.9rem;
+}
+.krackerz-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+.krackerz-card {
+  background: var(--bg-card);
+  border: 1.5px solid rgba(24, 23, 22, 0.12);
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+  user-select: none;
+}
+.krackerz-card:hover {
+  border-color: #181716;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+.krackerz-card-visual {
+  height: 110px;
+  padding: 0.75rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  color: #181716;
+}
+.krackerz-card-visual.bg-sand { background-color: var(--tile-sand); }
+.krackerz-card-visual.bg-olive { background-color: var(--tile-olive); color: #ffffff; }
+.krackerz-card-visual.bg-crimson { background-color: var(--tile-crimson); color: #ffffff; }
+.krackerz-card-visual.bg-lilac { background-color: var(--tile-lilac); }
+.krackerz-card-visual.bg-sunflower { background-color: var(--tile-sunflower); }
+
+.krackerz-badge-top {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 850;
+  background: rgba(255, 255, 255, 0.85);
+  color: #181716;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+.krackerz-card-art {
+  align-self: flex-end;
+  opacity: 0.9;
+}
+.krackerz-scallop-divider {
+  width: 100%;
+  height: 10px;
+  line-height: 0;
+  color: var(--bg-card);
+  margin-top: -9px;
+  position: relative;
+  z-index: 2;
+}
+.krackerz-scallop-divider svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.krackerz-card-body {
+  padding: 0.85rem 0.95rem 1.1rem;
+  background: var(--bg-card);
+}
+.krackerz-card-title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 850;
+  letter-spacing: -0.02em;
+  color: var(--text-main);
+  margin: 0 0 0.25rem;
+}
+.krackerz-card-short {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+  margin: 0;
+}
+
+/* Dark Mode Overrides for Krackerz & Woonpact */
+html[data-theme="dark"] .hero-mascot-kicker {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+html[data-theme="dark"] .btn-krackerz {
+  background: #d4f82d;
+  color: #0c0d10;
+  border-color: #0c0d10;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.8);
+}
+html[data-theme="dark"] .woonpact-timeline-strip {
+  background: #171820;
+  border-color: #272a38;
+}
+html[data-theme="dark"] .woonpact-ruler {
+  border-color: #272a38;
+}
+html[data-theme="dark"] .woonpact-tick {
+  border-left-color: #272a38;
+}
+html[data-theme="dark"] .woonpact-tick.active {
+  border-left-color: #e85a40;
+  background: rgba(232, 90, 64, 0.12);
+}
+html[data-theme="dark"] .woonpact-status-pill {
+  background: #ffffff;
+  color: #0c0d10;
+}
+html[data-theme="dark"] .krackerz-card {
+  background: #171820;
+  border-color: #272a38;
+}
+html[data-theme="dark"] .krackerz-card:hover {
+  border-color: #3f4357;
+}
+html[data-theme="dark"] .krackerz-scallop-divider {
+  color: #171820;
+}
+html[data-theme="dark"] .krackerz-card-body {
+  background: #171820;
+}
+html[data-theme="dark"] .krackerz-card-title {
+  color: #ffffff;
+}
+html[data-theme="dark"] .krackerz-card-short {
+  color: #a8a49c;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .hero-wrapper {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+    padding: 0.4rem 0.75rem 6rem !important;
+  }
+  .hero-box {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 1.4rem 1.1rem !important;
+    border-radius: 12px !important;
+    margin: 0 0 1.2rem 0 !important;
+  }
+  .neo-hero-headline {
+    font-size: clamp(1.8rem, 8vw, 2.4rem) !important;
+    line-height: 1.08 !important;
+  }
+  .btn-krackerz {
+    width: 100% !important;
+    padding: 0.95rem 1.4rem !important;
+    font-size: 0.98rem !important;
+  }
+  .woonpact-timeline-strip {
+    padding: 1.1rem 1rem !important;
+    margin-top: 1.2rem !important;
+  }
+  .krackerz-cards-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.65rem !important;
+  }
 }

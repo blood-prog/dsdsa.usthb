@@ -237,7 +237,7 @@
       }
     })();
   </script>
-  <link rel="stylesheet" href="style.css?v=4.5">
+  <link rel="stylesheet" href="style.css?v=5.0">
 </head>
 <body>
 
@@ -364,17 +364,26 @@
         <!-- Center Split: Bold Headline Left & Exact Staggered Grid Right -->
         <div class="hero-center-split">
           
-          <!-- Left Column: Bold Headline & Start Button (No text under headline) -->
-          <div>
-            <h1 class="hero-headline">
-              We make algorithms<br>
-              that's flexible, and<br>
-              playful, to fit<br>
-              modern life
+          <!-- Left Column: Bold Neo-Brutalist Playful Headline & Krackerz Button -->
+          <div class="hero-text-col">
+            <div class="hero-mascot-kicker">
+              <span class="mascot-kicker-avatar">
+                <img src="avatar.jpg" alt="Byte" style="width:22px; height:22px; border-radius:50%; object-fit:cover; display:inline-block; vertical-align:middle;">
+              </span>
+              <span class="mascot-kicker-text">USTHB L1 ALGO 1</span>
+            </div>
+            <h1 class="neo-hero-headline">
+              FOR THE CODE<br>
+              THEY <em>don't</em> TEACH<br>
+              WELL AT UNI.
             </h1>
-            <div>
-              <button class="btn-start-primary" onclick="navigateTo('track')">
-                Start Studying Algo 1 &rarr;
+            <p class="hero-punchy-desc">
+              8 chapitres &bull; 26 leçons &bull; 81 exercices &bull; Zéro blabla.
+            </p>
+            <div class="hero-cta-row">
+              <button class="btn-krackerz" onclick="navigateTo('track')">
+                <span>START LEARNING</span>
+                <span class="btn-krackerz-arrow">➔</span>
               </button>
             </div>
           </div>
@@ -579,64 +588,121 @@
 
       </div>
 
-      <!-- Mobile Feed Section (Directly inspired by Screen 1 in reference UI) -->
-      <div class="mobile-feed-section">
-        
-        <!-- Mobile Category Chips Row -->
-        <div class="mobile-section-header">
-          <h3>Chapters</h3>
-          <button class="mobile-section-link" onclick="navigateTo('track')">See All</button>
-        </div>
-        <div class="mobile-chips-row">
-          <button class="mobile-category-pill active" onclick="navigateTo('track')">All</button>
-          <button class="mobile-category-pill" onclick="openChapterDirectly('ch1')">Ch 1 Foundations</button>
-          <button class="mobile-category-pill" onclick="openChapterDirectly('ch2')">Ch 2 Decisions</button>
-          <button class="mobile-category-pill" onclick="openChapterDirectly('ch3')">Ch 3 Loops</button>
-          <button class="mobile-category-pill" onclick="openChapterDirectly('ch4')">Ch 4 1D Arrays</button>
-          <button class="mobile-category-pill" onclick="openChapterDirectly('ch5')">Ch 5 2D Matrices</button>
-          <button class="mobile-category-pill" onclick="openChapterDirectly('ch6')">Ch 6 Sorting</button>
-        </div>
-
-        <!-- Explore More Cards Feed -->
-        <div class="mobile-section-header" style="margin-top:1.4rem;">
-          <h3>Explore</h3>
-        </div>
-        <div class="mobile-cards-feed">
-          
-          <div class="mobile-feature-card" onclick="navigateTo('track')">
-            <div class="mobile-card-content">
-              <h4 class="mobile-card-title">Curriculum Track</h4>
-              <p class="mobile-card-desc">8 chapters &bull; 26 lessons &bull; 81 exercises</p>
-            </div>
-            <button class="mobile-card-action-btn" aria-label="Open track">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-            </button>
+      <!-- Woonpact Timeline Progression Ruler (Directly inspired by media_1791522124949.png) -->
+      <div class="woonpact-timeline-strip">
+        <div class="woonpact-top-row">
+          <div class="woonpact-title-condensed">TIJDSLIJN &bull; USTHB L1</div>
+          <div class="woonpact-fraction">
+            <span class="woonpact-big-num">01</span>
+            <span class="woonpact-total-num">/ 08</span>
           </div>
-
-          <div class="mobile-feature-card" onclick="navigateTo('visualizer')">
-            <div class="mobile-card-content">
-              <h4 class="mobile-card-title">Sorting Visualizer</h4>
-              <p class="mobile-card-desc">Step-by-step Selection &amp; Bubble Sort</p>
-            </div>
-            <button class="mobile-card-action-btn" aria-label="Open visualizer">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-            </button>
-          </div>
-
-          <div class="mobile-feature-card" onclick="navigateTo('quiz')">
-            <div class="mobile-card-content">
-              <h4 class="mobile-card-title">Master Quiz</h4>
-              <p class="mobile-card-desc">50 exam questions with instant feedback</p>
-            </div>
-            <button class="mobile-card-action-btn" aria-label="Open quiz">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-            </button>
-          </div>
-
         </div>
-
+        <div class="woonpact-ruler">
+          <span class="woonpact-tick active" onclick="openChapterDirectly('ch1')" title="Ch 1: Foundations"></span>
+          <span class="woonpact-tick" onclick="openChapterDirectly('ch2')" title="Ch 2: Decisions"></span>
+          <span class="woonpact-tick" onclick="openChapterDirectly('ch3')" title="Ch 3: Loops"></span>
+          <span class="woonpact-tick" onclick="openChapterDirectly('ch4')" title="Ch 4: 1D Arrays"></span>
+          <span class="woonpact-tick" onclick="openChapterDirectly('ch5')" title="Ch 5: 2D Matrices"></span>
+          <span class="woonpact-tick" onclick="openChapterDirectly('ch6')" title="Ch 6: Sorting"></span>
+          <span class="woonpact-tick" onclick="openChapterDirectly('ch7')" title="Ch 7: Functions"></span>
+          <span class="woonpact-tick" onclick="openChapterDirectly('ch8')" title="Ch 8: Exam Vault"></span>
+        </div>
+        <div class="woonpact-bottom-row">
+          <button class="woonpact-status-pill" onclick="navigateTo('track')">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Semestre 1</span>
+          </button>
+          <span class="woonpact-pill-caption">8 chapitres &bull; 26 leçons &bull; 81 exercices</span>
+        </div>
       </div>
 
+      <!-- Playful Krackerz Scalloped Modules (Directly inspired by media_1791522124978.png) -->
+      <div class="krackerz-cards-section">
+        <div class="krackerz-section-title">LES 5 MODULES ESSENTIELS</div>
+        <div class="krackerz-cards-grid">
+          
+          <div class="krackerz-card" onclick="openChapterDirectly('ch1')">
+            <div class="krackerz-card-visual bg-sand">
+              <span class="krackerz-badge-top">CH 01–03</span>
+              <div class="krackerz-card-art">
+                <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              </div>
+            </div>
+            <div class="krackerz-scallop-divider">
+              <svg viewBox="0 0 120 12" preserveAspectRatio="none"><path d="M0,0 Q15,12 30,0 Q45,12 60,0 Q75,12 90,0 Q105,12 120,0 L120,12 L0,12 Z" fill="currentColor"/></svg>
+            </div>
+            <div class="krackerz-card-body">
+              <h4 class="krackerz-card-title">Variables &amp; Loops</h4>
+              <p class="krackerz-card-short">Knuth, types &amp; trace tables</p>
+            </div>
+          </div>
+
+          <div class="krackerz-card" onclick="openChapterDirectly('ch4')">
+            <div class="krackerz-card-visual bg-olive">
+              <span class="krackerz-badge-top">CH 04–05</span>
+              <div class="krackerz-card-art">
+                <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+              </div>
+            </div>
+            <div class="krackerz-scallop-divider">
+              <svg viewBox="0 0 120 12" preserveAspectRatio="none"><path d="M0,0 Q15,12 30,0 Q45,12 60,0 Q75,12 90,0 Q105,12 120,0 L120,12 L0,12 Z" fill="currentColor"/></svg>
+            </div>
+            <div class="krackerz-card-body">
+              <h4 class="krackerz-card-title">Arrays &amp; Matrices</h4>
+              <p class="krackerz-card-short">1D arrays, diagonals &amp; saddles</p>
+            </div>
+          </div>
+
+          <div class="krackerz-card" onclick="navigateTo('visualizer')">
+            <div class="krackerz-card-visual bg-crimson">
+              <span class="krackerz-badge-top">CH 06</span>
+              <div class="krackerz-card-art">
+                <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              </div>
+            </div>
+            <div class="krackerz-scallop-divider">
+              <svg viewBox="0 0 120 12" preserveAspectRatio="none"><path d="M0,0 Q15,12 30,0 Q45,12 60,0 Q75,12 90,0 Q105,12 120,0 L120,12 L0,12 Z" fill="currentColor"/></svg>
+            </div>
+            <div class="krackerz-card-body">
+              <h4 class="krackerz-card-title">Sorting Studio</h4>
+              <p class="krackerz-card-short">Live animated comparisons</p>
+            </div>
+          </div>
+
+          <div class="krackerz-card" onclick="openChapterDirectly('ch7')">
+            <div class="krackerz-card-visual bg-lilac">
+              <span class="krackerz-badge-top">CH 07</span>
+              <div class="krackerz-card-art">
+                <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              </div>
+            </div>
+            <div class="krackerz-scallop-divider">
+              <svg viewBox="0 0 120 12" preserveAspectRatio="none"><path d="M0,0 Q15,12 30,0 Q45,12 60,0 Q75,12 90,0 Q105,12 120,0 L120,12 L0,12 Z" fill="currentColor"/></svg>
+            </div>
+            <div class="krackerz-card-body">
+              <h4 class="krackerz-card-title">Functions &amp; Stack</h4>
+              <p class="krackerz-card-short">Pass-by-value &amp; reference</p>
+            </div>
+          </div>
+
+          <div class="krackerz-card" onclick="navigateTo('quiz')">
+            <div class="krackerz-card-visual bg-sunflower">
+              <span class="krackerz-badge-top">EXAM</span>
+              <div class="krackerz-card-art">
+                <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+              </div>
+            </div>
+            <div class="krackerz-scallop-divider">
+              <svg viewBox="0 0 120 12" preserveAspectRatio="none"><path d="M0,0 Q15,12 30,0 Q45,12 60,0 Q75,12 90,0 Q105,12 120,0 L120,12 L0,12 Z" fill="currentColor"/></svg>
+            </div>
+            <div class="krackerz-card-body">
+              <h4 class="krackerz-card-title">50-Q Exam Quiz</h4>
+              <p class="krackerz-card-short">Instant score &amp; explanations</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1342,9 +1408,9 @@
 
   <script src="three.min.js"></script>
   <script src="GLTFLoader.js"></script>
-  <script src="avatar_model_data.js?v=4.5"></script>
-  <script src="monster.js?v=4.5"></script>
-  <script src="data.js?v=4.5"></script>
-  <script src="app.js?v=4.5"></script>
+  <script src="avatar_model_data.js?v=5.0"></script>
+  <script src="monster.js?v=5.0"></script>
+  <script src="data.js?v=5.0"></script>
+  <script src="app.js?v=5.0"></script>
 </body>
 </html>
