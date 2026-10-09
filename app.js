@@ -1823,27 +1823,29 @@ const DC_EXERCISES = [
     ],
     hint: 'Never allocate a second prefix sum array! You can solve this with O(1) auxiliary space: first sum all elements in one pass. Then iterate k from 1 to N; suffix sum is simply (total - left - T[k]). Remember USTHB algorithm arrays are 1-indexed.',
     starterCode: `# Exercise 1: Dual-Pivot Equilibrium Index
+# Language: Python / Algorithmic Notation
 # Objective: Return the 1-based equilibrium index k, or -1.
 
 def find_equilibrium(T):
     total_sum = sum(T)
     left_sum = 0
     
+    # Iterate through array T (1-indexed k ∈ [1..N]):
     for k in range(1, len(T) + 1):
-        right_sum = total_sum - left_sum - T[k - 1]
+        # TODO: Calculate suffix right_sum using total_sum, left_sum, and T[k - 1]
         
-        # Check equilibrium condition:
-        if left_sum == right_sum:
-            return k
-            
-        left_sum += T[k - 1]
+        # TODO: Check if prefix left_sum strictly equals right_sum
+        # If balanced, return the 1-based index k
         
+        # TODO: Update left_sum by adding current element T[k - 1]
+        pass
+        
+    # Return -1 if no equilibrium pivot exists:
     return -1
 
-# Sample execution:
+# Sample test:
 arr = [-7, 1, 5, 2, -4, 3, 0]
-result = find_equilibrium(arr)
-print("Equilibrium index:", result)
+print("Result:", find_equilibrium(arr))
 `,
     solutionCode: `# Official Solution: O(N) Time • O(1) Auxiliary Space
 def find_equilibrium(T):
@@ -1889,26 +1891,28 @@ def find_equilibrium(T):
     ],
     hint: 'Scanning from left to right would require O(N²) quadratic time! Instead, scan once backwards from right to left in O(N). Keep the running maximum. Only elements strictly greater than the current running maximum are leaders.',
     starterCode: `# Exercise 2: Leaders in an Array (Backward Scan)
-# Objective: Return list of leaders in left-to-right order.
+# Language: Python / Algorithmic Notation
+# Objective: Return list of leaders in original left-to-right order.
 
 def find_leaders(T):
     if not T:
         return []
         
     n = len(T)
-    leaders = [T[n - 1]]
-    max_right = T[n - 1]
+    # TODO: The rightmost element T[n - 1] is always a leader:
+    leaders = []
+    max_right = 0
     
-    # Traverse backwards from n - 2 down to 0:
+    # TODO: Scan backwards from index n - 2 down to 0:
     for i in range(n - 2, -1, -1):
-        if T[i] > max_right:
-            leaders.append(T[i])
-            max_right = T[i]
-            
-    # Return in left-to-right order:
-    return leaders[::-1]
+        # TODO: Check strict dominance (T[i] > max_right)
+        # If strictly dominant, append to leaders and update max_right
+        pass
+        
+    # TODO: Return leaders in original left-to-right order:
+    return leaders
 
-# Sample execution:
+# Sample test:
 arr = [16, 17, 4, 3, 5, 2]
 print("Leaders:", find_leaders(arr))
 `,
@@ -1960,11 +1964,13 @@ def find_leaders(T):
     ],
     hint: 'Three consecutive array reversals achieve cyclic permutation in-place without copying elements to a temporary array. Notice how reversal flips the order of each segment, and the global reversal restores the original internal order in their new cyclical positions.',
     starterCode: `# Exercise 3: Three-Reversal Array Rotation
+# Language: Python / Algorithmic Notation
 # Objective: Rotate array in-place with O(1) extra space.
 
 def reverse_sub(arr, start, end):
+    # TODO: Reverse subarray in-place between start and end indices:
     while start < end:
-        arr[start], arr[end] = arr[end], arr[start]
+        # Swap elements at start and end
         start += 1
         end -= 1
 
@@ -1972,24 +1978,25 @@ def rotate_array(arr, k, direction='left'):
     n = len(arr)
     if n <= 1:
         return arr
-    k = k % n
-    if k == 0:
-        return arr
         
+    # TODO: Normalize shift amount k using modulo (k % n):
+    k = 0
+    
     if direction == 'left':
-        reverse_sub(arr, 0, k - 1)
-        reverse_sub(arr, k, n - 1)
-        reverse_sub(arr, 0, n - 1)
+        # TODO: Apply the 3 reversals for left rotation:
+        # 1. Reverse prefix [0..k-1]
+        # 2. Reverse suffix [k..n-1]
+        # 3. Reverse entire array [0..n-1]
+        pass
     else:
-        reverse_sub(arr, 0, n - 1)
-        reverse_sub(arr, 0, k - 1)
-        reverse_sub(arr, k, n - 1)
+        # TODO: Apply the 3 reversals for right rotation:
+        pass
         
     return arr
 
-# Sample execution:
+# Sample test:
 arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-print("Rotated (Left by 3):", rotate_array(arr[:], 3, 'left'))
+print("Rotated:", rotate_array(arr[:], 3, 'left'))
 `,
     solutionCode: `# Official Solution: Three-Reversal Algorithm
 def rotate_array(arr, k, direction='left'):
@@ -2044,31 +2051,25 @@ def rotate_array(arr, k, direction='left'):
       'Return <code>"two-real"</code> (Δ &gt; 0), <code>"double-root"</code> (Δ = 0), or <code>"complex"</code> (Δ &lt; 0).'
     ],
     hint: 'Never divide by 2a before verifying a != 0! In algorithmic exams, failing to test the a = 0 degenerate case will result in zero credit for the question.',
-    starterCode: `# Exercise 4: Complete Quadratic Analyzer
+    starterCode: `# Exercise 4: Complete Degenerate Quadratic Analyzer
+# Language: Python / Algorithmic Notation
 # Objective: Handle all USTHB decision tree cases for ax² + bx + c = 0.
 
 def solve_quadratic(a, b, c):
+    # Case 1: Degenerate equation when a == 0
     if a == 0:
-        if b == 0:
-            if c == 0:
-                return {"case": "infinite", "roots": []}
-            else:
-                return {"case": "empty", "roots": []}
-        else:
-            return {"case": "linear", "roots": [-c / b]}
-            
-    delta = (b ** 2) - (4 * a * c)
-    if delta > 0:
-        r1 = (-b - (delta ** 0.5)) / (2 * a)
-        r2 = (-b + (delta ** 0.5)) / (2 * a)
-        return {"case": "two-real", "roots": sorted([round(r1, 2), round(r2, 2)])}
-    elif delta == 0:
-        r = -b / (2 * a)
-        return {"case": "double-root", "roots": [round(r, 2)]}
-    else:
-        return {"case": "complex", "delta": delta}
+        # TODO: If b == 0, check if c == 0 (infinite ℝ) vs c != 0 (empty ∅)
+        # TODO: If b != 0, return linear root -c / b
+        pass
+        
+    # Case 2: Quadratic equation when a != 0
+    # TODO: Compute discriminant delta = b² - 4ac
+    # TODO: If delta > 0, return "two-real" with roots
+    # TODO: If delta == 0, return "double-root" with single root
+    # TODO: If delta < 0, return "complex"
+    pass
 
-# Sample execution:
+# Sample test:
 print("Solution:", solve_quadratic(1, -5, 6))
 `,
     solutionCode: `# Official Solution: 6-Branch Case Tree
@@ -2120,25 +2121,26 @@ def solve_quadratic(a, b, c):
       'If so, record the 1-indexed coordinate <code>(i+1, j+1)</code> and value <code>M[i][j]</code>.'
     ],
     hint: 'By the Minimax Theorem, every saddle point in a matrix has the exact same numerical value: Max(Row Minimums) == Min(Column Maximums). If these two values differ, no saddle point exists.',
-    starterCode: `# Exercise 5: Matrix Saddle Point Inspector
-# Objective: Find all (row, col) coordinates that are row-min and col-max.
+    starterCode: `# Exercise 5: Matrix Saddle Point (Point-Selle) Inspector
+# Language: Python / Algorithmic Notation
+# Objective: Return all coordinates (row, col) that are row-min and col-max.
 
 def find_saddle_points(matrix):
     rows = len(matrix)
     cols = len(matrix[0])
     saddles = []
     
+    # TODO: Iterate through each row i:
     for i in range(rows):
-        row_min = min(matrix[i])
-        for j in range(cols):
-            if matrix[i][j] == row_min:
-                col_vals = [matrix[r][j] for r in range(rows)]
-                if matrix[i][j] == max(col_vals):
-                    saddles.append({"row": i + 1, "col": j + 1, "val": matrix[i][j]})
-                    
+        # TODO: Find minimum value in row i
+        
+        # TODO: Check if that element is also the maximum in its column j
+        # If true, append 1-based coordinate: {"row": i + 1, "col": j + 1, "val": matrix[i][j]}
+        pass
+        
     return saddles
 
-# Sample execution:
+# Sample test:
 grid = [
     [1, 2, 3],
     [4, 5, 6],
@@ -2464,6 +2466,15 @@ window.runCurrentCode = function() {
 
   logToShell(`<span class="dc-term-cmd">In [${dcState.promptCount++}]:</span> run script.algo --preset="${preset.name}"`);
 
+  const currentCode = (document.getElementById('dc-code-input').value || '').trim();
+  const hasPendingTodo = currentCode.includes('# TODO') || /\bpass\b/.test(currentCode);
+
+  if (hasPendingTodo && dcState.activeTab !== 'solution') {
+    logToShell(`<span class="dc-term-warn">[!] Starter template detected with pending # TODO blocks.</span>`);
+    logToShell(`<span class="dc-term-info">[i] Fill in the algorithm logic in script.algo, or switch to the 'solution.algo' tab above to test the model implementation.</span>`);
+    return;
+  }
+
   if (ex.key === 'eq') {
     const arr = preset.val;
     const total = arr.reduce((a, b) => a + b, 0);
@@ -2636,6 +2647,19 @@ window.submitCurrentSolution = function() {
   switchShellTab('repl');
   const ex = DC_EXERCISES[dcState.currentIdx];
   logToShell(`<span class="dc-term-cmd">In [${dcState.promptCount++}]:</span> submit solution.algo`);
+
+  const currentCode = (document.getElementById('dc-code-input').value || '').trim();
+  const hasPendingTodo = currentCode.includes('# TODO') || /\bpass\b/.test(currentCode);
+
+  if (hasPendingTodo && dcState.activeTab !== 'solution') {
+    logToShell(`<span class="dc-term-fail">[✗] Submission Incomplete: Starter template contains unsolved # TODO sections.</span>`);
+    logToShell(`<span class="dc-term-warn">[i] Replace the # TODO comments with your algorithm solution in script.algo, or click 'solution.algo' tab to review the official solution.</span>`);
+    if (window.monsterCompanion) {
+      window.monsterCompanion.react('wrong');
+    }
+    return;
+  }
+
   logToShell(`<span class="dc-term-info">[*] Running automated test suite for Exercise ${ex.id}...</span>`);
 
   let allPassed = true;
