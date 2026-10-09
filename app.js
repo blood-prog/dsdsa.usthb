@@ -2755,9 +2755,10 @@ function updateWoonpactStepUI(stepIndex) {
 window.jumpToWoonpactStep = function(stepIndex) {
   const track = document.getElementById('home-timeline-track');
   if (!track) return;
+  const stageTopOffset = window.innerWidth <= 768 ? 56 : 0;
   const totalScroll = track.offsetHeight - window.innerHeight;
   const trackTopInDoc = track.getBoundingClientRect().top + window.scrollY;
-  const targetY = trackTopInDoc + ((stepIndex - 1) / 7) * totalScroll;
+  const targetY = trackTopInDoc - stageTopOffset + ((stepIndex - 1) / 7) * totalScroll + 10;
   window.scrollTo({ top: targetY, behavior: 'smooth' });
 };
 
@@ -2772,14 +2773,41 @@ function initPinnedWoonpactTimeline() {
   setTimeout(() => { alignPillToActiveTick(1); }, 200);
 
   const track = document.getElementById('home-timeline-track');
-  if (!track) return;
+  const stage = document.getElementById('home-timeline-stage');
+  if (!track || !stage) return;
 
   function handlePinnedScroll() {
     if (currentView !== 'home') return;
     const trackRect = track.getBoundingClientRect();
-    const stageTopOffset = window.innerWidth <= 768 ? 56 : 0;
-    const totalScroll = track.offsetHeight - window.innerHeight;
+    const isMobile = window.innerWidth <= 768;
+    const stageTopOffset = isMobile ? 56 : 0;
+    const viewportH = window.innerHeight;
+    const totalScroll = track.offsetHeight - viewportH;
     if (totalScroll <= 0) return;
+
+    // Guaranteed Pin Synchronization:
+    // If inside track: lock stage at fixed top
+    if (trackRect.top <= stageTopOffset && trackRect.bottom >= (stageTopOffset + viewportH)) {
+      stage.style.position = 'fixed';
+      stage.style.top = `${stageTopOffset}px`;
+      stage.style.bottom = 'auto';
+      stage.style.left = '0';
+      stage.style.width = '100%';
+    } else if (trackRect.top > stageTopOffset) {
+      // Above track: sit at top of track
+      stage.style.position = 'absolute';
+      stage.style.top = '0';
+      stage.style.bottom = 'auto';
+      stage.style.left = '0';
+      stage.style.width = '100%';
+    } else {
+      // Scrolled past track: sit at bottom of track
+      stage.style.position = 'absolute';
+      stage.style.top = 'auto';
+      stage.style.bottom = '0';
+      stage.style.left = '0';
+      stage.style.width = '100%';
+    }
 
     // How far user has scrolled inside this pinned track
     const scrolled = stageTopOffset - trackRect.top;
@@ -2791,13 +2819,15 @@ function initPinnedWoonpactTimeline() {
   }
 
   window.addEventListener('scroll', handlePinnedScroll, { passive: true });
-  window.addEventListener('resize', () => { alignPillToActiveTick(activeWoonpactStep); }, { passive: true });
+  window.addEventListener('resize', () => { 
+    alignPillToActiveTick(activeWoonpactStep); 
+    handlePinnedScroll();
+  }, { passive: true });
 
   // Initial sync
   setTimeout(handlePinnedScroll, 100);
 }
 
 // Make globally accessible
-
 window.initPinnedWoonpactTimeline = initPinnedWoonpactTimeline;
 

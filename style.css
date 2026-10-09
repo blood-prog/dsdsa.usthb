@@ -39,20 +39,6 @@
   --tile-olive: #788a4e;
   --tile-sand-light: #e8d5b5;
 
-  /* Playful Abstract Memphis Canvas Palette (media_1791578845273.webp adapted to site) */
-  --art-bg-base: #f4efe6;
-  --art-bg-navy: #1f2c42;
-  --art-bg-purple: #786b96;
-  --art-bg-coral: #d4553b;
-  --art-bg-blush: #ebdcd2;
-  --art-bg-cream: #faf6ee;
-  --art-bg-gold: #e5b938;
-  --art-bg-olive: #6e8248;
-  --art-bg-stroke-light: rgba(255, 255, 255, 0.92);
-  --art-bg-stroke-dark: rgba(31, 44, 66, 0.85);
-  --art-bg-dash: #1f2c42;
-  --art-bg-dash-light: rgba(255, 255, 255, 0.9);
-  
   --font-handwriting: 'Priestacy', cursive;
   --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', Consolas, monospace;
@@ -89,8 +75,7 @@ button, input, select, textarea,
 
 html {
   min-height: 100vh;
-  overflow-x: clip;
-  background-color: var(--art-bg-base);
+  background-color: #152f68;
 }
 
 body {
@@ -100,11 +85,9 @@ body {
   color: var(--text-main);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  overflow-x: clip;
   max-width: 100%;
 }
 
-/* Fixed Playful Memphis Abstract Art Backdrop */
 .page-art-backdrop {
   position: fixed;
   top: 0;
@@ -3681,29 +3664,22 @@ html[data-theme="dark"],
   --tile-sand-light: #3a3225;
 
   /* Playful Abstract Memphis Dark Canvas Tokens */
-  --art-bg-base: #0f1014;
-  --art-bg-navy: #141a27;
-  --art-bg-purple: #261d33;
-  --art-bg-coral: #471d18;
-  --art-bg-blush: #1b1622;
-  --art-bg-cream: #12141a;
-  --art-bg-gold: #382c12;
-  --art-bg-olive: #1a2416;
-  --art-bg-stroke-light: rgba(255, 255, 255, 0.35);
-  --art-bg-stroke-dark: rgba(255, 255, 255, 0.22);
-  --art-bg-dash: rgba(255, 255, 255, 0.32);
-  --art-bg-dash-light: rgba(255, 255, 255, 0.35);
 }
 
 /* Global Viewport Background & Text in Dark Mode */
 html[data-theme="dark"] {
-  background-color: var(--art-bg-base) !important;
+  background-color: #0c0d10 !important;
 }
 
 html[data-theme="dark"] body {
   background-color: transparent !important;
   background-image: none !important;
   color: #f5f4ef !important;
+}
+
+html[data-theme="dark"] .page-art-backdrop {
+  opacity: 0.55;
+  filter: brightness(0.65) contrast(1.2);
 }
 
 /* Hero Box in Dark Mode */
@@ -6799,16 +6775,15 @@ html[data-theme="dark"] .krackerz-card-short {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
+  left: 0;
   height: 100vh;
   height: 100dvh;
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 3rem 0 0;
-  background: rgba(244, 239, 230, 0.90);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  padding: 2.2rem 0 0;
+  background: var(--bg-frame);
   overflow: hidden;
   z-index: 20;
   box-sizing: border-box;
@@ -6817,12 +6792,12 @@ html[data-theme="dark"] .krackerz-card-short {
 .woonpact-stage-header {
   width: 100%;
   padding: 0 5vw;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.6rem;
 }
 
 .woonpact-main-title {
   font-family: var(--font-display);
-  font-size: clamp(2.2rem, 5vw, 4.2rem);
+  font-size: clamp(2rem, 3.8vw, 3.4rem);
   font-weight: 950;
   letter-spacing: -0.04em;
   text-transform: uppercase;
@@ -6835,30 +6810,31 @@ html[data-theme="dark"] .krackerz-card-short {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
   align-items: center;
-  gap: 3.5rem;
+  gap: 2.5rem;
   flex: 1;
   max-width: 1350px;
   width: 100%;
   margin: 0 auto;
   padding: 0 5vw;
+  min-height: 0;
 }
 
 .woonpact-text-side {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 2.2rem;
+  gap: 1.8rem;
 }
 
 .woonpact-step-headings {
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
+  gap: 0.5rem;
 }
 
 .woonpact-step-title {
   font-family: var(--font-display);
-  font-size: clamp(1.4rem, 2.6vw, 2.2rem);
+  font-size: clamp(1.3rem, 2.2vw, 1.95rem);
   font-weight: 750;
   color: #383533;
   letter-spacing: -0.025em;
@@ -6868,10 +6844,10 @@ html[data-theme="dark"] .krackerz-card-short {
 }
 
 .woonpact-step-desc {
-  font-size: clamp(0.95rem, 1.35vw, 1.12rem);
+  font-size: clamp(0.9rem, 1.2vw, 1.05rem);
   color: #6b6762;
-  line-height: 1.5;
-  max-width: 560px;
+  line-height: 1.45;
+  max-width: 540px;
   margin: 0;
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
@@ -6884,7 +6860,7 @@ html[data-theme="dark"] .krackerz-card-short {
 }
 
 .woonpact-big-number {
-  font-size: clamp(3.8rem, 8vw, 7rem);
+  font-size: clamp(3.2rem, 6.5vw, 5.5rem);
   font-weight: 950;
   color: var(--text-main);
   line-height: 0.85;
@@ -6894,7 +6870,7 @@ html[data-theme="dark"] .krackerz-card-short {
 }
 
 .woonpact-total-denom {
-  font-size: clamp(1.6rem, 3.2vw, 2.8rem);
+  font-size: clamp(1.5rem, 2.8vw, 2.4rem);
   font-weight: 850;
   color: #9e9a93;
   letter-spacing: -0.03em;
@@ -6907,15 +6883,17 @@ html[data-theme="dark"] .krackerz-card-short {
 }
 
 .woonpact-illustration-wrap {
-  width: min(340px, 30vw);
-  height: min(340px, 30vw);
+  width: min(260px, 22vw);
+  height: min(260px, 22vw);
+  max-height: 34vh;
   border-radius: 2px !important;
   border: 1.5px solid var(--border-subtle);
   background: radial-gradient(circle, rgba(255, 237, 213, 0.85) 0%, rgba(254, 243, 199, 0.45) 55%, transparent 70%);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
+  padding: 1.25rem;
+  box-sizing: border-box;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
 }
 
