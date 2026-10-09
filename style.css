@@ -33,55 +33,96 @@
   /* Reference Image Color Palette */
 
   --tile-sand: #dfbe88;
-
   --tile-crimson: #c84b31;
-
   --tile-lilac: #9d84c6;
-
   --tile-sunflower: #e6be36;
-
   --tile-olive: #788a4e;
-
   --tile-sand-light: #e8d5b5;
 
+  /* Playful Abstract Memphis Canvas Palette (media_1791578845273.webp adapted to site) */
+  --art-bg-base: #f4efe6;
+  --art-bg-navy: #1f2c42;
+  --art-bg-purple: #786b96;
+  --art-bg-coral: #d4553b;
+  --art-bg-blush: #ebdcd2;
+  --art-bg-cream: #faf6ee;
+  --art-bg-gold: #e5b938;
+  --art-bg-olive: #6e8248;
+  --art-bg-stroke-light: rgba(255, 255, 255, 0.92);
+  --art-bg-stroke-dark: rgba(31, 44, 66, 0.85);
+  --art-bg-dash: #1f2c42;
+  --art-bg-dash-light: rgba(255, 255, 255, 0.9);
   
-
   --font-handwriting: 'Priestacy', cursive;
   --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-
   --font-mono: 'JetBrains Mono', Consolas, monospace;
-
   --ease-snappy: cubic-bezier(0.16, 1, 0.3, 1);
-
 }
 
 *, *::before, *::after {
-
   box-sizing: border-box;
-
   margin: 0;
-
   padding: 0;
+}
 
+/* Universal almost-sharp corner styling: nothing pretty-rounded */
+button, input, select, textarea,
+.btn, .badge, .card, .pill,
+.mobile-nav-btn, .mobile-bottom-nav,
+.cat-pill-btn, .moving-border-kicker, .moving-border-content,
+.btn-pill-back, .btn-start-primary, .btn-krackerz, .btn-github-star,
+.krackerz-card, .metric-card, .chapter-accordion-card, .lesson-card,
+.quiz-card, .exam-card, .terminal-window, .mobile-feature-card,
+.mobile-circle-action, .mobile-avatar-circle, .mobile-avatar-img,
+.mobile-online-status, .mobile-tag-usthb, .category-filter-count,
+.mascot-kicker, .drawer-tag, .woonpact-current-step-pill,
+.monster-speech-bubble, .monster-drag-pill, .art-card, .hero-box,
+.krackerz-badge-top, .krackerz-tag, .krackerz-btn-action,
+.lesson-badge-type, .btn-lesson-cta, .lesson-sidebar-panel,
+.lesson-content-area, .lesson-exercise-box, .quiz-option-btn,
+.quiz-submit-btn, .exam-badge, .drawer-content, .mobile-tab-pill,
+.mobile-card-tag, .mobile-card-action-btn, .btn-theme-toggle,
+.chapter-code-badge, .chapter-count-badge, .chapter-toggle-pill,
+.chapter-lesson-item, .lesson-status-icon, .palette-dot, .dot {
+  border-radius: 2px !important;
 }
 
 html {
   min-height: 100vh;
   overflow-x: clip;
+  background-color: var(--art-bg-base);
 }
 
 body {
   min-height: 100vh;
-  background-color: #dcd7ce;
-  background-image: 
-    radial-gradient(at 10% 20%, rgba(200, 215, 180, 0.4) 0px, transparent 50%),
-    radial-gradient(at 90% 80%, rgba(220, 210, 190, 0.5) 0px, transparent 50%);
+  background-color: transparent;
   font-family: var(--font-display);
   color: var(--text-main);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
   max-width: 100%;
+}
+
+/* Fixed Playful Memphis Abstract Art Backdrop */
+.page-art-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  width: 100dvw;
+  height: 100dvh;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  user-select: none;
+}
+
+.page-art-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 /* ==========================================================================
@@ -262,9 +303,15 @@ body {
 
   max-width: 1080px;
 
-  background-color: var(--bg-frame);
+  background-color: rgba(247, 243, 236, 0.94);
 
-  border-radius: 6px;
+  backdrop-filter: blur(12px);
+
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 2px solid var(--border-subtle);
+
+  border-radius: 2px !important;
 
   padding: 3.5rem 4rem;
 
@@ -860,7 +907,9 @@ body {
 
   line-height: 1.1;
 
-  color: var(--text-main);
+  color: #ffffff;
+
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
 
   margin-bottom: 0.9rem;
 
@@ -872,7 +921,9 @@ body {
 
   line-height: 1.68;
 
-  color: #55524e;
+  color: rgba(255, 255, 255, 0.92);
+
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
 
   max-width: 740px;
 
@@ -3653,34 +3704,47 @@ html[data-theme="dark"],
   --tile-sunflower: #dbae28;
 
   --tile-olive: #6c7f45;
-
   --tile-sand-light: #3a3225;
 
+  /* Playful Abstract Memphis Dark Canvas Tokens */
+  --art-bg-base: #0f1014;
+  --art-bg-navy: #141a27;
+  --art-bg-purple: #261d33;
+  --art-bg-coral: #471d18;
+  --art-bg-blush: #1b1622;
+  --art-bg-cream: #12141a;
+  --art-bg-gold: #382c12;
+  --art-bg-olive: #1a2416;
+  --art-bg-stroke-light: rgba(255, 255, 255, 0.35);
+  --art-bg-stroke-dark: rgba(255, 255, 255, 0.22);
+  --art-bg-dash: rgba(255, 255, 255, 0.32);
+  --art-bg-dash-light: rgba(255, 255, 255, 0.35);
 }
 
 /* Global Viewport Background & Text in Dark Mode */
-
-html[data-theme="dark"],
+html[data-theme="dark"] {
+  background-color: var(--art-bg-base) !important;
+}
 
 html[data-theme="dark"] body {
-
-  background-color: #0c0d10 !important;
-
-  background-image: 
-
-    radial-gradient(at 10% 20%, rgba(30, 42, 28, 0.45) 0px, transparent 50%),
-
-    radial-gradient(at 90% 80%, rgba(45, 34, 25, 0.5) 0px, transparent 50%) !important;
-
+  background-color: transparent !important;
+  background-image: none !important;
   color: #f5f4ef !important;
-
 }
 
 /* Hero Box in Dark Mode */
 
 html[data-theme="dark"] .hero-box {
 
-  background-color: #131418 !important;
+  background-color: rgba(19, 20, 24, 0.94) !important;
+
+  backdrop-filter: blur(12px) !important;
+
+  -webkit-backdrop-filter: blur(12px) !important;
+
+  border: 2px solid rgba(255, 255, 255, 0.12) !important;
+
+  border-radius: 2px !important;
 
   box-shadow: 0 24px 60px rgba(0,0,0,0.6) !important;
 
@@ -5954,7 +6018,7 @@ html[data-theme="dark"] .micro-explanation-box {
 
   padding: 4px 10px 4px 5px;
 
-  border-radius: 999px;
+  border-radius: 2px !important;
 
   margin-bottom: 0.85rem;
 
@@ -6763,7 +6827,9 @@ html[data-theme="dark"] .krackerz-card-short {
   flex-direction: column;
   justify-content: space-between;
   padding: 3rem 0 0;
-  background: var(--bg-frame);
+  background: rgba(244, 239, 230, 0.90);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   overflow: hidden;
   z-index: 20;
   box-sizing: border-box;
@@ -6862,9 +6928,10 @@ html[data-theme="dark"] .krackerz-card-short {
 }
 
 .woonpact-illustration-wrap {
-  width: min(360px, 32vw);
-  height: min(360px, 32vw);
-  border-radius: 50%;
+  width: min(340px, 30vw);
+  height: min(340px, 30vw);
+  border-radius: 2px !important;
+  border: 1.5px solid var(--border-subtle);
   background: radial-gradient(circle, rgba(255, 237, 213, 0.85) 0%, rgba(254, 243, 199, 0.45) 55%, transparent 70%);
   display: flex;
   align-items: center;
@@ -6977,10 +7044,12 @@ html[data-theme="dark"] .krackerz-card-short {
 
 /* Dark Mode Overrides for Woonpact Pinned Stage */
 html[data-theme="dark"] .woonpact-pinned-track {
-  background: #0f1014;
+  background: transparent;
 }
 html[data-theme="dark"] .woonpact-pinned-stage {
-  background: #0f1014;
+  background: rgba(15, 16, 20, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 html[data-theme="dark"] .woonpact-step-title {
   color: #f5f4ef;

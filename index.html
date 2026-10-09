@@ -462,6 +462,88 @@
 
 <body>
 
+  <!-- PLAYFUL ABSTRACT MEMPHIS BACKGROUND (Inspired by media_1791578845273.webp) -->
+  <div class="page-art-backdrop" id="page-art-backdrop" aria-hidden="true">
+    <svg class="page-art-svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Slanted / Horizontal dash texture pattern (Dark dash) -->
+        <pattern id="bg-art-dash" width="22" height="13" patternUnits="userSpaceOnUse" patternTransform="rotate(-8)">
+          <line x1="2" y1="6" x2="14" y2="6" stroke="var(--art-bg-dash)" stroke-width="2.5" stroke-linecap="round" />
+        </pattern>
+        <!-- Light dash texture pattern -->
+        <pattern id="bg-art-dash-light" width="22" height="13" patternUnits="userSpaceOnUse" patternTransform="rotate(-8)">
+          <line x1="2" y1="6" x2="14" y2="6" stroke="var(--art-bg-dash-light)" stroke-width="2.5" stroke-linecap="round" />
+        </pattern>
+      </defs>
+
+      <!-- Base Canvas Fill -->
+      <rect width="1440" height="900" fill="var(--art-bg-base)" />
+
+      <!-- Shape 1: Deep Navy Upper Flow -->
+      <path d="M 0,0 L 760,0 C 720,130 730,220 860,300 C 950,350 970,450 890,530 C 790,620 620,530 500,470 C 370,410 290,450 210,560 C 130,680 70,640 0,580 Z"
+            fill="var(--art-bg-navy)" />
+
+      <!-- Shape 2: Violet / Lavender Center Flow -->
+      <path d="M 460,0 L 1120,0 C 1050,170 1010,250 890,340 C 810,400 780,510 650,550 C 520,580 390,500 240,380 C 120,290 0,360 0,220 L 0,0 Z"
+            fill="var(--art-bg-purple)" />
+
+      <!-- Shape 3: Pale Blush / Sand Flow Upper Right -->
+      <path d="M 980,0 L 1440,0 L 1440,380 C 1340,320 1230,300 1120,240 C 1030,190 990,100 980,0 Z"
+            fill="var(--art-bg-blush)" />
+
+      <!-- Shape 4: Deep Navy Corner Accent Upper Right -->
+      <path d="M 1240,0 L 1440,0 L 1440,480 C 1370,390 1270,310 1240,0 Z"
+            fill="var(--art-bg-navy)" />
+
+      <!-- Shape 5: Center-Bottom Cream / Sand River Flowing Upwards -->
+      <path d="M 400,900 C 420,680 490,560 620,550 C 730,540 840,660 780,900 Z"
+            fill="var(--art-bg-cream)" />
+
+      <!-- Shape 6: Terracotta / Coral Curving Snake Wave (Lower Right) -->
+      <path d="M 1440,540 C 1220,440 1020,580 940,680 C 860,780 750,790 640,840 C 600,860 620,900 680,900 L 1440,900 Z"
+            fill="var(--art-bg-coral)" />
+
+      <!-- Shape 7: Lower-Left Corner Deep Organic Accent -->
+      <path d="M 0,560 C 80,640 180,620 200,760 C 210,840 160,900 0,900 Z"
+            fill="var(--art-bg-olive)" />
+
+      <!-- Texture 1: Parallel Wavy Squiggles in Upper Left -->
+      <g class="art-squiggles" stroke="var(--art-bg-stroke-light)" stroke-width="2.6" fill="none" stroke-linecap="round">
+        <path d="M 50,70 Q 75,45 100,70 T 150,70 T 200,70 T 250,70 T 300,70 T 350,70" />
+        <path d="M 45,95 Q 70,70 95,95 T 145,95 T 195,95 T 245,95 T 295,95 T 345,95" />
+        <path d="M 40,120 Q 65,95 90,120 T 140,120 T 190,120 T 240,120 T 290,120 T 340,120" />
+        <path d="M 35,145 Q 60,120 85,145 T 135,145 T 185,145 T 235,145 T 285,145 T 335,145" />
+        <path d="M 30,170 Q 55,145 80,170 T 130,170 T 180,170 T 230,170 T 280,170 T 330,170" />
+        <path d="M 25,195 Q 50,170 75,195 T 125,195 T 175,195 T 225,195 T 275,195 T 325,195" />
+        <path d="M 20,220 Q 45,195 70,220 T 120,220 T 170,220 T 220,220 T 270,220 T 320,220" />
+      </g>
+
+      <!-- Texture 2: Central Organic Contour Loop Wireframe -->
+      <path d="M 480,150 C 580,120 760,130 840,180 C 910,230 880,360 840,400 C 790,460 620,490 520,450 C 440,420 420,310 440,230 C 450,180 460,160 480,150 Z"
+            fill="none" stroke="var(--art-bg-stroke-light)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+
+      <!-- Texture 3: Dashed Stippling Matrix Block (Center-Bottom) -->
+      <rect x="460" y="660" width="220" height="160" fill="url(#bg-art-dash)" opacity="0.85" rx="2" />
+
+      <!-- Texture 4: Dashed Stippling Matrix Block (Upper-Right) -->
+      <rect x="1100" y="80" width="220" height="150" fill="url(#bg-art-dash)" opacity="0.85" rx="2" />
+
+      <!-- Texture 5: Dashed Stippling Matrix Block (Lower-Right) -->
+      <rect x="1080" y="410" width="240" height="120" fill="url(#bg-art-dash)" opacity="0.85" rx="2" />
+
+      <!-- Texture 6: Radiating Ticks along Lower-Left Contour Arc -->
+      <g stroke="var(--art-bg-stroke-light)" stroke-width="2.8" stroke-linecap="round">
+        <line x1="28" y1="635" x2="16" y2="622" />
+        <line x1="56" y1="672" x2="44" y2="656" />
+        <line x1="90" y1="708" x2="78" y2="692" />
+        <line x1="128" y1="744" x2="116" y2="728" />
+        <line x1="166" y1="784" x2="155" y2="766" />
+        <line x1="198" y1="830" x2="187" y2="811" />
+        <line x1="218" y1="880" x2="207" y2="859" />
+      </g>
+    </svg>
+  </div>
+
   <!-- Slide-out Drawer Navigation -->
 
   <div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
@@ -710,7 +792,7 @@
 
               <span class="mascot-kicker-avatar">
 
-                <img src="avatar.jpg" alt="Byte" style="width:22px; height:22px; border-radius:50%; object-fit:cover; display:inline-block; vertical-align:middle;">
+                <img src="avatar.jpg" alt="Byte" style="width:22px; height:22px; border-radius:2px; object-fit:cover; display:inline-block; vertical-align:middle;">
 
               </span>
 
