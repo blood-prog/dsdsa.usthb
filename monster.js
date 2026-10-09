@@ -371,40 +371,52 @@
       speechEl.classList.remove('visible');
     });
 
-    // Positioning: On mobile, always anchor safely above the floating capsule dock
+  function applyValidPosition(pos) {
+    if (!containerEl) return false;
+    const isMobile = window.innerWidth <= 768;
+    const w = isMobile ? 82 : 160;
+    const h = isMobile ? 82 : 160;
+    const maxX = Math.max(0, window.innerWidth - w);
+    const bottomCutoff = isMobile ? 78 : 28;
+    const maxY = Math.max(0, window.innerHeight - h - bottomCutoff);
+
+    if (pos && typeof pos.x === 'number' && typeof pos.y === 'number' && !isNaN(pos.x) && !isNaN(pos.y)) {
+      const clampedX = Math.min(Math.max(0, pos.x), maxX);
+      const clampedY = Math.min(Math.max(0, pos.y), maxY);
+      containerEl.classList.add('dragged-custom');
+      containerEl.style.setProperty('left', `${clampedX}px`, 'important');
+      containerEl.style.setProperty('top', `${clampedY}px`, 'important');
+      containerEl.style.setProperty('right', 'auto', 'important');
+      containerEl.style.setProperty('bottom', 'auto', 'important');
+      return true;
+    }
+    return false;
+  }
+
+  function resetToDefaultCorner() {
+    if (!containerEl) return;
+    containerEl.classList.remove('dragged-custom');
+    containerEl.style.removeProperty('left');
+    containerEl.style.removeProperty('top');
     const isMobile = window.innerWidth <= 768;
     if (isMobile) {
-      containerEl.style.right = '14px';
-      containerEl.style.bottom = '86px';
-      containerEl.style.left = 'auto';
-      containerEl.style.top = 'auto';
+      containerEl.style.setProperty('right', '14px', 'important');
+      containerEl.style.setProperty('bottom', '86px', 'important');
     } else {
-      let hasValidPos = false;
-      try {
-        const savedPos = JSON.parse(localStorage.getItem('monster_avatar_pos') || 'null');
-        if (savedPos && 
-            typeof savedPos.x === 'number' && !isNaN(savedPos.x) && 
-            typeof savedPos.y === 'number' && !isNaN(savedPos.y) &&
-            savedPos.x > 0 && savedPos.y > 0 &&
-            savedPos.x < (window.innerWidth - 180) && savedPos.y < (window.innerHeight - 200)) {
-          const maxX = window.innerWidth - 180;
-          const maxY = window.innerHeight - 200;
-          const clampedX = Math.min(Math.max(20, savedPos.x), maxX);
-          const clampedY = Math.min(Math.max(20, savedPos.y), maxY);
-          containerEl.style.left = `${clampedX}px`;
-          containerEl.style.top = `${clampedY}px`;
-          containerEl.style.right = 'auto';
-          containerEl.style.bottom = 'auto';
-          hasValidPos = true;
-        }
-      } catch(e) {}
+      containerEl.style.setProperty('right', '28px', 'important');
+      containerEl.style.setProperty('bottom', '28px', 'important');
+    }
+  }
 
-      if (!hasValidPos) {
-        containerEl.style.right = '28px';
-        containerEl.style.bottom = '28px';
-        containerEl.style.left = 'auto';
-        containerEl.style.top = 'auto';
-      }
+    // Positioning setup
+    let hasValidPos = false;
+    try {
+      const savedPos = JSON.parse(localStorage.getItem('monster_avatar_pos') || 'null');
+      hasValidPos = applyValidPosition(savedPos);
+    } catch(e) {}
+
+    if (!hasValidPos) {
+      resetToDefaultCorner();
     }
 
     // Setup Dragging & Touching
@@ -413,11 +425,13 @@
     // Setup Smart Bubble Alignment
     adjustSpeechBubbleOrientation();
     window.addEventListener('resize', () => {
-      if (window.innerWidth <= 768) {
-        containerEl.style.right = '14px';
-        containerEl.style.bottom = '86px';
-        containerEl.style.left = 'auto';
-        containerEl.style.top = 'auto';
+      let restored = false;
+      try {
+        const savedPos = JSON.parse(localStorage.getItem('monster_avatar_pos') || 'null');
+        restored = applyValidPosition(savedPos);
+      } catch(e) {}
+      if (!restored) {
+        resetToDefaultCorner();
       }
       adjustSpeechBubbleOrientation();
     });
@@ -497,13 +511,15 @@
       let newX = initialPosX + dx;
       let newY = initialPosY + dy;
 
+      const isMobile = window.innerWidth <= 768;
       const rect = containerEl.getBoundingClientRect();
-      const w = rect.width || 80;
-      const h = rect.height || 80;
+      const w = rect.width || (isMobile ? 82 : 160);
+      const h = rect.height || (isMobile ? 82 : 160);
       const minX = 0;
       const maxX = Math.max(0, window.innerWidth - w);
       const minY = 0;
-      const maxY = Math.max(0, window.innerHeight - h);
+      const bottomCutoff = isMobile ? 78 : 10;
+      const maxY = Math.max(0, window.innerHeight - h - bottomCutoff);
 
       newX = Math.max(minX, Math.min(newX, maxX));
       newY = Math.max(minY, Math.min(newY, maxY));
@@ -591,6 +607,11 @@
 
   // Typewriter Speech Engine
   function speak(text, sound = 'pop') {
+    if (containerEl) {
+      if (!document.body.contains(containerEl)) document.body.appendChild(containerEl);
+      containerEl.style.display = 'block';
+      containerEl.style.visibility = 'visible';
+    }
     if (!speechEl || !speechTextEl) return;
 
     if (typewriterTimer) clearInterval(typewriterTimer);

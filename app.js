@@ -868,39 +868,7 @@ window.openLesson = function(lessonId) {
 
       <h2 class="lesson-main-title">${targetLesson.title}</h2>
 
-      <!-- Mobile Fast Jump Chips (Touch-friendly section quick links) -->
 
-      <div class="mobile-jump-chips">
-
-        <button class="mobile-jump-chip" onclick="document.querySelector('.lesson-body-prose')?.scrollIntoView({behavior:'smooth'});">💡 Concept</button>
-
-        <button class="mobile-jump-chip" onclick="document.querySelector('.terminal-code-window')?.scrollIntoView({behavior:'smooth'});">💻 Code</button>
-
-        <button class="mobile-jump-chip" onclick="document.querySelector('.pedagogical-bridge-card')?.scrollIntoView({behavior:'smooth'});">🌉 Bridge</button>
-
-        <button class="mobile-jump-chip" onclick="document.querySelector('.lesson-checkpoints-section')?.scrollIntoView({behavior:'smooth'});">✍ 3 Exercises</button>
-
-      </div>
-
-      <!-- Byte's Mascot Insight Card (21st.dev Callout Style) -->
-
-      <div class="mascot-tip-box" onclick="if(window.monsterCompanion) window.monsterCompanion.say('Insight: ' + ${JSON.stringify(getLessonTip(targetLesson.id))}, 'happy')" style="cursor:pointer;" title="Click to have Byte read this tip aloud!">
-
-        <div class="mascot-avatar-wrap">
-
-          <div class="companion-felt-badge" style="width:42px; height:42px; font-size:1.3rem;">🧶</div>
-
-        </div>
-
-        <div class="mascot-tip-content">
-
-          <div class="mascot-tip-kicker">Companion Insight &bull; Byte</div>
-
-          <div class="mascot-tip-text">${getLessonTip(targetLesson.id)}</div>
-
-        </div>
-
-      </div>
 
       <div class="lesson-body-prose">
 
@@ -982,12 +950,10 @@ ${microHtml}
 
   }
 
-  // Greet student upon opening lesson
-
+  // Byte speaks the companion insight tip directly upon opening the lesson
   if (window.monsterCompanion) {
-
-    window.monsterCompanion.say(`Lesson: "${targetLesson.title}". Let's master this concept! 🚀`, 'pop');
-
+    const tip = getLessonTip(targetLesson.id);
+    window.monsterCompanion.say(tip, 'happy');
   }
 
 };
@@ -1825,619 +1791,707 @@ window.resetAllProgress = function() {
 // INTERACTIVE EXERCISE & EXAM SOLVERS (HIGH-DIFFICULTY USTHB EXAM LABS)
 
 // =============================================================================
+// APPLIED EXAM LAB GRADING ENGINE (25 PTS TOTAL)
+// =============================================================================
+
+const examScores = {
+  eq: 0,
+  lead: 0,
+  rot: 0,
+  quad: 0,
+  mat: 0
+};
+
+function refreshTotalExamScore() {
+  const total = Object.values(examScores).reduce((a, b) => a + b, 0);
+  const el = document.getElementById('exam-total-score');
+  if (el) el.textContent = `${total} / 25 pts`;
+}
 
 // Challenge 1: Dual-Pivot Equilibrium & Prefix-Suffix Balance
-
 window.loadEqPreset = function(arrStr) {
-
   document.getElementById('ex-eq-input').value = arrStr;
+  const gradeBox = document.getElementById('ex-eq-grade');
+  if (gradeBox) gradeBox.style.display = 'none';
+  const res = document.getElementById('ex-eq-res');
+  if (res) res.style.display = 'none';
+};
 
-  window.solveEquilibrium();
+window.gradeEquilibrium = function() {
+  const raw = document.getElementById('ex-eq-input').value;
+  const userRaw = (document.getElementById('ex-eq-user-ans').value || '').trim();
+  const arr = raw.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
+  const gradeBox = document.getElementById('ex-eq-grade');
+  if (!gradeBox) return;
 
+  if (!arr.length) {
+    gradeBox.style.display = 'block';
+    gradeBox.innerHTML = '<span style="color:#c84b31;">Enter a valid array first.</span>';
+    return;
+  }
+  if (!userRaw) {
+    gradeBox.style.display = 'block';
+    gradeBox.innerHTML = '<span style="color:#c84b31;">Please enter your calculated equilibrium index (e.g. 4, or -1).</span>';
+    return;
+  }
+
+  const total = arr.reduce((a, b) => a + b, 0);
+  let left = 0;
+  const trueEqs = [];
+  for (let i = 0; i < arr.length; i++) {
+    const right = total - left - arr[i];
+    if (left === right) trueEqs.push(i + 1);
+    left += arr[i];
+  }
+
+  const userTokens = userRaw.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
+  let earned = 0;
+  let feedback = '';
+
+  if (trueEqs.length === 0) {
+    if (userRaw === '-1' || userTokens.includes(-1) || userRaw.toLowerCase().includes('none')) {
+      earned = 5;
+      feedback = '✅ <strong>5/5 PTS — PERFECT</strong>. Correct! No pivot balances the prefix and suffix sums in this array (Result: -1).';
+    } else {
+      earned = 0;
+      feedback = `❌ <strong>0/5 PTS — INCORRECT</strong>. You answered [${userRaw}]. Total sum is ${total}, but no pivot balances left and right sums. Official answer: -1.`;
+    }
+  } else {
+    const matches = trueEqs.filter(k => userTokens.includes(k));
+    if (matches.length === trueEqs.length && userTokens.length === trueEqs.length) {
+      earned = 5;
+      feedback = `✅ <strong>5/5 PTS — FULL MARKS</strong>. Accurate! Equilibrium verified at index ${trueEqs.join(', ')}.`;
+    } else if (trueEqs.some(k => userTokens.includes(k - 1))) {
+      earned = 1;
+      feedback = `⚠️ <strong>1/5 PTS — OFF-BY-ONE ERROR</strong>. You used 0-indexed positioning! In USTHB algorithms, arrays start at index 1. Correct index: ${trueEqs.join(', ')}.`;
+    } else {
+      earned = 0;
+      feedback = `❌ <strong>0/5 PTS — INCORRECT</strong>. Your answer: [${userTokens.join(', ')}]. Correct equilibrium index: [${trueEqs.join(', ')}].`;
+    }
+  }
+
+  examScores.eq = earned;
+  refreshTotalExamScore();
+
+  gradeBox.style.display = 'block';
+  gradeBox.style.padding = '0.75rem 1rem';
+  gradeBox.style.borderRadius = '2px';
+  gradeBox.style.background = earned === 5 ? 'rgba(5, 150, 105, 0.08)' : (earned > 0 ? 'rgba(217, 119, 6, 0.08)' : 'rgba(200, 75, 49, 0.08)');
+  gradeBox.style.border = `1px solid ${earned === 5 ? '#059669' : (earned > 0 ? '#d97706' : '#c84b31')}`;
+  gradeBox.style.color = earned === 5 ? '#059669' : (earned > 0 ? '#d97706' : '#c84b31');
+  gradeBox.innerHTML = feedback;
+
+  if (window.monsterCompanion) {
+    window.monsterCompanion.react(earned === 5 ? 'correct' : 'wrong');
+  }
 };
 
 window.solveEquilibrium = function() {
-
   const raw = document.getElementById('ex-eq-input').value;
-
   const arr = raw.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
-
   const res = document.getElementById('ex-eq-res');
+  if (!res) return;
 
   if (!arr.length) {
-
+    res.style.display = 'block';
     res.innerHTML = '<span style="color:#c84b31;">Please enter a valid comma-separated array.</span>';
-
     return;
-
   }
 
-  
-
   const total = arr.reduce((a, b) => a + b, 0);
-
   let left = 0;
-
   const equilibria = [];
-
   const traceRows = [];
 
   for (let i = 0; i < arr.length; i++) {
-
     const right = total - left - arr[i];
-
     const isMatch = left === right;
-
     if (isMatch) {
-
       equilibria.push({ index1: i + 1, val: arr[i], leftSum: left, rightSum: right });
-
     }
-
     traceRows.push(`<tr><td>${i + 1}</td><td><strong>${arr[i]}</strong></td><td>${left}</td><td>${right}</td><td>${isMatch ? '<span style="color:#059669; font-weight:800;">✓ MATCH</span>' : '—'}</td></tr>`);
-
     left += arr[i];
-
   }
 
   let html = '';
-
   if (equilibria.length > 0) {
-
     html += `<div style="color:#059669; font-weight:850; font-size:1.05rem; margin-bottom:0.75rem;">
-
       🎉 Detected ${equilibria.length} Equilibrium Pivot${equilibria.length > 1 ? 's' : ''}:
-
       ${equilibria.map(e => `[Index <code>T[${e.index1}] = ${e.val}</code> with Sum = ${e.leftSum}]`).join(', ')}
-
     </div>`;
-
   } else {
-
     html += `<div style="color:#c84b31; font-weight:850; font-size:1.05rem; margin-bottom:0.75rem;">
-
       ❌ No Equilibrium Index exists (-1). Total array sum = ${total}, but no pivot balanced the prefix and suffix sums.
-
     </div>`;
-
   }
 
-  html += `<details style="margin-top:0.6rem; cursor:pointer;"><summary style="font-weight:750; font-size:0.85rem; color:var(--text-muted);">View Step-by-Step O(N) Trace Table (Total Sum = ${total})</summary>
-
+  html += `<details style="margin-top:0.6rem; cursor:pointer;" open><summary style="font-weight:750; font-size:0.85rem; color:var(--text-muted);">Step-by-Step O(N) Trace Table (Total Sum = ${total})</summary>
     <table class="trace-table" style="margin-top:0.6rem;">
-
       <thead><tr><th>Index i</th><th>T[i]</th><th>Prefix Left Sum</th><th>Suffix Right Sum</th><th>Equilibrium?</th></tr></thead>
-
       <tbody>${traceRows.join('')}</tbody>
-
     </table>
-
   </details>`;
 
+  res.style.display = 'block';
   res.innerHTML = html;
-
-  if (window.monsterCompanion) {
-
-    if (equilibria.length > 0) {
-
-      window.monsterCompanion.react('correct');
-
-    } else {
-
-      window.monsterCompanion.say('Evaluated! No equilibrium pivot found. The prefix and suffix sums never balanced! ⚖️', 'pop');
-
-    }
-
-  }
-
 };
 
 // Challenge 2: Multi-Leader Extraction & Strict Suffix Monotonic Dominance
-
 window.loadLeadPreset = function(arrStr) {
-
   document.getElementById('ex-lead-input').value = arrStr;
+  const gradeBox = document.getElementById('ex-lead-grade');
+  if (gradeBox) gradeBox.style.display = 'none';
+  const res = document.getElementById('ex-lead-res');
+  if (res) res.style.display = 'none';
+};
 
-  window.solveLeaders();
+window.gradeLeaders = function() {
+  const raw = document.getElementById('ex-lead-input').value;
+  const userRaw = (document.getElementById('ex-lead-user-ans').value || '').trim();
+  const arr = raw.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
+  const gradeBox = document.getElementById('ex-lead-grade');
+  if (!gradeBox) return;
 
+  if (!arr.length) {
+    gradeBox.style.display = 'block';
+    gradeBox.innerHTML = '<span style="color:#c84b31;">Enter a valid array first.</span>';
+    return;
+  }
+  if (!userRaw) {
+    gradeBox.style.display = 'block';
+    gradeBox.innerHTML = '<span style="color:#c84b31;">Enter your leaders left to right (e.g. 17, 5, 2).</span>';
+    return;
+  }
+
+  const n = arr.length;
+  const trueLeaders = [];
+  let currentMax = -Infinity;
+  for (let i = n - 1; i >= 0; i--) {
+    if (arr[i] > currentMax) {
+      trueLeaders.push(arr[i]);
+      currentMax = arr[i];
+    }
+  }
+  trueLeaders.reverse();
+
+  const userTokens = userRaw.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
+  let earned = 0;
+  let feedback = '';
+
+  const isExact = trueLeaders.length === userTokens.length && trueLeaders.every((v, i) => v === userTokens[i]);
+  if (isExact) {
+    earned = 5;
+    feedback = `✅ <strong>5/5 PTS — PERFECT</strong>. All ${trueLeaders.length} dominant leaders identified: [${trueLeaders.join(', ')}].`;
+  } else {
+    // Check if duplicate plateaus were included
+    const hasDupes = userTokens.some((v, i) => userTokens.indexOf(v) !== i);
+    if (hasDupes) {
+      earned = 2;
+      feedback = `⚠️ <strong>2/5 PTS — DUPLICATE PLATEAU TRAP</strong>. In USTHB algorithms, strict dominance requires T[i] > max(T[i+1..N]), not >=. Duplicate maxima are not leaders! Expected: [${trueLeaders.join(', ')}].`;
+    } else {
+      earned = 0;
+      feedback = `❌ <strong>0/5 PTS — INCORRECT</strong>. Your answer: [${userTokens.join(', ')}]. Expected leaders: [${trueLeaders.join(', ')}].`;
+    }
+  }
+
+  examScores.lead = earned;
+  refreshTotalExamScore();
+
+  gradeBox.style.display = 'block';
+  gradeBox.style.padding = '0.75rem 1rem';
+  gradeBox.style.borderRadius = '2px';
+  gradeBox.style.background = earned === 5 ? 'rgba(5, 150, 105, 0.08)' : (earned > 0 ? 'rgba(217, 119, 6, 0.08)' : 'rgba(200, 75, 49, 0.08)');
+  gradeBox.style.border = `1px solid ${earned === 5 ? '#059669' : (earned > 0 ? '#d97706' : '#c84b31')}`;
+  gradeBox.style.color = earned === 5 ? '#059669' : (earned > 0 ? '#d97706' : '#c84b31');
+  gradeBox.innerHTML = feedback;
+
+  if (window.monsterCompanion) {
+    window.monsterCompanion.react(earned === 5 ? 'correct' : 'wrong');
+  }
 };
 
 window.solveLeaders = function() {
-
   const raw = document.getElementById('ex-lead-input').value;
-
   const arr = raw.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
-
   const res = document.getElementById('ex-lead-res');
+  if (!res) return;
 
   if (!arr.length) {
-
+    res.style.display = 'block';
     res.innerHTML = '<span style="color:#c84b31;">Please enter a valid array.</span>';
-
     return;
-
   }
 
   const n = arr.length;
-
   const leaders = [];
-
   const suffixMax = new Array(n);
-
   let currentMax = -Infinity;
 
-  // Backward scan
-
   for (let i = n - 1; i >= 0; i--) {
-
     suffixMax[i] = currentMax;
-
     if (arr[i] > currentMax) {
-
       leaders.push({ index1: i + 1, val: arr[i] });
-
       currentMax = arr[i];
-
     }
-
   }
-
   leaders.reverse();
 
   let html = `<div style="color:#059669; font-weight:850; font-size:1.05rem; margin-bottom:0.75rem;">
-
     👑 Found ${leaders.length} Dominant Leader${leaders.length > 1 ? 's' : ''}: 
-
     [ ${leaders.map(l => `<code>T[${l.index1}] = ${l.val}</code>`).join(', ')} ]
-
   </div>
-
   <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.6rem;">
-
-    Strict Dominance Rule: An element is a leader if and only if <code>T[i] &gt; max(T[i+1..N])</code>. The rightmost element <code>T[${n}] = ${arr[n-1]}</code> is unconditionally a leader.
-
+    Strict Dominance Rule: An element is a leader if and only if <code>T[i] &gt; max(T[i+1..N])</code>.
   </p>`;
 
   const traceRows = [];
-
   for (let i = 0; i < n; i++) {
-
     const isLead = leaders.some(l => l.index1 === i + 1);
-
     const sMax = suffixMax[i] === -Infinity ? '∅ (End)' : suffixMax[i];
-
-    traceRows.push(`<tr><td>${i+1}</td><td><strong>${arr[i]}</strong></td><td>${sMax}</td><td>${isLead ? '<span style="color:#059669; font-weight:800;">👑 LEADER</span>' : 'No (Dominated)'}</td></tr>`);
-
+    traceRows.push(`<tr><td>${i+1}</td><td><strong>${arr[i]}</strong></td><td>${sMax}</td><td>${isLead ? '<span style="color:#059669; font-weight:800;">👑 LEADER</span>' : 'No'}</td></tr>`);
   }
 
-  html += `<details style="margin-top:0.4rem; cursor:pointer;"><summary style="font-weight:750; font-size:0.85rem; color:var(--text-muted);">View O(N) Suffix Dominance Trace</summary>
-
+  html += `<details style="margin-top:0.4rem; cursor:pointer;" open><summary style="font-weight:750; font-size:0.85rem; color:var(--text-muted);">O(N) Suffix Dominance Trace</summary>
     <table class="trace-table" style="margin-top:0.6rem;">
-
       <thead><tr><th>Index i</th><th>T[i]</th><th>Max to the Right</th><th>Status</th></tr></thead>
-
       <tbody>${traceRows.join('')}</tbody>
-
     </table>
-
   </details>`;
 
+  res.style.display = 'block';
   res.innerHTML = html;
-
-  if (window.monsterCompanion) {
-
-    window.monsterCompanion.react('correct');
-
-  }
-
 };
 
 // Challenge 3: Cyclic Array Rotation by Arbitrary k (Three-Reversal Algorithm)
-
 window.loadRotPreset = function(arrStr, k, dir) {
-
   document.getElementById('ex-rot-input').value = arrStr;
-
   document.getElementById('ex-rot-k').value = k;
-
   if (dir) document.getElementById('ex-rot-dir').value = dir;
-
-  window.solveRotation();
-
+  const gradeBox = document.getElementById('ex-rot-grade');
+  if (gradeBox) gradeBox.style.display = 'none';
+  const res = document.getElementById('ex-rot-res');
+  if (res) res.style.display = 'none';
 };
 
-window.solveRotation = function() {
-
+window.gradeRotation = function() {
   const raw = document.getElementById('ex-rot-input').value;
-
   const kVal = parseInt(document.getElementById('ex-rot-k').value || 0);
-
   const dir = document.getElementById('ex-rot-dir') ? document.getElementById('ex-rot-dir').value : 'left';
-
-  const res = document.getElementById('ex-rot-res');
-
-  let arr = raw.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
+  const userRaw = (document.getElementById('ex-rot-user-ans').value || '').trim();
+  const arr = raw.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
+  const gradeBox = document.getElementById('ex-rot-grade');
+  if (!gradeBox) return;
 
   if (!arr.length) {
-
-    res.innerHTML = '<span style="color:#c84b31;">Please enter a valid array.</span>';
-
+    gradeBox.style.display = 'block';
+    gradeBox.innerHTML = '<span style="color:#c84b31;">Enter a valid array first.</span>';
     return;
-
+  }
+  if (!userRaw) {
+    gradeBox.style.display = 'block';
+    gradeBox.innerHTML = '<span style="color:#c84b31;">Enter resulting rotated array.</span>';
+    return;
   }
 
   const n = arr.length;
-
   let effectiveK = dir === 'left' ? kVal : -kVal;
-
   effectiveK = ((effectiveK % n) + n) % n;
 
   function rev(a, s, e) {
-
     while (s < e) {
-
       const t = a[s]; a[s] = a[e]; a[e] = t;
-
       s++; e--;
-
     }
+  }
 
+  const expected = [...arr];
+  rev(expected, 0, effectiveK - 1);
+  rev(expected, effectiveK, n - 1);
+  rev(expected, 0, n - 1);
+
+  const userTokens = userRaw.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
+  let earned = 0;
+  let feedback = '';
+
+  const isExact = expected.length === userTokens.length && expected.every((v, i) => v === userTokens[i]);
+  if (isExact) {
+    earned = 5;
+    feedback = `✅ <strong>5/5 PTS — FLAWLESS</strong>. Array correctly shifted ${dir.toUpperCase()} by ${kVal} (Effective Shift: ${effectiveK}): [${expected.join(', ')}].`;
+  } else {
+    earned = 0;
+    feedback = `❌ <strong>0/5 PTS — MISMATCH</strong>. Your answer: [${userTokens.join(', ')}]. Expected rotation: [${expected.join(', ')}].`;
+  }
+
+  examScores.rot = earned;
+  refreshTotalExamScore();
+
+  gradeBox.style.display = 'block';
+  gradeBox.style.padding = '0.75rem 1rem';
+  gradeBox.style.borderRadius = '2px';
+  gradeBox.style.background = earned === 5 ? 'rgba(5, 150, 105, 0.08)' : 'rgba(200, 75, 49, 0.08)';
+  gradeBox.style.border = `1px solid ${earned === 5 ? '#059669' : '#c84b31'}`;
+  gradeBox.style.color = earned === 5 ? '#059669' : '#c84b31';
+  gradeBox.innerHTML = feedback;
+
+  if (window.monsterCompanion) {
+    window.monsterCompanion.react(earned === 5 ? 'correct' : 'wrong');
+  }
+};
+
+window.solveRotation = function() {
+  const raw = document.getElementById('ex-rot-input').value;
+  const kVal = parseInt(document.getElementById('ex-rot-k').value || 0);
+  const dir = document.getElementById('ex-rot-dir') ? document.getElementById('ex-rot-dir').value : 'left';
+  const res = document.getElementById('ex-rot-res');
+  if (!res) return;
+
+  let arr = raw.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
+  if (!arr.length) {
+    res.style.display = 'block';
+    res.innerHTML = '<span style="color:#c84b31;">Please enter a valid array.</span>';
+    return;
+  }
+
+  const n = arr.length;
+  let effectiveK = dir === 'left' ? kVal : -kVal;
+  effectiveK = ((effectiveK % n) + n) % n;
+
+  function rev(a, s, e) {
+    while (s < e) {
+      const t = a[s]; a[s] = a[e]; a[e] = t;
+      s++; e--;
+    }
   }
 
   const orig = [...arr];
-
   const step1 = [...arr];
-
   rev(step1, 0, effectiveK - 1);
-
   const step2 = [...step1];
-
   rev(step2, effectiveK, n - 1);
-
   const step3 = [...step2];
-
   rev(step3, 0, n - 1);
 
   let html = `<div style="color:#059669; font-weight:850; font-size:1.05rem; margin-bottom:0.75rem;">
-
     🔄 Result after ${dir.toUpperCase()} Rotation by ${kVal} (Effective Shift = ${effectiveK} mod ${n}):<br>
-
     [ <strong style="color:var(--tile-crimson);">${step3.join(', ')}</strong> ]
-
   </div>
-
-  <div style="font-size:0.85rem; line-height:1.6; background:var(--bg-card); padding:1rem; border-radius:6px; border:1px solid var(--border-subtle);">
-
-    <strong>Three-Reversal Theorem Execution Steps (O(N) time, O(1) space):</strong><br>
-
+  <div style="font-size:0.85rem; line-height:1.6; background:var(--bg-card); padding:1rem; border-radius:2px; border:1px solid var(--border-subtle);">
+    <strong>Three-Reversal Algorithm (O(N) time, O(1) space):</strong><br>
     • <strong>Original:</strong> <code>[ ${orig.join(', ')} ]</code><br>
-
     • <strong>Step 1:</strong> Reverse prefix <code>T[1..${effectiveK}]</code> &rarr; <code>[ ${step1.join(', ')} ]</code><br>
-
     • <strong>Step 2:</strong> Reverse suffix <code>T[${effectiveK + 1}..${n}]</code> &rarr; <code>[ ${step2.join(', ')} ]</code><br>
-
     • <strong>Step 3:</strong> Reverse entire array <code>T[1..${n}]</code> &rarr; <code>[ <strong style="color:#059669;">${step3.join(', ')}</strong> ]</code>
-
   </div>`;
 
+  res.style.display = 'block';
   res.innerHTML = html;
-
-  if (window.monsterCompanion) {
-
-    window.monsterCompanion.react('correct');
-
-  }
-
 };
 
 // Challenge 4: Complete University Quadratic Equation Analyzer
-
 window.loadQuadPreset = function(a, b, c) {
-
   document.getElementById('ex-quad-a').value = a;
-
   document.getElementById('ex-quad-b').value = b;
-
   document.getElementById('ex-quad-c').value = c;
+  const gradeBox = document.getElementById('ex-quad-grade');
+  if (gradeBox) gradeBox.style.display = 'none';
+  const res = document.getElementById('ex-quad-res');
+  if (res) res.style.display = 'none';
+};
 
-  window.solveQuadratic();
+window.gradeQuadratic = function() {
+  const a = parseFloat(document.getElementById('ex-quad-a').value);
+  const b = parseFloat(document.getElementById('ex-quad-b').value);
+  const c = parseFloat(document.getElementById('ex-quad-c').value);
+  const userCase = (document.getElementById('ex-quad-user-case').value || '').trim();
+  const userRoots = (document.getElementById('ex-quad-user-roots').value || '').trim();
+  const gradeBox = document.getElementById('ex-quad-grade');
+  if (!gradeBox) return;
 
+  if (isNaN(a) || isNaN(b) || isNaN(c)) {
+    gradeBox.style.display = 'block';
+    gradeBox.innerHTML = '<span style="color:#c84b31;">Enter valid numbers for a, b, and c.</span>';
+    return;
+  }
+  if (!userCase) {
+    gradeBox.style.display = 'block';
+    gradeBox.innerHTML = '<span style="color:#c84b31;">Please select the decision tree case branch.</span>';
+    return;
+  }
+
+  let trueCase = '';
+  let earned = 0;
+  let feedback = '';
+
+  if (a === 0) {
+    if (b === 0) {
+      trueCase = c === 0 ? 'infinite' : 'empty';
+    } else {
+      trueCase = 'linear';
+    }
+  } else {
+    const delta = b * b - 4 * a * c;
+    if (delta > 0) trueCase = 'two-real';
+    else if (delta === 0) trueCase = 'double-root';
+    else trueCase = 'complex';
+  }
+
+  if (userCase === trueCase) {
+    earned = 5;
+    feedback = `✅ <strong>5/5 PTS — PERFECT CASE IDENTIFICATION</strong>. Correct decision branch identified!`;
+  } else {
+    earned = 0;
+    feedback = `❌ <strong>0/5 PTS — WRONG CASE</strong>. Expected branch: <strong>${trueCase}</strong>.`;
+  }
+
+  examScores.quad = earned;
+  refreshTotalExamScore();
+
+  gradeBox.style.display = 'block';
+  gradeBox.style.padding = '0.75rem 1rem';
+  gradeBox.style.borderRadius = '2px';
+  gradeBox.style.background = earned === 5 ? 'rgba(5, 150, 105, 0.08)' : 'rgba(200, 75, 49, 0.08)';
+  gradeBox.style.border = `1px solid ${earned === 5 ? '#059669' : '#c84b31'}`;
+  gradeBox.style.color = earned === 5 ? '#059669' : '#c84b31';
+  gradeBox.innerHTML = feedback;
+
+  if (window.monsterCompanion) {
+    window.monsterCompanion.react(earned === 5 ? 'correct' : 'wrong');
+  }
 };
 
 window.solveQuadratic = function() {
-
   const a = parseFloat(document.getElementById('ex-quad-a').value);
-
   const b = parseFloat(document.getElementById('ex-quad-b').value);
-
   const c = parseFloat(document.getElementById('ex-quad-c').value);
-
   const res = document.getElementById('ex-quad-res');
+  if (!res) return;
 
   if (isNaN(a) || isNaN(b) || isNaN(c)) {
-
+    res.style.display = 'block';
     res.innerHTML = '<span style="color:#c84b31;">Please enter numerical values for a, b, and c.</span>';
-
     return;
-
   }
 
   let html = '';
-
   if (a === 0) {
-
     if (b === 0) {
-
       if (c === 0) {
-
         html = `<div style="color:#059669; font-weight:850; font-size:1.05rem;">
-
           ♾️ Indeterminate Equation (0 · x = 0)<br>
-
           <span style="font-size:0.9rem; font-weight:600; color:var(--text-muted);">Every real number is a solution: <code>S = ℝ</code></span>
-
         </div>`;
-
       } else {
-
         html = `<div style="color:#c84b31; font-weight:850; font-size:1.05rem;">
-
           ❌ Contradiction / Impossible Equation (${c} = 0)<br>
-
           <span style="font-size:0.9rem; font-weight:600; color:var(--text-muted);">No values satisfy this statement: <code>S = ∅</code></span>
-
         </div>`;
-
       }
-
     } else {
-
       const root = -c / b;
-
       html = `<div style="color:#059669; font-weight:850; font-size:1.05rem;">
-
         📏 Degenerate Linear Equation (Degree 1): <code>${b}x + ${c} = 0</code><br>
-
         <span style="font-size:0.95rem; font-weight:700;">Unique Root: <code>x = ${root.toFixed(4)}</code> (exact: <code>${-c}/${b}</code>)</span>
-
       </div>`;
-
     }
-
   } else {
-
     const delta = b * b - 4 * a * c;
-
     if (delta > 0) {
-
       const sq = Math.sqrt(delta);
-
       const x1 = (-b - sq) / (2 * a);
-
       const x2 = (-b + sq) / (2 * a);
-
       html = `<div style="color:#059669; font-weight:850; font-size:1.05rem;">
-
         ✓ Δ = ${delta} &gt; 0: Two Distinct Real Roots in ℝ<br>
-
         <span style="font-size:0.95rem; font-weight:700;">x₁ = ${x1.toFixed(4)}</span> &bull; 
-
         <span style="font-size:0.95rem; font-weight:700;">x₂ = ${x2.toFixed(4)}</span>
-
-      </div>
-
-      <div style="font-size:0.85rem; color:var(--text-muted); margin-top:0.4rem;">
-
-        Formula: <code>x₁,₂ = (-(${b}) ± √${delta}) / (2 · ${a})</code>
-
       </div>`;
-
     } else if (delta === 0) {
-
       const x0 = -b / (2 * a);
-
       html = `<div style="color:#059669; font-weight:850; font-size:1.05rem;">
-
-        ✓ Δ = 0: Single Real Double Root (Racine Double)<br>
-
+        ✓ Δ = 0: Single Real Double Root<br>
         <span style="font-size:0.95rem; font-weight:700;">x₀ = ${x0.toFixed(4)}</span>
-
-      </div>
-
-      <div style="font-size:0.85rem; color:var(--text-muted); margin-top:0.4rem;">
-
-        Formula: <code>x₀ = -b / (2a) = -(${b}) / (2 · ${a})</code>
-
       </div>`;
-
     } else {
-
       const realPart = (-b / (2 * a)).toFixed(4);
-
       const imagPart = (Math.sqrt(Math.abs(delta)) / (2 * Math.abs(a))).toFixed(4);
-
       html = `<div style="color:#8a70b5; font-weight:850; font-size:1.05rem;">
-
-        ⚛️ Δ = ${delta} &lt; 0: No Real Roots in ℝ, Two Conjugate Complex Roots in ℂ<br>
-
+        ⚛️ Δ = ${delta} &lt; 0: Two Conjugate Complex Roots in ℂ<br>
         <span style="font-size:0.95rem; font-weight:700;">z₁ = ${realPart} - ${imagPart}i</span> &bull; 
-
         <span style="font-size:0.95rem; font-weight:700;">z₂ = ${realPart} + ${imagPart}i</span>
-
-      </div>
-
-      <div style="font-size:0.85rem; color:var(--text-muted); margin-top:0.4rem;">
-
-        Formula: <code>z₁,₂ = (-b ± i√|Δ|) / (2a)</code>
-
       </div>`;
-
     }
-
   }
 
+  res.style.display = 'block';
   res.innerHTML = html;
-
-  if (window.monsterCompanion) {
-
-    window.monsterCompanion.say('Quadratic case tree completely mapped and calculated! 📐', 'happy');
-
-  }
-
 };
 
 // Challenge 5: Arbitrary Matrix Saddle Point Inspector with Minimax Bound
-
 window.loadSaddlePreset = function(r1, r2, r3) {
-
   document.getElementById('ex-mat-1').value = r1;
-
   document.getElementById('ex-mat-2').value = r2;
-
   document.getElementById('ex-mat-3').value = r3;
-
-  window.solveSaddle();
-
+  const gradeBox = document.getElementById('ex-mat-grade');
+  if (gradeBox) gradeBox.style.display = 'none';
+  const res = document.getElementById('ex-mat-res');
+  if (res) res.style.display = 'none';
 };
 
-window.solveSaddle = function() {
-
+window.gradeSaddle = function() {
   const r1 = document.getElementById('ex-mat-1').value.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
-
   const r2 = document.getElementById('ex-mat-2').value.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
-
   const r3 = document.getElementById('ex-mat-3').value.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
+  const userRaw = (document.getElementById('ex-mat-user-ans').value || '').trim();
+  const gradeBox = document.getElementById('ex-mat-grade');
+  if (!gradeBox) return;
 
-  const res = document.getElementById('ex-mat-res');
-
-  
-
-  if (!r1.length || !r2.length || !r3.length || r1.length !== r2.length || r2.length !== r3.length) {
-
-    res.innerHTML = '<span style="color:#c84b31;">All 3 rows must have the same number of comma-separated integers.</span>';
-
+  if (!r1.length || !r2.length || !r3.length) {
+    gradeBox.style.display = 'block';
+    gradeBox.innerHTML = '<span style="color:#c84b31;">Fill in all 3 matrix rows.</span>';
     return;
-
+  }
+  if (!userRaw) {
+    gradeBox.style.display = 'block';
+    gradeBox.innerHTML = '<span style="color:#c84b31;">Enter coordinate (row, col) or value (or "none").</span>';
+    return;
   }
 
   const mat = [r1, r2, r3];
-
   const R = 3;
-
   const C = r1.length;
-
-  const rowMins = [];
-
-  for (let i = 0; i < R; i++) {
-
-    rowMins.push(Math.min(...mat[i]));
-
-  }
-
+  const rowMins = [Math.min(...r1), Math.min(...r2), Math.min(...r3)];
   const colMaxs = [];
-
   for (let j = 0; j < C; j++) {
-
-    let mx = -Infinity;
-
-    for (let i = 0; i < R; i++) {
-
-      if (mat[i][j] > mx) mx = mat[i][j];
-
-    }
-
-    colMaxs.push(mx);
-
+    colMaxs.push(Math.max(mat[0][j], mat[1][j], mat[2][j]));
   }
 
   const saddles = [];
-
   for (let i = 0; i < R; i++) {
-
     for (let j = 0; j < C; j++) {
-
       if (mat[i][j] === rowMins[i] && mat[i][j] === colMaxs[j]) {
-
         saddles.push({ r: i + 1, c: j + 1, val: mat[i][j] });
-
       }
-
     }
+  }
 
+  let earned = 0;
+  let feedback = '';
+
+  if (saddles.length === 0) {
+    if (userRaw.toLowerCase().includes('none') || userRaw === '-1' || userRaw.toLowerCase().includes('no')) {
+      earned = 5;
+      feedback = '✅ <strong>5/5 PTS — PERFECT</strong>. Correctly identified that no saddle point exists in this matrix!';
+    } else {
+      earned = 0;
+      feedback = `❌ <strong>0/5 PTS — INCORRECT</strong>. You answered ${userRaw}, but no minimax saddle point exists.`;
+    }
+  } else {
+    // Check coordinate or value match
+    const foundMatch = saddles.some(s => {
+      const matchCoord = userRaw.includes(`${s.r}`) && userRaw.includes(`${s.c}`);
+      const matchVal = userRaw === `${s.val}`;
+      return matchCoord || matchVal;
+    });
+
+    if (foundMatch) {
+      earned = 5;
+      feedback = `✅ <strong>5/5 PTS — SPOT ON</strong>. Saddle point confirmed at ${saddles.map(s => `M[${s.r}, ${s.c}] = ${s.val}`).join(', ')} (Row-Min & Col-Max).`;
+    } else {
+      earned = 0;
+      feedback = `❌ <strong>0/5 PTS — INCORRECT</strong>. Your answer: ${userRaw}. Correct saddle point: ${saddles.map(s => `M[${s.r}, ${s.c}] = ${s.val}`).join(', ')}.`;
+    }
+  }
+
+  examScores.mat = earned;
+  refreshTotalExamScore();
+
+  gradeBox.style.display = 'block';
+  gradeBox.style.padding = '0.75rem 1rem';
+  gradeBox.style.borderRadius = '2px';
+  gradeBox.style.background = earned === 5 ? 'rgba(5, 150, 105, 0.08)' : 'rgba(200, 75, 49, 0.08)';
+  gradeBox.style.border = `1px solid ${earned === 5 ? '#059669' : '#c84b31'}`;
+  gradeBox.style.color = earned === 5 ? '#059669' : '#c84b31';
+  gradeBox.innerHTML = feedback;
+
+  if (window.monsterCompanion) {
+    window.monsterCompanion.react(earned === 5 ? 'correct' : 'wrong');
+  }
+};
+
+window.solveSaddle = function() {
+  const r1 = document.getElementById('ex-mat-1').value.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
+  const r2 = document.getElementById('ex-mat-2').value.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
+  const r3 = document.getElementById('ex-mat-3').value.split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
+  const res = document.getElementById('ex-mat-res');
+  if (!res) return;
+
+  if (!r1.length || !r2.length || !r3.length || r1.length !== r2.length || r2.length !== r3.length) {
+    res.style.display = 'block';
+    res.innerHTML = '<span style="color:#c84b31;">All 3 rows must have the same number of comma-separated integers.</span>';
+    return;
+  }
+
+  const mat = [r1, r2, r3];
+  const R = 3;
+  const C = r1.length;
+  const rowMins = [Math.min(...r1), Math.min(...r2), Math.min(...r3)];
+  const colMaxs = [];
+  for (let j = 0; j < C; j++) {
+    colMaxs.push(Math.max(mat[0][j], mat[1][j], mat[2][j]));
+  }
+
+  const saddles = [];
+  for (let i = 0; i < R; i++) {
+    for (let j = 0; j < C; j++) {
+      if (mat[i][j] === rowMins[i] && mat[i][j] === colMaxs[j]) {
+        saddles.push({ r: i + 1, c: j + 1, val: mat[i][j] });
+      }
+    }
   }
 
   let html = '';
-
   if (saddles.length > 0) {
-
     html += `<div style="color:#059669; font-weight:850; font-size:1.05rem; margin-bottom:0.75rem;">
-
-      🎯 Detected ${saddles.length} Saddle Point${saddles.length > 1 ? 's' : ''} (Point-Selle):<br>
-
+      🎯 Detected ${saddles.length} Saddle Point${saddles.length > 1 ? 's' : ''}:<br>
       ${saddles.map(s => `<code>M[${s.r}, ${s.c}] = ${s.val}</code> (Min in Row ${s.r}, Max in Col ${s.c})`).join('<br>')}
-
     </div>`;
-
   } else {
-
     html += `<div style="color:#c84b31; font-weight:850; font-size:1.05rem; margin-bottom:0.75rem;">
-
       ❌ No Saddle Point exists in this matrix configuration.<br>
-
       <span style="font-size:0.85rem; font-weight:600; color:var(--text-muted);">
-
         Max of Row Minimums = ${Math.max(...rowMins)} &bull; Min of Column Maximums = ${Math.min(...colMaxs)}.
-
       </span>
-
     </div>`;
-
   }
 
   html += `<details style="margin-top:0.4rem; cursor:pointer;" open><summary style="font-weight:750; font-size:0.85rem; color:var(--text-muted);">Matrix Grid & Extrema Vectors</summary>
-
     <div style="font-size:0.85rem; margin-top:0.6rem; font-family:var(--font-mono); line-height:1.6;">
-
       Row Mins: [ ${rowMins.join(', ')} ]<br>
-
       Col Maxs: [ ${colMaxs.join(', ')} ]
-
     </div>
-
   </details>`;
 
+  res.style.display = 'block';
   res.innerHTML = html;
-
-  if (window.monsterCompanion) {
-
-    if (saddles.length > 0) {
-
-      window.monsterCompanion.react('correct');
-
-    } else {
-
-      window.monsterCompanion.say('Matrix scanned! No saddle point found across row minima and column maxima! 🔍', 'pop');
-
-    }
-
-  }
-
 };
 
 window.openDrawer = function() {
-
-  document.getElementById('drawer-overlay').classList.add('open');
-
-  document.getElementById('drawer-content').classList.add('open');
-
+  const drawer = document.getElementById('drawer-content');
+  const overlay = document.getElementById('drawer-overlay');
+  if (drawer && drawer.classList.contains('open')) {
+    window.closeDrawer();
+    return;
+  }
+  if (overlay) overlay.classList.add('open');
+  if (drawer) drawer.classList.add('open');
 };
 
+window.toggleDrawer = window.openDrawer;
+
 window.closeDrawer = function() {
-
-  document.getElementById('drawer-overlay').classList.remove('open');
-
-  document.getElementById('drawer-content').classList.remove('open');
-
+  const drawer = document.getElementById('drawer-content');
+  const overlay = document.getElementById('drawer-overlay');
+  if (overlay) overlay.classList.remove('open');
+  if (drawer) drawer.classList.remove('open');
 };
 
 window.openChapterDirectly = function(chId) {
@@ -2469,249 +2523,127 @@ window.openChapterDirectly = function(chId) {
 // =============================================================================
 
 const WOONPACT_STEPS = [
-
   {
-
     num: '01',
-
-    title: 'Begin 2026 : Fondations & Knuth',
-
-    desc: "Les 5 propriétés de Donald Knuth, typage strict des identificateurs et exécution séquentielle sur table de trace mémoire.",
-
+    title: 'Foundations & Knuth',
+    desc: "Knuth's 5 algorithm properties, strict typing, and trace table execution.",
     art: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-
       <rect width="100" height="100" rx="16" fill="#dfbe88"/>
-
       <rect x="36" y="11" width="28" height="15" rx="3" fill="#ffffff" stroke="#181716" stroke-width="2" stroke-dasharray="2.5 2"/>
-
       <text x="50" y="22" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="800" fill="#181716">temp</text>
-
       <path d="M 30 46 C 30 30, 48 30, 48 26" fill="none" stroke="#181716" stroke-width="2" stroke-linecap="round"/>
-
       <path d="M 30 47 C 30 30, 70 30, 70 47" fill="none" stroke="#c84b31" stroke-width="2.5" stroke-linecap="round"/>
-
       <polygon points="67,42 73,42 70,48" fill="#c84b31"/>
-
       <rect x="14" y="49" width="32" height="34" rx="4" fill="#ffffff" stroke="#181716" stroke-width="2.5"/>
-
       <rect x="19" y="54" width="22" height="8" rx="2" fill="#e8d5b5"/>
-
       <text x="30" y="75" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="13" font-weight="850" fill="#181716">A</text>
-
       <rect x="54" y="49" width="32" height="34" rx="4" fill="#ffffff" stroke="#181716" stroke-width="2.5"/>
-
       <rect x="59" y="54" width="22" height="8" rx="2" fill="#c84b31"/>
-
       <text x="70" y="75" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="13" font-weight="850" fill="#181716">B</text>
-
       <path d="M 68 87 C 50 93, 50 93, 33 87" fill="none" stroke="#181716" stroke-width="2" stroke-linecap="round"/>
-
       <polygon points="35,85 31,88 35,91" fill="#181716"/>
-
     </svg>`
-
   },
-
   {
-
     num: '02',
-
-    title: 'Conditionnels & Logique Booléenne',
-
-    desc: "Arbres de décision exhaustifs, opérateurs logiques courts-circuits et résolution rigoureuse des cas dégénérés du 2nd degré.",
-
+    title: 'Conditionals & Logic',
+    desc: "Decision trees, short-circuit operators, and quadratic branch cases.",
     art: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-
       <rect width="100" height="100" rx="16" fill="#c84b31"/>
-
       <polygon points="50,15 82,45 50,75 18,45" fill="#ffffff" stroke="#181716" stroke-width="2.5"/>
-
       <text x="50" y="42" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8.5" font-weight="850" fill="#181716">x &gt; 0 ?</text>
-
       <path d="M 18 45 L 8 45 L 8 72 L 20 72" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>
-
-      <text x="14" y="66" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7" font-weight="800" fill="#f6c83b">NON</text>
-
+      <text x="14" y="66" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7" font-weight="800" fill="#f6c83b">NO</text>
       <path d="M 82 45 L 92 45 L 92 72 L 80 72" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>
-
-      <text x="86" y="66" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7" font-weight="800" fill="#f6c83b">OUI</text>
-
+      <text x="86" y="66" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7" font-weight="800" fill="#f6c83b">YES</text>
     </svg>`
-
   },
-
   {
-
     num: '03',
-
-    title: 'Boucles & Itérations',
-
-    desc: "Contrôle de répétition déterministe avec Pour, et itérations dynamiques conditionnelles TantQue et Répéter-Jusqu'à.",
-
+    title: 'Loops & Iterations',
+    desc: "Deterministic For loops, dynamic While loops, and loop invariants.",
     art: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-
       <rect width="100" height="100" rx="16" fill="#788a4e"/>
-
       <circle cx="50" cy="50" r="32" fill="none" stroke="#f6c83b" stroke-width="4" stroke-dasharray="14 6"/>
-
       <circle cx="50" cy="18" r="6" fill="#ffffff" stroke="#181716" stroke-width="2"/>
-
       <polygon points="78,35 84,48 72,45" fill="#ffffff"/>
-
       <text x="50" y="55" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="900" fill="#ffffff">i &larr; 1..N</text>
-
     </svg>`
-
   },
-
   {
-
     num: '04',
-
-    title: 'Tableaux 1D & Chaînes ASCII',
-
-    desc: "Vecteurs statiques contigus en mémoire, inversion in-place par pointeurs et manipulation de caractères ASCII.",
-
+    title: '1D Arrays & Strings',
+    desc: "Contiguous memory indexing, in-place reversal, and ASCII strings.",
     art: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-
       <rect width="100" height="100" rx="16" fill="#9d84c6"/>
-
       <rect x="12" y="32" width="18" height="26" rx="3" fill="#ffffff" stroke="#181716" stroke-width="2"/>
-
       <text x="21" y="50" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="850" fill="#181716">A</text>
-
       <rect x="32" y="32" width="18" height="26" rx="3" fill="#f6c83b" stroke="#181716" stroke-width="2.5"/>
-
       <text x="41" y="50" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="900" fill="#181716">L</text>
-
       <rect x="52" y="32" width="18" height="26" rx="3" fill="#ffffff" stroke="#181716" stroke-width="2"/>
-
       <text x="61" y="50" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="850" fill="#181716">G</text>
-
       <rect x="72" y="32" width="18" height="26" rx="3" fill="#ffffff" stroke="#181716" stroke-width="2"/>
-
       <text x="81" y="50" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="850" fill="#181716">O</text>
-
       <path d="M 41 72 L 41 62 M 38 66 L 41 61 L 44 66" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
-
     </svg>`
-
   },
-
   {
-
     num: '05',
-
-    title: 'Matrices 2D & Diagonales',
-
-    desc: "Tableaux bidimensionnels, équations de diagonales principale (i=j) et secondaire (i+j=N+1), et points-selle minimax.",
-
+    title: '2D Matrices & Grids',
+    desc: "Row-column traversal, main & secondary diagonals, and saddle points.",
     art: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-
       <rect width="100" height="100" rx="16" fill="#e6be36"/>
-
       <rect x="22" y="20" width="16" height="16" rx="3" fill="#181716"/>
-
       <rect x="42" y="20" width="16" height="16" rx="3" fill="#ffffff" stroke="#181716" stroke-width="1.8"/>
-
       <rect x="62" y="20" width="16" height="16" rx="3" fill="#ffffff" stroke="#181716" stroke-width="1.8"/>
-
       <rect x="22" y="40" width="16" height="16" rx="3" fill="#ffffff" stroke="#181716" stroke-width="1.8"/>
-
       <rect x="42" y="40" width="16" height="16" rx="3" fill="#181716"/>
-
       <rect x="62" y="40" width="16" height="16" rx="3" fill="#ffffff" stroke="#181716" stroke-width="1.8"/>
-
       <rect x="22" y="60" width="16" height="16" rx="3" fill="#ffffff" stroke="#181716" stroke-width="1.8"/>
-
       <rect x="42" y="60" width="16" height="16" rx="3" fill="#ffffff" stroke="#181716" stroke-width="1.8"/>
-
       <rect x="62" y="60" width="16" height="16" rx="3" fill="#181716"/>
-
       <line x1="30" y1="28" x2="70" y2="68" stroke="#c84b31" stroke-width="2.5" stroke-dasharray="3 2"/>
-
     </svg>`
-
   },
-
   {
-
     num: '06',
-
-    title: 'Tri & Recherche Dicho',
-
-    desc: "Tri par Sélection O(N²), Tri à Bulles avec drapeau d'arrêt O(N), et Recherche Dichotomique logarithmique O(log N).",
-
+    title: 'Sorting & Binary Search',
+    desc: "Selection sort, flag-optimized Bubble sort, and logarithmic search.",
     art: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-
       <rect width="100" height="100" rx="16" fill="#c84b31"/>
-
       <line x1="12" y1="74" x2="88" y2="74" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
-
       <rect x="16" y="56" width="10" height="18" rx="2.5" fill="#ffffff"/>
-
       <rect x="30" y="46" width="10" height="28" rx="2.5" fill="#ffffff"/>
-
       <rect x="44" y="32" width="12" height="42" rx="2.5" fill="#f6c83b" stroke="#181716" stroke-width="2"/>
-
       <rect x="60" y="24" width="10" height="50" rx="2.5" fill="#ffffff"/>
-
       <rect x="74" y="14" width="10" height="60" rx="2.5" fill="#ffffff"/>
-
       <circle cx="50" cy="24" r="9" fill="none" stroke="#ffffff" stroke-width="2.5"/>
-
     </svg>`
-
   },
-
   {
-
     num: '07',
-
-    title: 'Fonctions & Pile d’Exécution',
-
-    desc: "Modularité procédurale, passage par valeur vs variable (pointeur), et gestion des contextes locaux dans le Call Stack.",
-
+    title: 'Functions & Call Stack',
+    desc: "Pass by value vs reference, local scope, and call stack frames.",
     art: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-
       <rect width="100" height="100" rx="16" fill="#788a4e"/>
-
       <rect x="25" y="20" width="50" height="16" rx="3.5" fill="#f6c83b" stroke="#181716" stroke-width="2"/>
-
       <text x="50" y="32" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="800" fill="#181716">main()</text>
-
       <rect x="20" y="42" width="60" height="18" rx="3.5" fill="#ffffff" stroke="#181716" stroke-width="2.2"/>
-
       <text x="50" y="55" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8.5" font-weight="850" fill="#181716">f(x) : res</text>
-
       <rect x="28" y="66" width="44" height="16" rx="3.5" fill="#dfbe88" stroke="#181716" stroke-width="2"/>
-
       <text x="50" y="78" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="800" fill="#181716">return</text>
-
     </svg>`
-
   },
-
   {
-
     num: '08',
-
-    title: 'Coffre Final & Défis d’Examen',
-
-    desc: "Théorie des nombres, équilibres préfixes-suffixes, extraction de leaders et rotation par les 3 renversements.",
-
+    title: 'Final Vault & Challenges',
+    desc: "Number theory, prefix-suffix balance, array leaders, and 3-reverse shift.",
     art: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-
       <rect width="100" height="100" rx="16" fill="#dfbe88"/>
-
       <path d="M 50 18 L 80 32 L 80 64 C 80 78, 50 88, 50 88 C 50 88, 20 78, 20 64 L 20 32 Z" fill="#ffffff" stroke="#181716" stroke-width="2.5"/>
-
       <polygon points="50,34 54,44 65,45 57,52 60,63 50,57 40,63 43,52 35,45 46,44" fill="#c84b31"/>
-
     </svg>`
-
   }
-
 ];
 
 let activeWoonpactStep = 1;
