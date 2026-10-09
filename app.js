@@ -2774,183 +2774,95 @@ function alignPillToActiveTick(stepIndex) {
 }
 
 function updateWoonpactStepUI(stepIndex) {
-
   if (stepIndex < 1) stepIndex = 1;
-
   if (stepIndex > 8) stepIndex = 8;
-
   if (stepIndex === activeWoonpactStep) return;
 
   activeWoonpactStep = stepIndex;
-
   const stepData = WOONPACT_STEPS[stepIndex - 1];
 
-  // 1. Counter
-
+  // 1. Counter with instantaneous bump
   const numEl = document.getElementById('timeline-counter-num');
-
   if (numEl) {
-
-    numEl.style.transform = 'scale(0.9)';
-
-    numEl.style.opacity = '0.4';
-
-    setTimeout(() => {
-
-      numEl.textContent = stepData.num;
-
-      numEl.style.transform = 'scale(1)';
-
-      numEl.style.opacity = '1';
-
-    }, 80);
-
+    numEl.textContent = stepData.num;
+    numEl.classList.remove('num-bump');
+    void numEl.offsetWidth; // retrigger animation
+    numEl.classList.add('num-bump');
   }
 
   // 2. Headings
-
   const titleEl = document.getElementById('timeline-step-title');
-
   const descEl = document.getElementById('timeline-step-desc');
-
   if (titleEl) {
-
-    titleEl.style.opacity = '0';
-
-    setTimeout(() => {
-
-      titleEl.textContent = stepData.title;
-
-      titleEl.style.opacity = '1';
-
-    }, 100);
-
+    titleEl.textContent = stepData.title;
   }
-
   if (descEl) {
-
-    descEl.style.opacity = '0';
-
-    setTimeout(() => {
-
-      descEl.textContent = stepData.desc;
-
-      descEl.style.opacity = '1';
-
-    }, 100);
-
+    descEl.textContent = stepData.desc;
   }
 
   // 3. Vector Art
-
   const artEl = document.getElementById('timeline-art-container');
-
   if (artEl) {
-
-    artEl.style.opacity = '0';
-
-    artEl.style.transform = 'scale(0.9)';
-
-    setTimeout(() => {
-
-      artEl.innerHTML = stepData.art;
-
-      artEl.style.opacity = '1';
-
-      artEl.style.transform = 'scale(1)';
-
-    }, 100);
-
+    artEl.innerHTML = stepData.art;
   }
 
   // 4. Clamped alignment
   alignPillToActiveTick(stepIndex);
 
   // 5. Active major tick highlight
-
   document.querySelectorAll('.woonpact-tick-line.major').forEach(t => {
-
     const s = parseInt(t.getAttribute('data-step'), 10);
-
     if (s === stepIndex) {
-
       t.classList.add('active');
-
     } else {
-
       t.classList.remove('active');
-
     }
-
   });
-
 }
 
 window.jumpToWoonpactStep = function(stepIndex) {
-
   const track = document.getElementById('home-timeline-track');
-
   if (!track) return;
-
   const totalScroll = track.offsetHeight - window.innerHeight;
-
-  const targetY = track.offsetTop + ((stepIndex - 1) / 7) * totalScroll;
-
+  const trackTopInDoc = track.getBoundingClientRect().top + window.scrollY;
+  const targetY = trackTopInDoc + ((stepIndex - 1) / 7) * totalScroll;
   window.scrollTo({ top: targetY, behavior: 'smooth' });
-
 };
 
 function initPinnedWoonpactTimeline() {
-
   buildWoonpactRuler();
 
   // Set initial step 1 content
-
   const artEl = document.getElementById('timeline-art-container');
-
   if (artEl) artEl.innerHTML = WOONPACT_STEPS[0].art;
-
-  
 
   // Position initial pill
   setTimeout(() => { alignPillToActiveTick(1); }, 200);
 
   const track = document.getElementById('home-timeline-track');
-
   if (!track) return;
 
   function handlePinnedScroll() {
-
     if (currentView !== 'home') return;
-
     const trackRect = track.getBoundingClientRect();
-
+    const stageTopOffset = window.innerWidth <= 768 ? 56 : 0;
     const totalScroll = track.offsetHeight - window.innerHeight;
-
     if (totalScroll <= 0) return;
 
     // How far user has scrolled inside this pinned track
-
-    const scrolled = -trackRect.top;
-
+    const scrolled = stageTopOffset - trackRect.top;
     const progress = Math.max(0, Math.min(1, scrolled / totalScroll));
 
     // Map 0..1 progress to step 1..8
-
     let step = Math.min(8, Math.max(1, Math.floor(progress * 8) + 1));
-
     updateWoonpactStepUI(step);
-
   }
 
   window.addEventListener('scroll', handlePinnedScroll, { passive: true });
-
   window.addEventListener('resize', () => { alignPillToActiveTick(activeWoonpactStep); }, { passive: true });
 
   // Initial sync
-
   setTimeout(handlePinnedScroll, 100);
-
 }
 
 // Make globally accessible
