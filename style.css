@@ -1871,6 +1871,176 @@ body {
 
 /* ==========================================================================
 
+   ACADEMIC TRACE TABLES & COMPARISON TABLES (USTHB SYLLABUS)
+
+   ========================================================================== */
+
+.trace-table-wrap {
+
+  width: 100%;
+
+  overflow-x: auto;
+
+  -webkit-overflow-scrolling: touch;
+
+  margin: 1.5rem 0 2rem 0;
+
+  border: 1px solid var(--border-subtle);
+
+  border-radius: 2px !important;
+
+  background: var(--bg-card);
+
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+}
+
+.trace-table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+
+  font-family: var(--font-mono);
+
+  font-size: 0.85rem;
+
+  line-height: 1.55;
+
+  text-align: left;
+
+  background: transparent;
+
+  margin: 0;
+
+}
+
+.trace-table th {
+
+  background-color: #ece8df;
+
+  color: #1a1a1a;
+
+  font-weight: 800;
+
+  padding: 0.7rem 0.95rem;
+
+  border: 1px solid var(--border-subtle);
+
+  text-align: left;
+
+  font-size: 0.8rem;
+
+  letter-spacing: 0.04em;
+
+  text-transform: uppercase;
+
+  white-space: nowrap;
+
+}
+
+.trace-table td {
+
+  padding: 0.65rem 0.95rem;
+
+  border: 1px solid var(--border-subtle);
+
+  color: var(--text-main);
+
+  vertical-align: middle;
+
+}
+
+.trace-table tr:nth-child(even) td {
+
+  background-color: rgba(0, 0, 0, 0.015);
+
+}
+
+.trace-table tr:hover td {
+
+  background-color: rgba(0, 0, 0, 0.04);
+
+}
+
+.trace-table strong {
+
+  color: var(--color-primary, #0d59f2);
+
+  font-weight: 800;
+
+}
+
+.trace-table code {
+
+  font-family: var(--font-mono);
+
+  font-size: 0.82rem;
+
+  background-color: rgba(0, 0, 0, 0.05);
+
+  padding: 0.15rem 0.4rem;
+
+  border-radius: 2px !important;
+
+  border: 1px solid rgba(0, 0, 0, 0.08);
+
+}
+
+/* Standalone tables inside lesson prose fallback */
+
+.lesson-body-prose table:not(.trace-table) {
+
+  width: 100%;
+
+  border-collapse: collapse;
+
+  margin: 1.5rem 0;
+
+  font-family: var(--font-mono);
+
+  font-size: 0.85rem;
+
+  background: var(--bg-card);
+
+  border: 1px solid var(--border-subtle);
+
+  border-radius: 2px !important;
+
+}
+
+.lesson-body-prose table:not(.trace-table) th {
+
+  background-color: #ece8df;
+
+  color: #1a1a1a;
+
+  font-weight: 800;
+
+  padding: 0.7rem 0.95rem;
+
+  border: 1px solid var(--border-subtle);
+
+  text-align: left;
+
+  font-size: 0.8rem;
+
+  text-transform: uppercase;
+
+}
+
+.lesson-body-prose table:not(.trace-table) td {
+
+  padding: 0.65rem 0.95rem;
+
+  border: 1px solid var(--border-subtle);
+
+  color: var(--text-main);
+
+}
+
+/* ==========================================================================
+
    21ST.DEV TERMINAL CODE BLOCK COMPONENT
 
    ========================================================================== */
@@ -4154,21 +4324,73 @@ html[data-theme="dark"] .terminal-pre {
 
 /* Trace Table in Dark Mode */
 
-html[data-theme="dark"] .trace-table th {
+html[data-theme="dark"] .trace-table-wrap {
 
-  background-color: #252732 !important;
+  background-color: #13141b !important;
 
-  color: #f5f4ef !important;
+  border-color: #282b37 !important;
 
-  border-color: #2d303b !important;
+  box-shadow: none !important;
 
 }
 
-html[data-theme="dark"] .trace-table td {
+html[data-theme="dark"] .trace-table {
 
-  border-color: #2d303b !important;
+  background-color: transparent !important;
+
+}
+
+html[data-theme="dark"] .trace-table th,
+
+html[data-theme="dark"] .lesson-body-prose table:not(.trace-table) th {
+
+  background-color: #1f212c !important;
 
   color: #f5f4ef !important;
+
+  border-color: #282b37 !important;
+
+}
+
+html[data-theme="dark"] .trace-table td,
+
+html[data-theme="dark"] .lesson-body-prose table:not(.trace-table) td {
+
+  border-color: #282b37 !important;
+
+  color: #e2e0d8 !important;
+
+  background-color: transparent !important;
+
+}
+
+html[data-theme="dark"] .trace-table tr:nth-child(even) td {
+
+  background-color: rgba(255, 255, 255, 0.015) !important;
+
+}
+
+html[data-theme="dark"] .trace-table tr:hover td,
+
+html[data-theme="dark"] .lesson-body-prose table:not(.trace-table) tr:hover td {
+
+  background-color: rgba(255, 255, 255, 0.04) !important;
+
+}
+
+html[data-theme="dark"] .trace-table strong {
+
+  color: #60a5fa !important;
+
+}
+
+html[data-theme="dark"] .trace-table code {
+
+  background-color: #1e2029 !important;
+
+  border-color: #2d303e !important;
+
+  color: #e5e7eb !important;
 
 }
 
@@ -4822,15 +5044,25 @@ html[data-theme="dark"] .bridge-card-text {
 
   }
 
+  .trace-table-wrap {
+
+    margin: 1.1rem 0 1.5rem 0 !important;
+
+  }
+
   .trace-table {
 
-    display: block !important;
-
-    width: 100% !important;
-
-    overflow-x: auto !important;
+    min-width: 440px !important;
 
     font-size: 0.78rem !important;
+
+  }
+
+  .trace-table th,
+
+  .trace-table td {
+
+    padding: 0.5rem 0.65rem !important;
 
   }
 
